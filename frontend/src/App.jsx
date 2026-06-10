@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
-  Mail, Lock, Eye, EyeOff, Leaf, Recycle, Bell, Globe, ChevronDown, User, Check, ArrowRight,
-  Search, Send, Smile, Calendar, Truck, MoreVertical, ArrowLeftRight, LayoutDashboard,
+  Mail, Lock, Eye, EyeOff, Leaf, Recycle, Bell, Globe, ChevronDown, User, Check, ArrowRight, ArrowLeft,
+  Search, Send, Smile, Calendar, Truck, MoreVertical, ArrowLeftRight, LayoutDashboard, MapPin,
   ShoppingBag, Settings, FileText, BarChart2, Network, MessageSquare, Cloud, Box, Plus, Sparkles
 } from 'lucide-react';
 import avatarImg from './assets/avatar.png';
@@ -254,9 +254,186 @@ const FeedIcon = ({ size = 18 }) => (
   </svg>
 );
 
+const Sidebar = ({ currentPage, setCurrentPage, triggerToast }) => {
+  return (
+    <aside className="inbox-sidebar-left">
+      <div className="inbox-brand-area">
+        <div className="inbox-brand-logo">
+          <SignInLogo size={32} color="#4ADE80" />
+        </div>
+        <div className="inbox-brand-text">
+          <span className="inbox-brand-name">EcoMatch AI</span>
+          <span className="inbox-brand-tagline">Industrial Symbiosis</span>
+        </div>
+      </div>
+
+      <nav className="inbox-sidebar-nav">
+        <a href="#dashboard" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Dashboard...'); }}>
+          <div className="inbox-nav-item-left">
+            <LayoutDashboard className="inbox-nav-icon" />
+            Dashboard
+          </div>
+        </a>
+
+        <div>
+          <a 
+            href="#marketplace" 
+            className={`inbox-nav-item ${currentPage === 'marketplace' ? 'active' : ''}`}
+            onClick={(e) => { e.preventDefault(); setCurrentPage('marketplace'); }}
+          >
+            <div className="inbox-nav-item-left">
+              <ShoppingBag className="inbox-nav-icon" />
+              Waste Marketplace
+            </div>
+            <ChevronDown size={14} style={{ transform: currentPage === 'marketplace' ? 'rotate(180deg)' : 'none', color: '#FFFFFF' }} />
+          </a>
+          {currentPage === 'marketplace' && (
+            <div style={{ paddingLeft: '38px', marginTop: '4px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <a href="#browse" style={{ textDecoration: 'none', fontSize: '13px', fontWeight: '750', color: '#4ADE80', cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); triggerToast('Browsing materials...'); }}>Browse Materials</a>
+              <a href="#saved" style={{ textDecoration: 'none', fontSize: '13px', fontWeight: '600', color: '#86B3A9', cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); triggerToast('Saved searches...'); }}>Saved Searches</a>
+            </div>
+          )}
+        </div>
+
+        <a 
+          href="#listings" 
+          className={`inbox-nav-item ${currentPage === 'activeInventory' || currentPage === 'listingsDetails' ? 'active' : ''}`}
+          onClick={(e) => { e.preventDefault(); setCurrentPage('activeInventory'); }}
+        >
+          <div className="inbox-nav-item-left">
+            <FileText className="inbox-nav-icon" />
+            My Listings
+          </div>
+          <ChevronDown size={14} style={{ transform: (currentPage === 'activeInventory' || currentPage === 'listingsDetails') ? 'rotate(180deg)' : 'none', color: '#FFFFFF' }} />
+        </a>
+
+        <a href="#matches" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Matches...'); }}>
+          <div className="inbox-nav-item-left">
+            <Recycle className="inbox-nav-icon" />
+            Matches
+          </div>
+        </a>
+
+        <a href="#recommendations" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening AI Recommendations...'); }}>
+          <div className="inbox-nav-item-left">
+            <Sparkles className="inbox-nav-icon" />
+            AI Recommendations
+          </div>
+        </a>
+
+        <a href="#network" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Network...'); }}>
+          <div className="inbox-nav-item-left">
+            <Network className="inbox-nav-icon" />
+            Network
+          </div>
+        </a>
+
+        <a href="#analytics" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Analytics...'); }}>
+          <div className="inbox-nav-item-left">
+            <BarChart2 className="inbox-nav-icon" />
+            Analytics
+          </div>
+        </a>
+
+        <a href="#contracts" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Contracts...'); }}>
+          <div className="inbox-nav-item-left">
+            <FileText className="inbox-nav-icon" />
+            Contracts
+          </div>
+        </a>
+
+        <a 
+          href="#messages" 
+          className={`inbox-nav-item ${currentPage === 'messages' ? 'active' : ''}`}
+          onClick={(e) => { e.preventDefault(); setCurrentPage('messages'); }}
+        >
+          <div className="inbox-nav-item-left">
+            <MessageSquare className="inbox-nav-icon" />
+            Messages
+          </div>
+          <ChevronDown size={14} style={{ transform: currentPage === 'messages' ? 'rotate(180deg)' : 'none', color: '#FFFFFF' }} />
+        </a>
+
+        <a href="#notifications" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Notifications...'); }}>
+          <div className="inbox-nav-item-left">
+            <Bell className="inbox-nav-icon" />
+            Notifications
+          </div>
+        </a>
+
+        <a href="#settings" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Settings...'); }}>
+          <div className="inbox-nav-item-left">
+            <Settings className="inbox-nav-icon" />
+            Settings
+          </div>
+        </a>
+      </nav>
+
+      <div className="inbox-sidebar-profile">
+        <div className="inbox-profile-left">
+          <div className="inbox-profile-pic-container">
+            <img src={avatarImg} alt="User Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          </div>
+          <div className="inbox-profile-info">
+            <span className="inbox-profile-name">GreenBrew Co.</span>
+            <span className="inbox-profile-role">Business Account</span>
+          </div>
+        </div>
+        <ChevronDown size={14} style={{ color: '#86B3A9', cursor: 'pointer' }} onClick={() => triggerToast('Business Profile Options')} />
+      </div>
+    </aside>
+  );
+};
+
+const Topnav = ({ triggerToast }) => {
+  return (
+    <header className="inbox-topnav">
+      <div className="inbox-search-container">
+        <Search size={18} className="inbox-search-icon" />
+        <input 
+          type="text" 
+          className="inbox-search-input" 
+          placeholder="Search materials, industries, or locations..." 
+          onClick={() => triggerToast('Search active')}
+        />
+      </div>
+
+      <div className="inbox-topnav-actions">
+        <button className="inbox-loc-picker" onClick={() => triggerToast('Current Location: Pune, India')}>
+          <Globe size={16} />
+          Pune, India
+          <ChevronDown size={12} />
+        </button>
+
+        <button className="inbox-topnav-btn" aria-label="Notifications" onClick={() => triggerToast('Notifications open')}>
+          <Bell size={18} />
+        </button>
+
+        <button className="inbox-topnav-btn" aria-label="Profile Outline" onClick={() => triggerToast('User profile settings')}>
+          <User size={18} />
+        </button>
+
+        <div className="inbox-user-profile" onClick={() => triggerToast('Switch account menu')}>
+          <img src={avatarImg} alt="User headshot" className="inbox-user-avatar" />
+          <ChevronDown size={12} style={{ color: '#4B5563' }} />
+        </div>
+      </div>
+    </header>
+  );
+};
+
 export default function App() {
   const [currentPage, setCurrentPage] = useState('listsource'); // Default to landing page
   const [notification, setNotification] = useState(null);
+
+  // Marketplace Filter States
+  const [filterRadius, setFilterRadius] = useState('25km');
+  const [filterOrganic, setFilterOrganic] = useState(false);
+  const [filterTextiles, setFilterTextiles] = useState(false);
+  const [filterWood, setFilterWood] = useState(false);
+  const [filterPlastics, setFilterPlastics] = useState(false);
+  const [filterMetals, setFilterMetals] = useState(false);
+  const [filterPurity, setFilterPurity] = useState(true);
 
   // Common Toast Function
   const triggerToast = (message, type = 'success') => {
@@ -689,148 +866,9 @@ export default function App() {
          ============================================================================ */}
       {currentPage === 'messages' && (
         <div className="inbox-page-wrapper">
-          {/* Left Sidebar (Dark Green) */}
-          <aside className="inbox-sidebar-left">
-            <div className="inbox-brand-area">
-              <div className="inbox-brand-logo">
-                <SignInLogo size={32} color="#4ADE80" />
-              </div>
-              <div className="inbox-brand-text">
-                <span className="inbox-brand-name">EcoMatch AI</span>
-                <span className="inbox-brand-tagline">Industrial Symbiosis</span>
-              </div>
-            </div>
-
-            <nav className="inbox-sidebar-nav">
-              <a href="#dashboard" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Dashboard...'); }}>
-                <div className="inbox-nav-item-left">
-                  <LayoutDashboard className="inbox-nav-icon" />
-                  Dashboard
-                </div>
-              </a>
-
-              <a href="#marketplace" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Waste Marketplace...'); }}>
-                <div className="inbox-nav-item-left">
-                  <ShoppingBag className="inbox-nav-icon" />
-                  Waste Marketplace
-                </div>
-              </a>
-
-              <a href="#listings" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening My Listings...'); }}>
-                <div className="inbox-nav-item-left">
-                  <FileText className="inbox-nav-icon" />
-                  My Listings
-                </div>
-              </a>
-
-              <a href="#matches" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Matches...'); }}>
-                <div className="inbox-nav-item-left">
-                  <Recycle className="inbox-nav-icon" />
-                  Matches
-                </div>
-              </a>
-
-              <a href="#recommendations" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening AI Recommendations...'); }}>
-                <div className="inbox-nav-item-left">
-                  <Sparkles className="inbox-nav-icon" />
-                  AI Recommendations
-                </div>
-              </a>
-
-              <a href="#network" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Network...'); }}>
-                <div className="inbox-nav-item-left">
-                  <Network className="inbox-nav-icon" />
-                  Network
-                </div>
-              </a>
-
-              <a href="#analytics" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Analytics...'); }}>
-                <div className="inbox-nav-item-left">
-                  <BarChart2 className="inbox-nav-icon" />
-                  Analytics
-                </div>
-              </a>
-
-              <a href="#contracts" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Contracts...'); }}>
-                <div className="inbox-nav-item-left">
-                  <FileText className="inbox-nav-icon" />
-                  Contracts
-                </div>
-              </a>
-
-              <a href="#messages" className="inbox-nav-item active" onClick={(e) => e.preventDefault()}>
-                <div className="inbox-nav-item-left">
-                  <MessageSquare className="inbox-nav-icon" />
-                  Messages
-                </div>
-                <ChevronDown size={14} style={{ transform: 'rotate(180deg)', color: '#FFFFFF' }} />
-              </a>
-
-              <a href="#notifications" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Notifications...'); }}>
-                <div className="inbox-nav-item-left">
-                  <Bell className="inbox-nav-icon" />
-                  Notifications
-                </div>
-              </a>
-
-              <a href="#settings" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Settings...'); }}>
-                <div className="inbox-nav-item-left">
-                  <Settings className="inbox-nav-icon" />
-                  Settings
-                </div>
-              </a>
-            </nav>
-
-            <div className="inbox-sidebar-profile">
-              <div className="inbox-profile-left">
-                <div className="inbox-profile-pic-container">
-                  <img src={avatarImg} alt="User Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-                <div className="inbox-profile-info">
-                  <span className="inbox-profile-name">GreenBrew Co.</span>
-                  <span className="inbox-profile-role">Business Account</span>
-                </div>
-              </div>
-              <ChevronDown size={14} style={{ color: '#86B3A9', cursor: 'pointer' }} onClick={() => triggerToast('Business Profile Options')} />
-            </div>
-          </aside>
-
-          {/* Main Area */}
+          <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} triggerToast={triggerToast} />
           <main className="inbox-main-content">
-            {/* Top Navbar */}
-            <header className="inbox-topnav">
-              <div className="inbox-search-container">
-                <Search size={18} className="inbox-search-icon" />
-                <input 
-                  type="text" 
-                  className="inbox-search-input" 
-                  placeholder="Search materials, industries, or locations..." 
-                  onClick={() => triggerToast('Search active')}
-                />
-              </div>
-
-              <div className="inbox-topnav-actions">
-                <button className="inbox-loc-picker" onClick={() => triggerToast('Current Location: Pune, India')}>
-                  <Globe size={16} />
-                  Pune, India
-                  <ChevronDown size={12} />
-                </button>
-
-                <button className="inbox-topnav-btn" aria-label="Notifications" onClick={() => triggerToast('Notifications open')}>
-                  <Bell size={18} />
-                </button>
-
-                <button className="inbox-topnav-btn" aria-label="Profile Outline" onClick={() => triggerToast('User profile settings')}>
-                  <User size={18} />
-                </button>
-
-                <div className="inbox-user-profile" onClick={() => triggerToast('Switch account menu')}>
-                  <img src={avatarImg} alt="User headshot" className="inbox-user-avatar" />
-                  <ChevronDown size={12} style={{ color: '#4B5563' }} />
-                </div>
-              </div>
-            </header>
-
+            <Topnav triggerToast={triggerToast} />
             {/* View Container */}
             <div className="inbox-view-container">
               <h1 className="inbox-view-title">Inbox</h1>
@@ -1400,9 +1438,721 @@ export default function App() {
       )}
 
       {/* ============================================================================
+         5. ACTIVE WASTE INVENTORY VIEW (activeInventory) - active waste inventory.jpeg
+         ============================================================================ */}
+      {currentPage === 'activeInventory' && (
+        <div className="inbox-page-wrapper">
+          <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} triggerToast={triggerToast} />
+          <main className="inbox-main-content">
+            <Topnav triggerToast={triggerToast} />
+            
+            <div className="inbox-view-container" style={{ overflowY: 'auto' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <h1 className="inbox-view-title" style={{ margin: 0 }}>My Listings</h1>
+                <div style={{ textAlign: 'right' }}>
+                  <span style={{ fontSize: '15px', fontWeight: 800, color: '#111827' }}>Generator Dashboard</span>
+                  <br />
+                  <span style={{ fontSize: '12px', fontWeight: 600, color: '#6B7280' }}>(Listing View)</span>
+                </div>
+              </div>
+
+              {/* Stats Cards Row */}
+              <div className="inventory-stats-grid">
+                
+                {/* Card 1 */}
+                <div className="inventory-stat-card">
+                  <div className="inventory-stat-header">
+                    <span className="inventory-stat-label">Total Waste Listed<br />(this month)</span>
+                    <div className="inventory-stat-check">
+                      <Check size={12} strokeWidth={3.5} />
+                    </div>
+                  </div>
+                  <span className="inventory-stat-val">12.4 Tons</span>
+                  <div className="inventory-stat-trend green">
+                    <span>▲ +1.2%</span>
+                  </div>
+                  <div className="inventory-stat-sparkline">
+                    <svg viewBox="0 0 100 30" style={{ width: '100%', height: '40px', display: 'block' }}>
+                      <defs>
+                        <linearGradient id="grad-green-stat" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#10B981" stopOpacity="0.25"/>
+                          <stop offset="100%" stopColor="#10B981" stopOpacity="0"/>
+                        </linearGradient>
+                      </defs>
+                      <path d="M 0 25 C 20 28, 40 18, 60 22 C 80 26, 90 5, 100 5 L 100 30 L 0 30 Z" fill="url(#grad-green-stat)" />
+                      <path d="M 0 25 C 20 28, 40 18, 60 22 C 80 26, 90 5, 100 5" fill="none" stroke="#10B981" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Card 2 */}
+                <div className="inventory-stat-card">
+                  <div className="inventory-stat-header">
+                    <span className="inventory-stat-label">Active Listings</span>
+                    <div className="inventory-stat-check">
+                      <Check size={12} strokeWidth={3.5} />
+                    </div>
+                  </div>
+                  <span className="inventory-stat-val">28</span>
+                  <div className="inventory-stat-trend purple">
+                    <span>▲ Growth</span>
+                  </div>
+                  <div className="inventory-stat-sparkline">
+                    <svg viewBox="0 0 100 30" style={{ width: '100%', height: '40px', display: 'block' }}>
+                      <defs>
+                        <linearGradient id="grad-purple-stat" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#7C3AED" stopOpacity="0.25"/>
+                          <stop offset="100%" stopColor="#7C3AED" stopOpacity="0"/>
+                        </linearGradient>
+                      </defs>
+                      <path d="M 0 25 C 20 28, 40 18, 60 22 C 80 26, 90 5, 100 5 L 100 30 L 0 30 Z" fill="url(#grad-purple-stat)" />
+                      <path d="M 0 25 C 20 28, 40 18, 60 22 C 80 26, 90 5, 100 5" fill="none" stroke="#7C3AED" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Card 3 */}
+                <div className="inventory-stat-card">
+                  <div className="inventory-stat-header">
+                    <span className="inventory-stat-label">AI Matches Found</span>
+                    <div className="inventory-stat-check">
+                      <Check size={12} strokeWidth={3.5} />
+                    </div>
+                  </div>
+                  <span className="inventory-stat-val">22</span>
+                  <div className="inventory-stat-trend purple">
+                    <span>▲ Growth</span>
+                  </div>
+                  <div className="inventory-stat-sparkline">
+                    <svg viewBox="0 0 100 30" style={{ width: '100%', height: '40px', display: 'block' }}>
+                      <path d="M 0 25 C 20 28, 40 18, 60 22 C 80 26, 90 5, 100 5 L 100 30 L 0 30 Z" fill="url(#grad-purple-stat)" />
+                      <path d="M 0 25 C 20 28, 40 18, 60 22 C 80 26, 90 5, 100 5" fill="none" stroke="#7C3AED" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Card 4 */}
+                <div className="inventory-stat-card">
+                  <div className="inventory-stat-header">
+                    <span className="inventory-stat-label">Impact Diverted</span>
+                    <div className="inventory-stat-check">
+                      <Check size={12} strokeWidth={3.5} />
+                    </div>
+                  </div>
+                  <span className="inventory-stat-val">14.2 Tons</span>
+                  <div className="inventory-stat-trend purple">
+                    <span>▲ +1.2%</span>
+                  </div>
+                  <div className="inventory-stat-sparkline">
+                    <svg viewBox="0 0 100 30" style={{ width: '100%', height: '40px', display: 'block' }}>
+                      <path d="M 0 25 C 20 28, 40 18, 60 22 C 80 26, 90 5, 100 5 L 100 30 L 0 30 Z" fill="url(#grad-purple-stat)" />
+                      <path d="M 0 25 C 20 28, 40 18, 60 22 C 80 26, 90 5, 100 5" fill="none" stroke="#7C3AED" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Table section */}
+              <div className="inventory-table-section">
+                <div className="inventory-table-header">
+                  <span className="inventory-table-title">MY ACTIVE WASTE INVENTORY</span>
+                  <button className="btn-add-listing" onClick={() => triggerToast('Opening Create Listing form...')}>
+                    <Plus size={16} strokeWidth={3} /> Add New Listing
+                  </button>
+                </div>
+
+                <table className="inventory-table">
+                  <thead>
+                    <tr>
+                      <th>Material</th>
+                      <th>Category</th>
+                      <th>Quantity</th>
+                      <th>Location</th>
+                      <th>Availability</th>
+                      <th>Match Score</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {/* Row 1: Spent Brewery Grains */}
+                    <tr>
+                      <td>
+                        <div className="inventory-material-cell">
+                          <img src={feedImg} alt="Spent Brewery Grains" className="inventory-material-img" />
+                          <div className="inventory-material-info">
+                            <span className="inventory-material-name">Spent Brewery Grains</span>
+                            <span className="inventory-material-sub">High protein bowery byproduct</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <span className="badge-organic-waste">Organic Waste</span>
+                      </td>
+                      <td>
+                        <span className="inventory-qty-text">500kg/wk</span>
+                      </td>
+                      <td>
+                        <span className="inventory-loc-text">Pune</span>
+                      </td>
+                      <td>
+                        <span className="badge-status-available">Available</span>
+                      </td>
+                      <td>
+                        <div className="circular-score-wrapper">
+                          <svg className="circular-score-svg" viewBox="0 0 36 36">
+                            <path className="circular-score-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path className="circular-score-bar" strokeDasharray="92, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                          </svg>
+                          <span className="circular-score-text">92%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <button className="btn-view-match" onClick={() => triggerToast('Viewing match details for Brewery Grains...')}>
+                          View Match
+                        </button>
+                      </td>
+                    </tr>
+
+                    {/* Row 2: Used Coffee Grounds */}
+                    <tr>
+                      <td>
+                        <div className="inventory-material-cell">
+                          <img src={coffeeImg} alt="Used Coffee Grounds" className="inventory-material-img" />
+                          <div className="inventory-material-info">
+                            <span className="inventory-material-name">Used Coffee Grounds</span>
+                            <span className="inventory-material-sub">Post-consumner coffee waste</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <span className="badge-organic-waste">Organic Waste</span>
+                      </td>
+                      <td>
+                        <span className="inventory-qty-text">120kg/wk</span>
+                      </td>
+                      <td>
+                        <span className="inventory-loc-text">Pune</span>
+                      </td>
+                      <td>
+                        <span className="badge-status-available">Available</span>
+                      </td>
+                      <td>
+                        <div className="circular-score-wrapper">
+                          <svg className="circular-score-svg" viewBox="0 0 36 36">
+                            <path className="circular-score-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path className="circular-score-bar" strokeDasharray="85, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                          </svg>
+                          <span className="circular-score-text">85%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <button className="btn-view-match" onClick={() => setCurrentPage('listingsDetails')}>
+                          View Match
+                        </button>
+                      </td>
+                    </tr>
+
+                    {/* Row 3: Fabric Scraps */}
+                    <tr>
+                      <td>
+                        <div className="inventory-material-cell">
+                          <img src={fabricImg} alt="Fabric Scraps" className="inventory-material-img" />
+                          <div className="inventory-material-info">
+                            <span className="inventory-material-name">Fabric Scraps</span>
+                            <span className="inventory-material-sub">Cotton blend scraps</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <span className="badge-textile-waste">Textile Waste</span>
+                      </td>
+                      <td>
+                        <span className="inventory-qty-text">75kg/wk</span>
+                      </td>
+                      <td>
+                        <span className="inventory-loc-text">Mumbai</span>
+                      </td>
+                      <td>
+                        <span className="badge-status-pending">Pending</span>
+                      </td>
+                      <td>
+                        <div className="circular-score-wrapper">
+                          <svg className="circular-score-svg" viewBox="0 0 36 36">
+                            <path className="circular-score-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path className="circular-score-bar" strokeDasharray="92, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                          </svg>
+                          <span className="circular-score-text">92%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <button className="btn-view-match" onClick={() => triggerToast('Viewing match details for Fabric Scraps...')}>
+                          View Match
+                        </button>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </main>
+        </div>
+      )}
+
+      {/* ============================================================================
+         6. LISTING DETAILS VIEW (listingsDetails) - my listings.jpeg
+         ============================================================================ */}
+      {currentPage === 'listingsDetails' && (
+        <div className="inbox-page-wrapper">
+          <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} triggerToast={triggerToast} />
+          <main className="inbox-main-content">
+            <Topnav triggerToast={triggerToast} />
+
+            <div className="inbox-view-container" style={{ overflowY: 'auto' }}>
+              <div 
+                className="details-back-header"
+                onClick={() => setCurrentPage('activeInventory')}
+              >
+                <ArrowLeft size={18} />
+                <span>Listing Details: Used Coffee Grounds</span>
+              </div>
+
+              <div className="details-grid">
+                
+                {/* Left Card */}
+                <div className="details-main-card">
+                  <h1 className="details-main-title">USED COFFEE GROUNDS - High Purity - Daily Supply.</h1>
+                  
+                  <div className="details-image-gallery">
+                    <img src={coffeeImg} alt="Coffee Grounds 1" className="details-gallery-img" />
+                    <img src={fabricImg} alt="Fabric waste" className="details-gallery-img" />
+                    <img src={woodImg} alt="Wood offcuts" className="details-gallery-img" />
+                    <img src={packagingImg} alt="Packaging" className="details-gallery-img" />
+                    <img src={coffeeImg} alt="Coffee grounds 2" className="details-gallery-img" />
+                  </div>
+
+                  <div className="details-section">
+                    <span className="details-section-title">Material Description</span>
+                    <p className="details-section-desc">
+                      Freshly extracted in used coffee grounds - mpt, high protein quality - materials tinied, dried - wood, packaged, consumer father and lonest, coffee.
+                    </p>
+                  </div>
+
+                  <div className="details-section">
+                    <span className="details-section-title">Quantity</span>
+                    <span className="details-section-val">120kg/week</span>
+                  </div>
+
+                  <div className="details-section">
+                    <span className="details-section-title">Source</span>
+                    <span className="details-section-val">Pune Cafe</span>
+                  </div>
+
+                  <div className="details-section">
+                    <span className="details-section-title">Logistics</span>
+                    <span className="details-section-val">Local Pickup Recommended</span>
+                  </div>
+                </div>
+
+                {/* Right Card / Sidebar */}
+                <div className="details-sidebar-col">
+                  
+                  {/* Compatibility Card */}
+                  <div className="compatibility-card">
+                    <h2 className="compatibility-title">AI Match and Compatibility</h2>
+                    
+                    <div className="comp-header-row">
+                      <div className="comp-gauge">
+                        <svg className="comp-gauge-svg" viewBox="0 0 36 36">
+                          <path className="comp-gauge-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                          <path className="comp-gauge-bar" strokeDasharray="95, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+                        <span className="comp-gauge-text">95%</span>
+                      </div>
+                      
+                      <div className="comp-partner-info">
+                        <span className="comp-partner-name">BioSkins Skincare Co.</span>
+                        <span className="comp-partner-sub">Hypothetical Compatibility</span>
+                      </div>
+                    </div>
+
+                    <div className="comp-match-matches">Matche matches.</div>
+                    
+                    <div className="comp-why-label">Why it matches:</div>
+                    <p className="comp-why-text">
+                      Distance (5km), Purity (92%), Volume Match (Excellent)
+                    </p>
+
+                    <div className="comp-btn-group">
+                      <button className="btn-request-source" onClick={() => triggerToast('Sourcing request sent to BioSkins Skincare Co.!')}>
+                        Request to Source
+                      </button>
+                      <button className="btn-message-seller" onClick={() => setCurrentPage('messages')}>
+                        Message Seller
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Map Card */}
+                  <div className="map-card">
+                    <div className="map-container">
+                      <svg className="map-svg-grid" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="200" height="200" fill="#E8ECEF" />
+                        <line x1="10" y1="0" x2="10" y2="200" stroke="#FFFFFF" strokeWidth="6" />
+                        <line x1="50" y1="0" x2="50" y2="200" stroke="#FFFFFF" strokeWidth="8" />
+                        <line x1="90" y1="0" x2="90" y2="200" stroke="#FFFFFF" strokeWidth="6" />
+                        <line x1="140" y1="0" x2="140" y2="200" stroke="#FFFFFF" strokeWidth="8" />
+                        <line x1="180" y1="0" x2="180" y2="200" stroke="#FFFFFF" strokeWidth="4" />
+                        
+                        <line x1="0" y1="30" x2="200" y2="30" stroke="#FFFFFF" strokeWidth="6" />
+                        <line x1="0" y1="80" x2="200" y2="80" stroke="#FFFFFF" strokeWidth="8" />
+                        <line x1="0" y1="120" x2="200" y2="120" stroke="#FFFFFF" strokeWidth="6" />
+                        <line x1="0" y1="160" x2="200" y2="160" stroke="#FFFFFF" strokeWidth="8" />
+                        
+                        <path d="M 0 100 C 60 100, 100 120, 200 60" fill="none" stroke="#FFFFFF" strokeWidth="8" />
+
+                        <path d="M 60 55 C 100 70, 110 110, 140 120" fill="none" stroke="#059669" strokeWidth="3" strokeDasharray="3 3" />
+                        <path d="M 60 55 C 100 70, 110 110, 140 120" fill="none" stroke="#059669" strokeWidth="1.5" />
+
+                        <g transform="translate(60, 55)">
+                          <circle cx="0" cy="0" r="12" fill="#059669" fillOpacity="0.2" />
+                          <circle cx="0" cy="0" r="5" fill="#059669" stroke="#FFFFFF" strokeWidth="1.5" />
+                        </g>
+
+                        <g transform="translate(140, 120)">
+                          <circle cx="0" cy="0" r="12" fill="#7C3AED" fillOpacity="0.2" />
+                          <circle cx="0" cy="0" r="5" fill="#7C3AED" stroke="#FFFFFF" strokeWidth="1.5" />
+                        </g>
+                      </svg>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </main>
+        </div>
+      )}
+
+      {/* ============================================================================
+         7. WASTE MARKETPLACE VIEW (marketplace) - waste marketplace.jpeg
+         ============================================================================ */}
+      {currentPage === 'marketplace' && (
+        <div className="inbox-page-wrapper">
+          <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} triggerToast={triggerToast} />
+          <main className="inbox-main-content">
+            <Topnav triggerToast={triggerToast} />
+
+            <div className="inbox-view-container" style={{ display: 'flex', flexDirection: 'column' }}>
+              <h1 className="inbox-view-title">Waste Marketplace</h1>
+
+              <div className="marketplace-layout">
+                {/* Left filters panel */}
+                <aside className="filters-sidebar">
+                  {/* Category Filter */}
+                  <div className="filter-group">
+                    <span className="filter-title">Category</span>
+                    
+                    <label className="filter-option">
+                      <input 
+                        type="checkbox" 
+                        className="filter-checkbox" 
+                        checked={filterOrganic} 
+                        onChange={(e) => setFilterOrganic(e.target.checked)} 
+                      />
+                      Organic
+                    </label>
+
+                    <label className="filter-option">
+                      <input 
+                        type="checkbox" 
+                        className="filter-checkbox" 
+                        checked={filterTextiles} 
+                        onChange={(e) => setFilterTextiles(e.target.checked)} 
+                      />
+                      Textiles
+                    </label>
+
+                    <label className="filter-option">
+                      <input 
+                        type="checkbox" 
+                        className="filter-checkbox" 
+                        checked={filterWood} 
+                        onChange={(e) => setFilterWood(e.target.checked)} 
+                      />
+                      Wood
+                    </label>
+
+                    <label className="filter-option">
+                      <input 
+                        type="checkbox" 
+                        className="filter-checkbox" 
+                        checked={filterPlastics} 
+                        onChange={(e) => setFilterPlastics(e.target.checked)} 
+                      />
+                      Plastics
+                    </label>
+
+                    <label className="filter-option">
+                      <input 
+                        type="checkbox" 
+                        className="filter-checkbox" 
+                        checked={filterMetals} 
+                        onChange={(e) => setFilterMetals(e.target.checked)} 
+                      />
+                      Metals
+                    </label>
+                  </div>
+
+                  {/* Radius Filter */}
+                  <div className="filter-group">
+                    <span className="filter-title">Radius</span>
+                    
+                    <label className="filter-option">
+                      <input 
+                        type="radio" 
+                        name="radius" 
+                        className="filter-radio" 
+                        checked={filterRadius === '25km'} 
+                        onChange={() => setFilterRadius('25km')} 
+                      />
+                      25km
+                    </label>
+
+                    <label className="filter-option">
+                      <input 
+                        type="radio" 
+                        name="radius" 
+                        className="filter-radio" 
+                        checked={filterRadius === '50km'} 
+                        onChange={() => setFilterRadius('50km')} 
+                      />
+                      50km
+                    </label>
+
+                    <label className="filter-option">
+                      <input 
+                        type="radio" 
+                        name="radius" 
+                        className="filter-radio" 
+                        checked={filterRadius === '100km+'} 
+                        onChange={() => setFilterRadius('100km+')} 
+                      />
+                      100km+
+                    </label>
+                  </div>
+
+                  {/* Quantity Filter */}
+                  <div className="filter-group">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                      <span className="filter-title">Quantity</span>
+                      <span className="filter-sublabel" style={{ fontWeight: 705 }}>kg/week</span>
+                    </div>
+                    <div className="qty-slider-container">
+                      <div className="slider-rail">
+                        <div className="slider-track"></div>
+                        <div className="slider-handle"></div>
+                      </div>
+                      <div className="slider-labels">
+                        <span>0</span>
+                        <span>12,000</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Purity Filter */}
+                  <div className="filter-group">
+                    <span className="filter-title">Purity</span>
+                    <label className="filter-option">
+                      <input 
+                        type="checkbox" 
+                        className="filter-checkbox" 
+                        checked={filterPurity} 
+                        onChange={(e) => setFilterPurity(e.target.checked)} 
+                      />
+                      90%+
+                    </label>
+                    <label className="filter-option">
+                      <input 
+                        type="checkbox" 
+                        className="filter-checkbox" 
+                        defaultChecked={false} 
+                      />
+                      90%+
+                    </label>
+                  </div>
+
+                  {/* Availability Date dropdown */}
+                  <div className="filter-group">
+                    <span className="filter-title">Availability Date</span>
+                    <select className="availability-select" defaultValue="Wed Aug" onChange={() => triggerToast('Availability filter changed')}>
+                      <option value="Wed Aug">Wed Aug</option>
+                      <option value="Sep">Sep</option>
+                      <option value="Oct">Oct</option>
+                    </select>
+                  </div>
+                </aside>
+
+                {/* Right Listings Grid */}
+                <div className="listings-grid-scroll">
+                  <div className="listings-grid">
+                    {[
+                      {
+                        id: 1,
+                        title: "120kg Spent Coffee Grounds - Daily Supply",
+                        type: "Organic",
+                        typeIcon: <Box size={14} />,
+                        loc: "Pune",
+                        qty: "120kg/week",
+                        score: 94,
+                        img: coffeeImg,
+                      },
+                      {
+                        id: 2,
+                        title: "120kg Spent Coffee Grounds - Daily Supply",
+                        type: "Textiles",
+                        typeIcon: <Recycle size={14} />,
+                        loc: "Pune",
+                        qty: "120kg/week",
+                        score: 94,
+                        img: coffeeImg,
+                      },
+                      {
+                        id: 3,
+                        title: "120kg Spent Coffee Grounds - Daily Supply",
+                        type: "Textiles",
+                        typeIcon: <Recycle size={14} />,
+                        loc: "Pune",
+                        qty: "120kg/week",
+                        score: 94,
+                        img: fabricImg,
+                      },
+                      {
+                        id: 4,
+                        title: "120kg Spent Coffee Grounds - Daily Supply",
+                        type: "Wood",
+                        typeIcon: <Box size={14} />,
+                        loc: "Pune",
+                        qty: "120kg/week",
+                        score: 94,
+                        img: fabricImg,
+                      },
+                      {
+                        id: 5,
+                        title: "120kg Spent Coffee Grounds - Daily Supply",
+                        type: "Wood",
+                        typeIcon: <Box size={14} />,
+                        loc: "Pune",
+                        qty: "120kg/week",
+                        score: 94,
+                        img: coffeeImg,
+                      },
+                      {
+                        id: 6,
+                        title: "120kg Used Spent Coffee - Taotic Supply",
+                        type: "Organic",
+                        typeIcon: <Box size={14} />,
+                        loc: "Pune",
+                        qty: "120kg/week",
+                        score: 85,
+                        img: fabricImg,
+                      },
+                      {
+                        id: 7,
+                        title: "120kg Spent Coffee Grounds - Daily Supply",
+                        type: "Textiles",
+                        typeIcon: <Recycle size={14} />,
+                        loc: "Pune",
+                        qty: "120kg/week",
+                        score: 94,
+                        img: coffeeImg,
+                      },
+                      {
+                        id: 8,
+                        title: "120kg Spent Coffee Grounds - Coffee",
+                        type: "Organic",
+                        typeIcon: <Box size={14} />,
+                        loc: "Pune",
+                        qty: "120kg/week",
+                        score: 94,
+                        img: woodImg,
+                      },
+                      {
+                        id: 9,
+                        title: "120kg Spent Coffee Grains - Grounds",
+                        type: "Organic",
+                        typeIcon: <Box size={14} />,
+                        loc: "Pune",
+                        qty: "120kg/week",
+                        score: 94,
+                        img: fabricImg,
+                      }
+                    ].map((item) => (
+                      <div key={item.id} className="listing-item-card">
+                        <div className="card-top-header">
+                          <img src={item.img} alt={item.title} className="card-thumb-img" />
+                          <span className="card-top-title">{item.title}</span>
+                        </div>
+                        
+                        <div className="card-meta-row">
+                          <div className="card-meta-item">
+                            <span style={{ fontSize: '11px', color: '#6B7280', fontWeight: 800 }}>Material Type</span>
+                            <span className="card-meta-right-val" style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '11.5px', color: '#374151' }}>
+                              {item.typeIcon}
+                              {item.type}
+                            </span>
+                          </div>
+                          
+                          <div className="card-meta-item">
+                            <MapPin size={12} />
+                            <span>{item.loc}</span>
+                            <span className="card-meta-right-val" style={{ fontSize: '11.5px', color: '#374151' }}>{item.qty}</span>
+                          </div>
+                        </div>
+
+                        <div className="card-score-row">
+                          <div className="circular-score-wrapper" style={{ width: '36px', height: '36px' }}>
+                            <svg className="circular-score-svg" viewBox="0 0 36 36">
+                              <path className="circular-score-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                              <path className="circular-score-bar" strokeDasharray={`${item.score}, 100`} d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            </svg>
+                            <span className="circular-score-text" style={{ fontSize: '10.5px' }}>{item.score}%</span>
+                          </div>
+                          <span className="card-score-label">AI Compatibility Score</span>
+                        </div>
+
+                        <div className="card-btn-group">
+                          <button 
+                            className="btn-card-details" 
+                            onClick={() => setCurrentPage('listingsDetails')}
+                          >
+                            View Details
+                          </button>
+                          <button 
+                            className="btn-card-source" 
+                            onClick={() => triggerToast(`Sourcing request sent for card #${item.id} (${item.title})!`)}
+                          >
+                            Request to Source
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </main>
+        </div>
+      )}
+
+      {/* ============================================================================
          GLOBAL DEVELOPER ROUTE SWITCHER (Fixed bottom-left)
          ============================================================================ */}
-      <div className="page-switch-menu">
+      <div className="page-switch-menu" style={{ flexWrap: 'wrap', maxWidth: '450px' }}>
         <button 
           className={`btn-switch-page ${currentPage === 'listsource' ? 'active' : ''}`}
           onClick={() => setCurrentPage('listsource')}
@@ -1426,6 +2176,24 @@ export default function App() {
           onClick={() => setCurrentPage('preferences')}
         >
           Preferences
+        </button>
+        <button 
+          className={`btn-switch-page ${currentPage === 'activeInventory' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('activeInventory')}
+        >
+          Active Waste Inventory
+        </button>
+        <button 
+          className={`btn-switch-page ${currentPage === 'listingsDetails' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('listingsDetails')}
+        >
+          My Listings Details
+        </button>
+        <button 
+          className={`btn-switch-page ${currentPage === 'marketplace' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('marketplace')}
+        >
+          Waste Marketplace
         </button>
       </div>
     </>
