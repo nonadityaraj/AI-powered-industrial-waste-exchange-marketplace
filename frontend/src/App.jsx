@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import './App.css';
 
 // Import Page Components
@@ -11,9 +12,33 @@ import ActiveInventoryPage from './components/pages/ActiveInventoryPage';
 import ListingsDetailsPage from './components/pages/ListingsDetailsPage';
 import MarketplacePage from './components/pages/MarketplacePage';
 
+/* ============================================================================
+   ROUTING
+   The pages were originally built to navigate via a `setCurrentPage('key')`
+   prop. To switch to real URL routes without rewriting every page, we map each
+   logical page key to a URL path and expose a `setCurrentPage` adapter that
+   simply navigates. `currentPage` is derived from the current URL so the
+   sidebar active states keep working.
+   ============================================================================ */
+const PAGE_TO_PATH = {
+  listsource: '/',
+  signin: '/signin',
+  signup: '/signup',
+  preferences: '/preferences',
+  marketplace: '/marketplace',
+  activeInventory: '/inventory',
+  listingsDetails: '/listing-details',
+  messages: '/messages',
+};
+
+const PATH_TO_PAGE = Object.fromEntries(
+  Object.entries(PAGE_TO_PATH).map(([page, path]) => [path, page])
+);
+
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('listsource'); // Default to landing page
   const [notification, setNotification] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Common Toast Function
   const triggerToast = (message, type = 'success') => {
@@ -23,28 +48,11 @@ export default function App() {
     }, 4000);
   };
 
-  const renderCurrentPage = () => {
-    switch (currentPage) {
-      case 'listsource':
-        return <LandingPage setCurrentPage={setCurrentPage} triggerToast={triggerToast} />;
-      case 'signin':
-        return <SignInPage setCurrentPage={setCurrentPage} triggerToast={triggerToast} />;
-      case 'signup':
-        return <SignUpPage setCurrentPage={setCurrentPage} triggerToast={triggerToast} />;
-      case 'preferences':
-        return <PreferencesPage setCurrentPage={setCurrentPage} triggerToast={triggerToast} />;
-      case 'messages':
-        return <MessagesPage currentPage={currentPage} setCurrentPage={setCurrentPage} triggerToast={triggerToast} />;
-      case 'activeInventory':
-        return <ActiveInventoryPage currentPage={currentPage} setCurrentPage={setCurrentPage} triggerToast={triggerToast} />;
-      case 'listingsDetails':
-        return <ListingsDetailsPage currentPage={currentPage} setCurrentPage={setCurrentPage} triggerToast={triggerToast} />;
-      case 'marketplace':
-        return <MarketplacePage currentPage={currentPage} setCurrentPage={setCurrentPage} triggerToast={triggerToast} />;
-      default:
-        return <LandingPage setCurrentPage={setCurrentPage} triggerToast={triggerToast} />;
-    }
-  };
+  // Adapter: existing components call setCurrentPage('key') -> navigate to its path
+  const setCurrentPage = (page) => navigate(PAGE_TO_PATH[page] ?? '/');
+  const currentPage = PATH_TO_PAGE[location.pathname] ?? 'listsource';
+
+  const nav = { currentPage, setCurrentPage, triggerToast };
 
   return (
     <>
@@ -80,56 +88,68 @@ export default function App() {
         }
       `}} />
 
-      {/* Render selected view */}
-      {renderCurrentPage()}
+      {/* Application Routes */}
+      <Routes>
+        <Route path="/" element={<LandingPage {...nav} />} />
+        <Route path="/signin" element={<SignInPage {...nav} />} />
+        <Route path="/signup" element={<SignUpPage {...nav} />} />
+        <Route path="/preferences" element={<PreferencesPage {...nav} />} />
+        <Route path="/marketplace" element={<MarketplacePage {...nav} />} />
+        <Route path="/inventory" element={<ActiveInventoryPage {...nav} />} />
+        <Route path="/listing-details" element={<ListingsDetailsPage {...nav} />} />
+        <Route path="/messages" element={<MessagesPage {...nav} />} />
+        {/* Unknown paths fall back to the landing page */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
 
       {/* ============================================================================
          GLOBAL DEVELOPER ROUTE SWITCHER (Fixed bottom-left)
+         Updates the URL via the same router as the rest of the app.
          ============================================================================ */}
       <div className="page-switch-menu" style={{ flexWrap: 'wrap', maxWidth: '450px' }}>
-        <button 
+        <button
           className={`btn-switch-page ${currentPage === 'listsource' ? 'active' : ''}`}
           onClick={() => setCurrentPage('listsource')}
         >
           Landing (List/Source)
         </button>
-        <button 
+        <button
           className={`btn-switch-page ${currentPage === 'messages' ? 'active' : ''}`}
           onClick={() => setCurrentPage('messages')}
         >
           Inbox (Messages)
         </button>
-        <button 
+        <button
           className={`btn-switch-page ${currentPage === 'signin' ? 'active' : ''}`}
           onClick={() => setCurrentPage('signin')}
         >
           Sign In
         </button>
-        <button 
+        <button
           className={`btn-switch-page ${currentPage === 'signup' ? 'active' : ''}`}
           onClick={() => setCurrentPage('signup')}
         >
           Sign Up
         </button>
-        <button 
+        <button
           className={`btn-switch-page ${currentPage === 'preferences' ? 'active' : ''}`}
           onClick={() => setCurrentPage('preferences')}
         >
           Preferences
         </button>
-        <button 
+        <button
           className={`btn-switch-page ${currentPage === 'activeInventory' ? 'active' : ''}`}
           onClick={() => setCurrentPage('activeInventory')}
         >
           Active Waste Inventory
         </button>
-        <button 
+        <button
           className={`btn-switch-page ${currentPage === 'listingsDetails' ? 'active' : ''}`}
           onClick={() => setCurrentPage('listingsDetails')}
         >
           My Listings Details
         </button>
-        <button 
+        <button
           className={`btn-switch-page ${currentPage === 'marketplace' ? 'active' : ''}`}
           onClick={() => setCurrentPage('marketplace')}
         >
