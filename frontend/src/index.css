@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* CSS Design System for EcoMatch AI Sign-in Page */
 
 :root {
@@ -220,8 +222,9 @@ html, body {
   border-radius: 50%;
 }
 
-/* Center Sign-in Card */
-.signin-card {
+/* Center Sign-in and Sign-up Cards */
+.signin-card,
+.signup-card {
   background: var(--card-bg);
   width: 100%;
   max-width: 500px;
@@ -277,7 +280,8 @@ html, body {
 }
 
 /* Form Styles */
-.signin-form {
+.signin-form,
+.signup-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
