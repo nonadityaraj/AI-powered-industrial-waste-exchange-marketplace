@@ -1,6 +1,20 @@
 import React, { useState } from 'react';
-import { Mail, Lock, Eye, EyeOff, Leaf, Recycle, Bell, Globe, ChevronDown, User, Check, ArrowRight } from 'lucide-react';
+import { 
+  Mail, Lock, Eye, EyeOff, Leaf, Recycle, Bell, Globe, ChevronDown, User, Check, ArrowRight,
+  Search, Send, Smile, Calendar, Truck, MoreVertical, ArrowLeftRight, LayoutDashboard,
+  ShoppingBag, Settings, FileText, BarChart2, Network, MessageSquare, Cloud, Box, Plus, Sparkles
+} from 'lucide-react';
 import avatarImg from './assets/avatar.png';
+import './App.css';
+
+// Generated Asset Imports for matching diagram
+import coffeeImg from './assets/coffee_grounds.png';
+import fabricImg from './assets/fabric_waste.png';
+import woodImg from './assets/wood_offcuts.png';
+import packagingImg from './assets/paper_packaging.png';
+import skincareImg from './assets/skincare_product.png';
+import furnitureImg from './assets/chair_furniture.png';
+import feedImg from './assets/animal_feed.png';
 
 // ============================================================================
 // SIGN IN PAGE SPECIFIC SVGs & COMPONENTS
@@ -111,19 +125,13 @@ const DotGrid = ({ color = "#8B5CF6", style = {} }) => {
 const GeneratorIcon = () => (
   <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect width="48" height="48" rx="10" fill="#DCFCE7" />
-    {/* Steam */}
     <path d="M13 13 C13 10 15 10 15 7 M17 15 C17 12 19 12 19 9" stroke="#16A34A" strokeWidth="1.5" strokeLinecap="round" />
-    {/* Generator body */}
     <rect x="10" y="19" width="28" height="20" rx="4" fill="#22C55E" stroke="#092C25" strokeWidth="1.5" />
-    {/* Cooling vents */}
     <line x1="14" y1="24" x2="22" y2="24" stroke="#092C25" strokeWidth="1.5" strokeLinecap="round" />
     <line x1="14" y1="29" x2="22" y2="29" stroke="#092C25" strokeWidth="1.5" strokeLinecap="round" />
     <line x1="14" y1="34" x2="22" y2="34" stroke="#092C25" strokeWidth="1.5" strokeLinecap="round" />
-    {/* Display screen */}
     <rect x="26" y="23" width="8" height="12" rx="2" fill="#EAB308" stroke="#092C25" strokeWidth="1.2" />
-    {/* Lightning symbol */}
     <path d="M30 25 L28 29 H31 L29 33 L33 28 H30 L31 25 Z" fill="#FFFFFF" />
-    {/* Generator cap */}
     <rect x="15" y="16" width="6" height="3" fill="#EAB308" stroke="#092C25" strokeWidth="1.2" />
   </svg>
 );
@@ -131,7 +139,6 @@ const GeneratorIcon = () => (
 const UpcyclerIcon = () => (
   <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect width="48" height="48" rx="10" fill="#DCFCE7" />
-    {/* Circular recycling loop using green paths */}
     <g transform="translate(10, 10)">
       <path d="M14 2 L18 5 H12 L14 2 Z" fill="#22C55E" stroke="#092C25" strokeWidth="1.2" strokeLinejoin="round" />
       <path d="M14 5 V8 C9.58 8 6 11.58 6 16 C6 16.5 6.05 17 6.13 17.5" stroke="#092C25" strokeWidth="1.5" strokeLinecap="round" />
@@ -199,8 +206,56 @@ const GrainIcon = () => (
   </svg>
 );
 
+// ============================================================================
+// LANDING PAGE SPECIFIC COMPONENTS & ICONS
+// ============================================================================
+
+const BrainAIIcon = () => (
+  <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M24 8V40" stroke="#15803D" strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M24 14C20 12 16 14 16 18C16 20 18 21 20 22C17 23 15 26 15 29C15 33 19 35 24 34" stroke="#15803D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M20 22C21.5 22 23 23 24 24" stroke="#15803D" strokeWidth="2.0" />
+    <path d="M24 14C28 12 32 14 32 18C32 20 30 21 28 22C31 23 33 26 33 29C33 33 29 35 24 34" stroke="#15803D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M28 22C26.5 22 25 23 24 24" stroke="#15803D" strokeWidth="2.0" />
+  </svg>
+);
+
+const PackagingIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+    <line x1="12" y1="22.08" x2="12" y2="12" />
+  </svg>
+);
+
+const SkincareIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M10 2h4" />
+    <path d="M12 2v3" />
+    <path d="M8 8h8v11a3 3 0 0 1-3 3h-2a3 3 0 0 1-3-3V8z" />
+    <path d="M12 8v6" />
+  </svg>
+);
+
+const FurnitureIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3" />
+    <path d="M3 11v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z" />
+    <path d="M6 18v2" />
+    <path d="M18 18v2" />
+  </svg>
+);
+
+const FeedIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z" />
+    <path d="M12 6c-1.5 2-3 3-5 3v1c2 0 3.5-1 5-3 1.5 2 3 3 5 3v-1c-2 0-3.5-1-5-3z" />
+    <path d="M12 18V9" />
+  </svg>
+);
+
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('signin');
+  const [currentPage, setCurrentPage] = useState('listsource'); // Default to landing page
   const [notification, setNotification] = useState(null);
 
   // Common Toast Function
@@ -235,7 +290,6 @@ export default function App() {
     setTimeout(() => {
       setSignInLoading(false);
       triggerToast(`Welcome back! Successfully logged in. Redirecting to Business Profile...`);
-      // Smooth redirect transition to preferences page
       setTimeout(() => {
         setCurrentPage('preferences');
       }, 1500);
@@ -275,7 +329,6 @@ export default function App() {
   const handleMaterialCardClick = (id) => {
     setMaterials(prev => prev.map(m => {
       if (m.id === id) {
-        // Toggle selection levels: primary <-> secondary
         const nextSelection = m.selection === 'primary' ? 'secondary' : 'primary';
         return { ...m, selection: nextSelection };
       }
@@ -284,10 +337,9 @@ export default function App() {
   };
 
   const handleMaterialToggleClick = (e, id) => {
-    e.stopPropagation(); // Avoid triggering card click
+    e.stopPropagation();
     setMaterials(prev => prev.map(m => {
       if (m.id === id) {
-        // Switch between enabled (secondary) and disabled (none)
         const nextSelection = m.selection === 'none' ? 'secondary' : 'none';
         return { ...m, selection: nextSelection };
       }
@@ -305,7 +357,110 @@ export default function App() {
   const handleSavePreferences = () => {
     const activeMaterials = materials.filter(m => m.selection !== 'none');
     triggerToast(`Profile settings saved successfully! ${activeMaterials.length} material interests selected.`);
+    setTimeout(() => {
+      setCurrentPage('messages');
+    }, 1500);
   };
+
+  // ==========================================================================
+  // INBOX / MESSAGES STATE & HANDLERS (message.jpg)
+  // ==========================================================================
+  const [typedMessage, setTypedMessage] = useState('');
+  const [activeConvId, setActiveConvId] = useState('biopack_1');
+  const [chatHistories, setChatHistories] = useState({
+    biopack_1: [
+      { id: 1, sender: 'me', text: 'Hi BioPack, confirmed pickup for 120kg coffee grounds tomorrow?', time: '9:38 PM', status: 'Sent' },
+      { id: 2, sender: 'them', text: 'Yes, 10am at the side entrance.', time: '1:31 PM', status: 'Received' }
+    ],
+    greenbrew_1: [
+      { id: 1, sender: 'them', text: 'Hi snmrement oui online.', time: '10:26 AM', status: 'Received' }
+    ],
+    greenbrew_2: [
+      { id: 1, sender: 'them', text: 'Hi 1lkg coffee grounds tomorrow?', time: '7:30 PM', status: 'Received' }
+    ],
+    biopack_2: [
+      { id: 1, sender: 'them', text: 'Yes, 10am at the side entrance.', time: '1:31 PM', status: 'Received' }
+    ],
+    greenbrew_3: [
+      { id: 1, sender: 'them', text: 'Hi, M0arm at the side entrance...', time: '1:57 PM', status: 'Received' }
+    ],
+    greenbrew_4: [
+      { id: 1, sender: 'them', text: 'Hey BioPack, confirmed to no...', time: 'Message', status: 'Received' }
+    ],
+    greenbrew_5: [
+      { id: 1, sender: 'them', text: 'Yes, 10am at the side entrance.', time: 'Mesconn', status: 'Received' }
+    ]
+  });
+
+  const conversationItems = [
+    { id: 'greenbrew_1', name: 'GreenBrew Co.', type: 'exchange', time: '10:26 AM', snippet: 'Hi snmrement oui online.', avatarType: 'user' },
+    { id: 'biopack_1', name: 'BioPack Solutions', type: 'text', time: '9:38 PM', snippet: 'Hi BioPack, confirmed pickup...', avatarType: 'purple-box' },
+    { id: 'greenbrew_2', name: 'GreenBrew Co.', type: 'left-arrow', time: '7:30 PM', snippet: 'Hi 1lkg coffee grounds tomor...', avatarType: 'user' },
+    { id: 'biopack_2', name: 'BioPack Solutions', type: 'text', time: '1:31 PM', snippet: 'Yes, 10am at the side entrance.', avatarType: 'green-leaf' },
+    { id: 'greenbrew_3', name: 'GreenBrew Co.', type: 'left-arrow', time: '1:57 PM', snippet: 'Hi, M0arm at the side entranc...', avatarType: 'user' },
+    { id: 'greenbrew_4', name: 'GreenBrew Co.', type: 'left-arrow', time: 'Message', snippet: 'Hey BioPack, confirmed to no...', avatarType: 'user' },
+    { id: 'greenbrew_5', name: 'GreenBrew Co.', type: 'left-arrow', time: 'Mesconn', snippet: 'Yes, 10am at the side entran...', avatarType: 'user' }
+  ];
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    if (!typedMessage.trim()) return;
+
+    const newMsg = {
+      id: chatHistories[activeConvId].length + 1,
+      sender: 'me',
+      text: typedMessage,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      status: 'Sent'
+    };
+
+    setChatHistories(prev => ({
+      ...prev,
+      [activeConvId]: [...prev[activeConvId], newMsg]
+    }));
+    
+    const sentMsgText = typedMessage;
+    setTypedMessage('');
+    triggerToast('Message sent successfully!');
+
+    // Simulated Response
+    setTimeout(() => {
+      const responseMsg = {
+        id: chatHistories[activeConvId].length + 2,
+        sender: 'them',
+        text: `Thanks for the update: "${sentMsgText.length > 25 ? sentMsgText.substring(0, 25) + '...' : sentMsgText}". We will coordinate accordingly.`,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        status: 'Received'
+      };
+      setChatHistories(prev => ({
+        ...prev,
+        [activeConvId]: [...prev[activeConvId], responseMsg]
+      }));
+      triggerToast('New message received from ' + (activeConvId.startsWith('biopack') ? 'BioPack Solutions' : 'GreenBrew Co.'));
+    }, 2000);
+  };
+
+  const getActiveDetails = () => {
+    if (activeConvId.startsWith('biopack')) {
+      return {
+        title: 'USED COFFEE GROUNDS',
+        qty: '120kg/wk',
+        img: coffeeImg,
+        pickup: '10:00am - 10am',
+        transport: 'Courier pickup coordinated via EcoMatch Fleet.'
+      };
+    } else {
+      return {
+        title: 'RECYCLED TEXTILE FABRIC',
+        qty: '350kg/month',
+        img: fabricImg,
+        pickup: '02:00pm - 4:00pm',
+        transport: 'Freight Delivery arranged by Supplier.'
+      };
+    }
+  };
+
+  const activeDetails = getActiveDetails();
 
   return (
     <>
@@ -315,7 +470,7 @@ export default function App() {
           position: 'fixed',
           top: '24px',
           right: '24px',
-          zIndex: 1000,
+          zIndex: 10000,
           backgroundColor: notification.type === 'error' ? '#EF4444' : '#10B981',
           color: '#FFFFFF',
           padding: '16px 24px',
@@ -333,7 +488,7 @@ export default function App() {
         </div>
       )}
 
-      {/* Global CSS Inject for slideIn keyframe */}
+      {/* Global CSS Inject for animations */}
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes slideIn {
           from { transform: translateX(120%); opacity: 0; }
@@ -341,7 +496,523 @@ export default function App() {
         }
       `}} />
 
-      {/* VIEWPORT CONTROLLER: SIGN IN PAGE */}
+      {/* ============================================================================
+         1. LANDING PAGE VIEW (listsource) - matching list_source.jpg
+         ============================================================================ */}
+      {currentPage === 'listsource' && (
+        <div className="landing-page-wrapper">
+          <header className="landing-navbar">
+            <a href="#home" className="landing-navbar-brand" onClick={(e) => { e.preventDefault(); triggerToast('Welcome to EcoMatch AI!'); }}>
+              <SignInLogo size={34} color="#15803D" />
+              <span className="landing-brand-name">EcoMatch AI</span>
+            </a>
+
+            <nav>
+              <ul className="landing-navbar-nav">
+                <li><a href="#industries" className="landing-nav-link" onClick={(e) => e.preventDefault()}>Industries</a></li>
+                <li><a href="#how" className="landing-nav-link" onClick={(e) => e.preventDefault()}>How it Works</a></li>
+                <li><a href="#marketplace" className="landing-nav-link" onClick={(e) => e.preventDefault()}>Marketplace</a></li>
+                <li><a href="#pricing" className="landing-nav-link" onClick={(e) => e.preventDefault()}>Pricing</a></li>
+              </ul>
+            </nav>
+
+            <div className="landing-navbar-actions">
+              <button className="landing-loc-btn" onClick={() => triggerToast('Current region: Pune, India')}>
+                <Globe size={18} />
+                Pune, India
+                <ChevronDown size={14} />
+              </button>
+
+              <button className="landing-icon-btn" aria-label="Notifications" onClick={() => triggerToast('No new notifications')}>
+                <Bell size={20} />
+              </button>
+
+              <button className="landing-btn-started" onClick={() => setCurrentPage('signin')}>
+                Get Started
+              </button>
+            </div>
+          </header>
+
+          <main className="landing-main">
+            <h1 className="landing-hero-title">
+              TURN YOUR INDUSTRIAL BYPRODUCTS<br />INTO LOCAL REVENUE
+            </h1>
+
+            {/* Connecting Match Diagram */}
+            <div className="diagram-container-outer">
+              
+              {/* SVG Connector Lines */}
+              <svg className="diagram-svg-overlay" viewBox="0 0 1000 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#15803D" />
+                  </marker>
+                </defs>
+
+                {/* Left converging curves (pointing to AI Matching center at x=500, y=240) */}
+                {/* Coffee (y=60) -> Center */}
+                <path d="M 280 60 C 360 60, 380 200, 422 210" stroke="#15803D" strokeWidth="2" strokeDasharray="1 0" markerEnd="url(#arrow)" />
+                {/* Fabric (y=240) -> Center */}
+                <path d="M 280 240 L 415 240" stroke="#15803D" strokeWidth="2" markerEnd="url(#arrow)" />
+                {/* Wood Offcuts (y=420) -> Center */}
+                <path d="M 280 420 C 360 420, 380 280, 422 270" stroke="#15803D" strokeWidth="2" markerEnd="url(#arrow)" />
+
+                {/* Right diverging curves (pointing to right items at x=710) */}
+                {/* Center -> Packaging (y=50) */}
+                <path d="M 578 220 C 620 200, 640 50, 702 50" stroke="#15803D" strokeWidth="2" markerEnd="url(#arrow)" />
+                {/* Center -> Skincare (y=170) */}
+                <path d="M 580 240 C 630 240, 650 170, 702 170" stroke="#15803D" strokeWidth="2" markerEnd="url(#arrow)" />
+                {/* Center -> Furniture (y=290) */}
+                <path d="M 580 240 C 630 240, 650 290, 702 290" stroke="#15803D" strokeWidth="2" markerEnd="url(#arrow)" />
+                {/* Center -> Feed (y=410) */}
+                <path d="M 578 260 C 620 280, 640 410, 702 410" stroke="#15803D" strokeWidth="2" markerEnd="url(#arrow)" />
+              </svg>
+
+              {/* Left Column: Byproducts */}
+              <div className="left-cards-col">
+                <div className="left-card-item" onClick={() => triggerToast('Selected byproduct: Coffee')}>
+                  <img src={coffeeImg} alt="Used coffee grounds" className="left-card-img" />
+                  <div className="left-card-badge coffee">Coffee</div>
+                </div>
+                
+                <div className="left-card-item" onClick={() => triggerToast('Selected byproduct: Fabric')}>
+                  <img src={fabricImg} alt="Fabric waste" className="left-card-img" />
+                  <div className="left-card-badge fabric">Fabric</div>
+                </div>
+                
+                <div className="left-card-item" onClick={() => triggerToast('Selected byproduct: Wood Offcuts')}>
+                  <img src={woodImg} alt="Wood offcuts" className="left-card-img" />
+                  <div className="left-card-badge wood">Wood Offcuts</div>
+                </div>
+              </div>
+
+              {/* Center Circle: AI MATCHING */}
+              <div className="center-circle-wrapper">
+                <div className="outer-radar-ring"></div>
+                <div className="inner-radar-ring"></div>
+                <div className="center-ai-circle" onClick={() => triggerToast('EcoMatch AI matching algorithm active.')}>
+                  <BrainAIIcon />
+                  <span className="center-ai-text">AI MATCHING</span>
+                </div>
+              </div>
+
+              {/* Right Column: Upcycled Products */}
+              <div className="right-cards-col">
+                <div className="right-card-item" onClick={() => triggerToast('Upcycled value stream: Packaging')}>
+                  <div className="right-card-badge">
+                    <PackagingIcon />
+                    Packaging
+                  </div>
+                  <img src={packagingImg} alt="Paper packaging" className="right-card-img" />
+                </div>
+
+                <div className="right-card-item" onClick={() => triggerToast('Upcycled value stream: Skincare')}>
+                  <div className="right-card-badge">
+                    <SkincareIcon />
+                    Skincare
+                  </div>
+                  <img src={skincareImg} alt="Skincare packaging" className="right-card-img" />
+                </div>
+
+                <div className="right-card-item" onClick={() => triggerToast('Upcycled value stream: Furniture')}>
+                  <div className="right-card-badge">
+                    <FurnitureIcon />
+                    Furniture
+                  </div>
+                  <img src={furnitureImg} alt="Furniture chair" className="right-card-img" />
+                </div>
+
+                <div className="right-card-item" onClick={() => triggerToast('Upcycled value stream: Feed')}>
+                  <div className="right-card-badge">
+                    <FeedIcon />
+                    Feed
+                  </div>
+                  <img src={feedImg} alt="Animal feed" className="right-card-img" />
+                </div>
+              </div>
+
+            </div>
+
+            {/* Action Buttons */}
+            <div className="landing-action-row">
+              <button className="landing-btn-list" onClick={() => triggerToast('Opening materials listing form...')}>
+                List Materials
+              </button>
+              <button className="landing-btn-source" onClick={() => triggerToast('Opening marketplace sourcing directory...')}>
+                Source Materials
+              </button>
+            </div>
+
+            {/* Footer Stats Row */}
+            <div className="landing-stats-footer">
+              <div className="landing-stat-item">
+                <div className="landing-stat-icon-circle">
+                  <Box size={24} />
+                </div>
+                <div className="landing-stat-info">
+                  <span className="landing-stat-val">12.4 Tons</span>
+                  <span className="landing-stat-lbl">Waste Diverted</span>
+                </div>
+              </div>
+
+              <div className="landing-stat-divider"></div>
+
+              <div className="landing-stat-item">
+                <div className="landing-stat-icon-circle">
+                  <Cloud size={24} />
+                </div>
+                <div className="landing-stat-info">
+                  <span className="landing-stat-val">34.7 Tons</span>
+                  <span className="landing-stat-lbl">CO₂ Saved</span>
+                </div>
+              </div>
+
+              <div className="landing-stat-divider"></div>
+
+              <div className="landing-stat-item">
+                <div className="landing-stat-icon-circle">
+                  <span style={{ fontSize: '20px', fontWeight: 800 }}>₹</span>
+                </div>
+                <div className="landing-stat-info">
+                  <span className="landing-stat-val">2.45 L</span>
+                  <span className="landing-stat-lbl">Cost Savings</span>
+                </div>
+              </div>
+            </div>
+
+          </main>
+        </div>
+      )}
+
+      {/* ============================================================================
+         2. MESSAGES INBOX VIEW (messages) - matching message.jpg
+         ============================================================================ */}
+      {currentPage === 'messages' && (
+        <div className="inbox-page-wrapper">
+          {/* Left Sidebar (Dark Green) */}
+          <aside className="inbox-sidebar-left">
+            <div className="inbox-brand-area">
+              <div className="inbox-brand-logo">
+                <SignInLogo size={32} color="#4ADE80" />
+              </div>
+              <div className="inbox-brand-text">
+                <span className="inbox-brand-name">EcoMatch AI</span>
+                <span className="inbox-brand-tagline">Industrial Symbiosis</span>
+              </div>
+            </div>
+
+            <nav className="inbox-sidebar-nav">
+              <a href="#dashboard" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Dashboard...'); }}>
+                <div className="inbox-nav-item-left">
+                  <LayoutDashboard className="inbox-nav-icon" />
+                  Dashboard
+                </div>
+              </a>
+
+              <a href="#marketplace" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Waste Marketplace...'); }}>
+                <div className="inbox-nav-item-left">
+                  <ShoppingBag className="inbox-nav-icon" />
+                  Waste Marketplace
+                </div>
+              </a>
+
+              <a href="#listings" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening My Listings...'); }}>
+                <div className="inbox-nav-item-left">
+                  <FileText className="inbox-nav-icon" />
+                  My Listings
+                </div>
+              </a>
+
+              <a href="#matches" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Matches...'); }}>
+                <div className="inbox-nav-item-left">
+                  <Recycle className="inbox-nav-icon" />
+                  Matches
+                </div>
+              </a>
+
+              <a href="#recommendations" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening AI Recommendations...'); }}>
+                <div className="inbox-nav-item-left">
+                  <Sparkles className="inbox-nav-icon" />
+                  AI Recommendations
+                </div>
+              </a>
+
+              <a href="#network" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Network...'); }}>
+                <div className="inbox-nav-item-left">
+                  <Network className="inbox-nav-icon" />
+                  Network
+                </div>
+              </a>
+
+              <a href="#analytics" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Analytics...'); }}>
+                <div className="inbox-nav-item-left">
+                  <BarChart2 className="inbox-nav-icon" />
+                  Analytics
+                </div>
+              </a>
+
+              <a href="#contracts" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Contracts...'); }}>
+                <div className="inbox-nav-item-left">
+                  <FileText className="inbox-nav-icon" />
+                  Contracts
+                </div>
+              </a>
+
+              <a href="#messages" className="inbox-nav-item active" onClick={(e) => e.preventDefault()}>
+                <div className="inbox-nav-item-left">
+                  <MessageSquare className="inbox-nav-icon" />
+                  Messages
+                </div>
+                <ChevronDown size={14} style={{ transform: 'rotate(180deg)', color: '#FFFFFF' }} />
+              </a>
+
+              <a href="#notifications" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Notifications...'); }}>
+                <div className="inbox-nav-item-left">
+                  <Bell className="inbox-nav-icon" />
+                  Notifications
+                </div>
+              </a>
+
+              <a href="#settings" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Settings...'); }}>
+                <div className="inbox-nav-item-left">
+                  <Settings className="inbox-nav-icon" />
+                  Settings
+                </div>
+              </a>
+            </nav>
+
+            <div className="inbox-sidebar-profile">
+              <div className="inbox-profile-left">
+                <div className="inbox-profile-pic-container">
+                  <img src={avatarImg} alt="User Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+                <div className="inbox-profile-info">
+                  <span className="inbox-profile-name">GreenBrew Co.</span>
+                  <span className="inbox-profile-role">Business Account</span>
+                </div>
+              </div>
+              <ChevronDown size={14} style={{ color: '#86B3A9', cursor: 'pointer' }} onClick={() => triggerToast('Business Profile Options')} />
+            </div>
+          </aside>
+
+          {/* Main Area */}
+          <main className="inbox-main-content">
+            {/* Top Navbar */}
+            <header className="inbox-topnav">
+              <div className="inbox-search-container">
+                <Search size={18} className="inbox-search-icon" />
+                <input 
+                  type="text" 
+                  className="inbox-search-input" 
+                  placeholder="Search materials, industries, or locations..." 
+                  onClick={() => triggerToast('Search active')}
+                />
+              </div>
+
+              <div className="inbox-topnav-actions">
+                <button className="inbox-loc-picker" onClick={() => triggerToast('Current Location: Pune, India')}>
+                  <Globe size={16} />
+                  Pune, India
+                  <ChevronDown size={12} />
+                </button>
+
+                <button className="inbox-topnav-btn" aria-label="Notifications" onClick={() => triggerToast('Notifications open')}>
+                  <Bell size={18} />
+                </button>
+
+                <button className="inbox-topnav-btn" aria-label="Profile Outline" onClick={() => triggerToast('User profile settings')}>
+                  <User size={18} />
+                </button>
+
+                <div className="inbox-user-profile" onClick={() => triggerToast('Switch account menu')}>
+                  <img src={avatarImg} alt="User headshot" className="inbox-user-avatar" />
+                  <ChevronDown size={12} style={{ color: '#4B5563' }} />
+                </div>
+              </div>
+            </header>
+
+            {/* View Container */}
+            <div className="inbox-view-container">
+              <h1 className="inbox-view-title">Inbox</h1>
+
+              {/* Grid Layout (Conversations, Chat, Deal Info) */}
+              <div className="inbox-panel-grid">
+                
+                {/* Column 1: Conversations List */}
+                <div className="conversations-col">
+                  <div className="conversations-header">CONVERSATIONS</div>
+                  <ul className="conversations-list">
+                    {conversationItems.map((item) => (
+                      <li key={item.id}>
+                        <button 
+                          className={`conversation-item-btn ${activeConvId === item.id ? 'active' : ''}`}
+                          onClick={() => setActiveConvId(item.id)}
+                        >
+                          {item.avatarType === 'user' && (
+                            <div className="conv-avatar-wrapper">
+                              <img src={avatarImg} alt="User Avatar" className="conv-avatar-img" />
+                            </div>
+                          )}
+                          {item.avatarType === 'purple-box' && (
+                            <div className="conv-avatar-wrapper" style={{ backgroundColor: '#ECE9F9', color: '#7C3AED' }}>
+                              <PackagingIcon size={20} />
+                            </div>
+                          )}
+                          {item.avatarType === 'green-leaf' && (
+                            <div className="conv-avatar-leaf">
+                              <Leaf size={18} fill="currentColor" />
+                            </div>
+                          )}
+
+                          <div className="conv-details">
+                            <div className="conv-top-row">
+                              <span className="conv-name">{item.name}</span>
+                              <span className="conv-meta">
+                                {item.type === 'exchange' && <ArrowLeftRight size={10} />}
+                                {item.type === 'left-arrow' && <span style={{ fontSize: '10px' }}>←</span>}
+                                {item.time}
+                              </span>
+                            </div>
+                            <p className="conv-snippet">{item.snippet}</p>
+                          </div>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Column 2: Chat Display */}
+                <div className="chat-col">
+                  <div className="chat-header">
+                    <div className="chat-partner-info">
+                      <div className="chat-partner-avatar">
+                        {activeConvId.startsWith('biopack') ? <PackagingIcon size={18} /> : <Leaf size={16} fill="currentColor" />}
+                      </div>
+                      <span className="chat-partner-name">
+                        {activeConvId.startsWith('biopack') ? 'BioPack Solutions' : 'GreenBrew Co.'}
+                      </span>
+                      <ArrowLeftRight size={14} style={{ color: '#9CA3AF', cursor: 'pointer' }} />
+                      <div className="chat-action-badge-circle">
+                        <Leaf size={12} fill="currentColor" />
+                      </div>
+                    </div>
+
+                    <button className="inbox-topnav-btn" aria-label="More options" onClick={() => triggerToast('Conversation actions')}>
+                      <MoreVertical size={18} />
+                    </button>
+                  </div>
+
+                  {/* Deal Status Bar */}
+                  <div className="chat-status-bar">
+                    Deal Status: Matching finalized (95%)
+                  </div>
+
+                  {/* Scrollable Messages Panel */}
+                  <div className="chat-messages-container">
+                    {chatHistories[activeConvId]?.map((msg) => (
+                      <div key={msg.id} className={`chat-message-row ${msg.sender === 'me' ? 'sent' : 'received'}`}>
+                        <div className="chat-msg-avatar-group">
+                          {msg.sender === 'them' && (
+                            <div className="chat-msg-avatar-icon">
+                              {activeConvId.startsWith('biopack') ? <PackagingIcon size={15} /> : <Leaf size={14} fill="currentColor" />}
+                            </div>
+                          )}
+                          <div className="chat-msg-bubble">
+                            {msg.text}
+                          </div>
+                        </div>
+                        <span className="chat-msg-meta">
+                          {msg.sender === 'me' ? 'Sent' : 'Received'} {msg.time}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Message Input Box */}
+                  <form className="chat-input-bar" onSubmit={handleSendMessage}>
+                    <div className="chat-input-wrapper">
+                      <input 
+                        type="text" 
+                        className="chat-input-field" 
+                        placeholder="Type a message..." 
+                        value={typedMessage}
+                        onChange={(e) => setTypedMessage(e.target.value)}
+                      />
+                      <div className="chat-input-actions">
+                        <button type="button" className="chat-input-action-btn" aria-label="Add Emoji" onClick={() => triggerToast('Emoji selection menu open')}>
+                          <Smile size={18} />
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <button type="submit" className="landing-btn-started" style={{ padding: '10px 14px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }} aria-label="Send message">
+                      <Send size={16} />
+                    </button>
+                  </form>
+                </div>
+
+                {/* Column 3: Deal Confirmation Information */}
+                <div className="deal-col">
+                  <div>
+                    <div className="deal-header">DEAL CONFIRMATION</div>
+                    <div className="deal-content">
+                      
+                      {/* Product Detail Card */}
+                      <div className="deal-product-card">
+                        <img src={activeDetails.img} alt="Product Thumbnail" className="deal-product-img" />
+                        <div className="deal-product-info">
+                          <span className="deal-product-title">{activeDetails.title}</span>
+                          <span className="deal-product-qty">{activeDetails.qty}</span>
+                        </div>
+                      </div>
+
+                      {/* Scheduled Pickup */}
+                      <div className="deal-detail-row">
+                        <div className="deal-detail-icon-circle green">
+                          <Calendar size={16} />
+                        </div>
+                        <div className="deal-detail-info">
+                          <span className="deal-detail-title">Scheduled pickup</span>
+                          <span className="deal-detail-subtitle">{activeDetails.pickup}</span>
+                        </div>
+                      </div>
+
+                      {/* Transport */}
+                      <div className="deal-detail-row">
+                        <div className="deal-detail-icon-circle">
+                          <Truck size={16} />
+                        </div>
+                        <div className="deal-detail-info">
+                          <span className="deal-detail-title">Transport</span>
+                          <span className="deal-detail-subtitle">{activeDetails.transport}</span>
+                        </div>
+                      </div>
+
+                      <button className="deal-btn-action" onClick={() => triggerToast('Logistics process initialized. Creating contracts...')}>
+                        Finalize Logistics & Create Contract
+                      </button>
+
+                    </div>
+                  </div>
+
+                  {/* Sticky bottom sparking action button */}
+                  <div className="deal-sticky-footer">
+                    <button className="deal-btn-spark" onClick={() => triggerToast('Executing full smart symbiosis contract setup...')}>
+                      <Sparkles size={14} className="sparkle-icon" />
+                      Finalize Logistics & Create Contract
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </main>
+        </div>
+      )}
+
+      {/* ============================================================================
+         3. SIGN IN VIEW (signin) - matching sign in page.jpeg
+         ============================================================================ */}
       {currentPage === 'signin' && (
         <div className="page-container">
           <BackgroundWaves />
@@ -519,7 +1190,9 @@ export default function App() {
         </div>
       )}
 
-      {/* VIEWPORT CONTROLLER: MATERIAL PREFERENCES PAGE */}
+      {/* ============================================================================
+         4. MATERIAL PREFERENCES VIEW (preferences) - matching material preferences.jpeg
+         ============================================================================ */}
       {currentPage === 'preferences' && (
         <div className="pref-page-wrapper">
           {/* Header Navigation Bar */}
@@ -726,19 +1399,33 @@ export default function App() {
         </div>
       )}
 
-      {/* Floating bottom-left route toggle menu for developers/reviewers */}
+      {/* ============================================================================
+         GLOBAL DEVELOPER ROUTE SWITCHER (Fixed bottom-left)
+         ============================================================================ */}
       <div className="page-switch-menu">
+        <button 
+          className={`btn-switch-page ${currentPage === 'listsource' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('listsource')}
+        >
+          Landing (List/Source)
+        </button>
+        <button 
+          className={`btn-switch-page ${currentPage === 'messages' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('messages')}
+        >
+          Inbox (Messages)
+        </button>
         <button 
           className={`btn-switch-page ${currentPage === 'signin' ? 'active' : ''}`}
           onClick={() => setCurrentPage('signin')}
         >
-          Sign In Page
+          Sign In
         </button>
         <button 
           className={`btn-switch-page ${currentPage === 'preferences' ? 'active' : ''}`}
           onClick={() => setCurrentPage('preferences')}
         >
-          Material Preferences
+          Preferences
         </button>
       </div>
     </>
