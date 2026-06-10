@@ -942,7 +942,7 @@
 .inbox-page-wrapper {
   display: flex;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   background-color: #F3F4F6;
   color: #1F2937;
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
@@ -2570,5 +2570,200 @@
 
 .btn-card-source:hover {
   background-color: #6D28D9;
+}
+
+
+/* ============================================================================
+   DASHBOARD (INBOX-SHELL) RESPONSIVENESS
+   Shared by Messages, Active Inventory, Marketplace and Listing Details pages.
+   These layouts originally had no breakpoints, so they overflowed on smaller
+   screens. The rules below collapse the sidebar, stack the multi-column
+   panels and make wide tables scroll.
+   ============================================================================ */
+
+/* --- Tablet / small laptop --- */
+@media (max-width: 1024px) {
+  .inbox-sidebar-left {
+    width: 220px;
+  }
+
+  /* Messages: drop the right-hand deal column, it doesn't fit */
+  .deal-col {
+    display: none;
+  }
+  .conversations-col {
+    width: 260px;
+  }
+
+  /* Marketplace: tighter filter rail + 2-up listings */
+  .marketplace-layout {
+    grid-template-columns: 200px 1fr;
+    gap: 16px;
+  }
+  .listings-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Inventory stat cards: 2-up */
+  .inventory-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Listing details: stack main + sidebar */
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+  .details-image-gallery {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* --- Mobile: switch the whole shell to a stacked, scrollable layout --- */
+@media (max-width: 768px) {
+  .inbox-page-wrapper {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+
+  /* Sidebar becomes a horizontal, scrollable top bar */
+  .inbox-sidebar-left {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    height: auto;
+    padding: 10px 12px;
+    gap: 10px;
+    overflow-x: auto;
+  }
+  .inbox-brand-area {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+  .inbox-sidebar-nav {
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .inbox-sidebar-nav > a,
+  .inbox-sidebar-nav > div {
+    flex-shrink: 0;
+  }
+  .inbox-nav-item {
+    justify-content: center;
+    white-space: nowrap;
+    padding: 9px 12px;
+  }
+  /* Hide the expand chevrons and inline sub-menus in the horizontal bar */
+  .inbox-nav-item > svg {
+    display: none;
+  }
+  .inbox-sidebar-nav > div > div {
+    display: none;
+  }
+  /* Profile block takes too much room in the horizontal bar */
+  .inbox-sidebar-profile {
+    display: none;
+  }
+
+  /* Top nav: let the search field flex and free up room */
+  .inbox-topnav {
+    padding: 0 12px;
+    gap: 8px;
+  }
+  .inbox-search-container {
+    width: auto;
+    flex: 1;
+    min-width: 0;
+  }
+  .inbox-loc-picker {
+    display: none;
+  }
+  .inbox-topnav-actions {
+    gap: 10px;
+  }
+
+  /* View container flows in the page instead of its own scroll area */
+  .inbox-view-container {
+    padding: 16px;
+    overflow: visible;
+  }
+  .inbox-view-title {
+    font-size: 22px;
+  }
+
+  /* Messages: stack the conversation list and chat vertically */
+  .inbox-panel-grid {
+    flex: none;
+    flex-direction: column;
+    height: auto;
+  }
+  .conversations-col {
+    width: 100%;
+    max-height: 230px;
+    border-right: none;
+    border-bottom: 1px solid #E5E7EB;
+  }
+  .chat-col {
+    width: 100%;
+    min-height: 380px;
+    border-right: none;
+  }
+  .chat-messages-container {
+    min-height: 240px;
+  }
+  .chat-message-row {
+    max-width: 85%;
+  }
+
+  /* Marketplace: filters on top, listings below */
+  .marketplace-layout {
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+  }
+  .filters-sidebar {
+    width: 100%;
+    overflow: visible;
+  }
+  .listings-grid-scroll {
+    overflow: visible;
+  }
+
+  /* Inventory: scroll the wide table horizontally */
+  .inventory-table-section {
+    overflow-x: auto;
+  }
+  .inventory-table {
+    min-width: 640px;
+  }
+}
+
+/* --- Small phones --- */
+@media (max-width: 640px) {
+  .inventory-stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .listings-grid {
+    grid-template-columns: 1fr;
+  }
+  .details-image-gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .details-main-card {
+    padding: 20px;
+  }
+  .details-main-title {
+    font-size: 22px;
+  }
+  .compatibility-card {
+    padding: 18px;
+  }
+  .comp-btn-group {
+    flex-direction: column;
+  }
 }
 
