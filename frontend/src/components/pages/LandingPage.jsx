@@ -226,8 +226,8 @@ export const LandingPage = ({ setCurrentPage, triggerToast }) => {
               <div className="landing-footer-col">
                 <span className="footer-title-text">Company</span>
                 <ul className="footer-links-list">
-                  <li><a href="#about" onClick={(e) => e.preventDefault()}>About Us</a></li>
-                  <li><a href="#contact" onClick={(e) => e.preventDefault()}>Contact Us</a></li>
+                  <li><a href="#about" onClick={(e) => { e.preventDefault(); setCurrentPage('about'); }}>About Us</a></li>
+                  <li><a href="#contact" onClick={(e) => { e.preventDefault(); triggerToast('Contact Info: info@ecomatch.ai'); }}>Contact Us</a></li>
                 </ul>
               </div>
 
@@ -235,8 +235,8 @@ export const LandingPage = ({ setCurrentPage, triggerToast }) => {
               <div className="landing-footer-col">
                 <span className="footer-title-text">Legal</span>
                 <ul className="footer-links-list">
-                  <li><a href="#privacy" onClick={(e) => e.preventDefault()}>Privacy Policy</a></li>
-                  <li><a href="#terms" onClick={(e) => e.preventDefault()}>Terms & Conditions</a></li>
+                  <li><a href="#privacy" onClick={(e) => { e.preventDefault(); setCurrentPage('privacy'); }}>Privacy Policy</a></li>
+                  <li><a href="#terms" onClick={(e) => { e.preventDefault(); setCurrentPage('terms'); }}>Terms & Conditions</a></li>
                 </ul>
               </div>
 
@@ -454,8 +454,8 @@ export const LandingPage = ({ setCurrentPage, triggerToast }) => {
               <div className="landing-footer-col">
                 <span className="footer-title-text">Company</span>
                 <ul className="footer-links-list">
-                  <li><a href="#about" onClick={(e) => e.preventDefault()}>About Us</a></li>
-                  <li><a href="#contact" onClick={(e) => e.preventDefault()}>Contact Us</a></li>
+                  <li><a href="#about" onClick={(e) => { e.preventDefault(); setCurrentPage('about'); }}>About Us</a></li>
+                  <li><a href="#contact" onClick={(e) => { e.preventDefault(); triggerToast('Contact Info: info@ecomatch.ai'); }}>Contact Us</a></li>
                 </ul>
               </div>
 
@@ -463,8 +463,8 @@ export const LandingPage = ({ setCurrentPage, triggerToast }) => {
               <div className="landing-footer-col">
                 <span className="footer-title-text">Legal</span>
                 <ul className="footer-links-list">
-                  <li><a href="#privacy" onClick={(e) => e.preventDefault()}>Privacy Policy</a></li>
-                  <li><a href="#terms" onClick={(e) => e.preventDefault()}>Terms & Conditions</a></li>
+                  <li><a href="#privacy" onClick={(e) => { e.preventDefault(); setCurrentPage('privacy'); }}>Privacy Policy</a></li>
+                  <li><a href="#terms" onClick={(e) => { e.preventDefault(); setCurrentPage('terms'); }}>Terms & Conditions</a></li>
                 </ul>
               </div>
 

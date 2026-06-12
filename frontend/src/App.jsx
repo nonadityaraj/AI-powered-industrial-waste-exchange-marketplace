@@ -10,6 +10,9 @@ import PreferencesPage from './components/pages/PreferencesPage';
 import MessagesPage from './components/pages/MessagesPage';
 import ListingsDetailsPage from './components/pages/ListingsDetailsPage';
 import MarketplacePage from './components/pages/MarketplacePage';
+import AboutUs from './components/pages/AboutUs';
+import PrivacyPolicy from './components/pages/PrivacyPolicy';
+import TermsConditions from './components/pages/TermsConditions';
 
 /* ============================================================================
    ROUTING
@@ -22,6 +25,9 @@ const PAGE_TO_PATH = {
   marketplace: '/marketplace',
   listingsDetails: '/listing-details',
   messages: '/messages',
+  about: '/about',
+  privacy: '/privacy-policy',
+  terms: '/terms-conditions',
 };
 
 const PATH_TO_PAGE = Object.fromEntries(
@@ -90,6 +96,9 @@ export default function App() {
         <Route path="/marketplace" element={<MarketplacePage {...nav} />} />
         <Route path="/listing-details" element={<ListingsDetailsPage {...nav} />} />
         <Route path="/messages" element={<MessagesPage {...nav} />} />
+        <Route path="/about" element={<AboutUs {...nav} />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy {...nav} />} />
+        <Route path="/terms-conditions" element={<TermsConditions {...nav} />} />
         {/* Unknown paths fall back to the landing page */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
@@ -139,6 +148,24 @@ export default function App() {
           onClick={() => setCurrentPage('marketplace')}
         >
           Waste Marketplace
+        </button>
+        <button
+          className={`btn-switch-page ${currentPage === 'about' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('about')}
+        >
+          About Us
+        </button>
+        <button
+          className={`btn-switch-page ${currentPage === 'privacy' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('privacy')}
+        >
+          Privacy Policy
+        </button>
+        <button
+          className={`btn-switch-page ${currentPage === 'terms' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('terms')}
+        >
+          Terms & Conditions
         </button>
       </div>
     </>
