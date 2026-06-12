@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import './App.css';
+import './pages.css';
 
 // Import Page Components
 import LandingPage from './components/pages/LandingPage';
 import SignInPage from './components/pages/SignInPage';
 import SignUpPage from './components/pages/SignUpPage';
+import ForgotPasswordPage from './components/pages/ForgotPasswordPage';
 import PreferencesPage from './components/pages/PreferencesPage';
 import MessagesPage from './components/pages/MessagesPage';
 import ListingsDetailsPage from './components/pages/ListingsDetailsPage';
 import MarketplacePage from './components/pages/MarketplacePage';
+import DashboardPage from './components/pages/DashboardPage';
+import CreateListingPage from './components/pages/CreateListingPage';
+import ProfilePage from './components/pages/ProfilePage';
+import NotificationsPage from './components/pages/NotificationsPage';
 import AboutUs from './components/pages/AboutUs';
 import PrivacyPolicy from './components/pages/PrivacyPolicy';
 import TermsConditions from './components/pages/TermsConditions';
@@ -21,9 +27,14 @@ const PAGE_TO_PATH = {
   listsource: '/',
   signin: '/signin',
   signup: '/signup',
+  forgotPassword: '/forgot-password',
   preferences: '/preferences',
+  dashboard: '/dashboard',
   marketplace: '/marketplace',
   listingsDetails: '/listing-details',
+  createListing: '/create-listing',
+  profile: '/profile',
+  notifications: '/notifications',
   messages: '/messages',
   about: '/about',
   privacy: '/privacy-policy',
@@ -36,6 +47,7 @@ const PATH_TO_PAGE = Object.fromEntries(
 
 export default function App() {
   const [notification, setNotification] = useState(null);
+  const [listingDraft, setListingDraft] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -51,7 +63,7 @@ export default function App() {
   const setCurrentPage = (page) => navigate(PAGE_TO_PATH[page] ?? '/');
   const currentPage = PATH_TO_PAGE[location.pathname] ?? 'listsource';
 
-  const nav = { currentPage, setCurrentPage, triggerToast };
+  const nav = { currentPage, setCurrentPage, triggerToast, listingDraft, setListingDraft };
 
   return (
     <>
@@ -92,9 +104,14 @@ export default function App() {
         <Route path="/" element={<LandingPage {...nav} />} />
         <Route path="/signin" element={<SignInPage {...nav} />} />
         <Route path="/signup" element={<SignUpPage {...nav} />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage {...nav} />} />
         <Route path="/preferences" element={<PreferencesPage {...nav} />} />
+        <Route path="/dashboard" element={<DashboardPage {...nav} />} />
         <Route path="/marketplace" element={<MarketplacePage {...nav} />} />
         <Route path="/listing-details" element={<ListingsDetailsPage {...nav} />} />
+        <Route path="/create-listing" element={<CreateListingPage {...nav} />} />
+        <Route path="/profile" element={<ProfilePage {...nav} />} />
+        <Route path="/notifications" element={<NotificationsPage {...nav} />} />
         <Route path="/messages" element={<MessagesPage {...nav} />} />
         <Route path="/about" element={<AboutUs {...nav} />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy {...nav} />} />
@@ -150,22 +167,34 @@ export default function App() {
           Waste Marketplace
         </button>
         <button
-          className={`btn-switch-page ${currentPage === 'about' ? 'active' : ''}`}
-          onClick={() => setCurrentPage('about')}
+          className={`btn-switch-page ${currentPage === 'dashboard' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('dashboard')}
         >
-          About Us
+          Dashboard
         </button>
         <button
-          className={`btn-switch-page ${currentPage === 'privacy' ? 'active' : ''}`}
-          onClick={() => setCurrentPage('privacy')}
+          className={`btn-switch-page ${currentPage === 'createListing' ? 'active' : ''}`}
+          onClick={() => { setListingDraft(null); setCurrentPage('createListing'); }}
         >
-          Privacy Policy
+          Create Listing
         </button>
         <button
-          className={`btn-switch-page ${currentPage === 'terms' ? 'active' : ''}`}
-          onClick={() => setCurrentPage('terms')}
+          className={`btn-switch-page ${currentPage === 'profile' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('profile')}
         >
-          Terms & Conditions
+          Profile
+        </button>
+        <button
+          className={`btn-switch-page ${currentPage === 'notifications' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('notifications')}
+        >
+          Notifications
+        </button>
+        <button
+          className={`btn-switch-page ${currentPage === 'forgotPassword' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('forgotPassword')}
+        >
+          Forgot Password
         </button>
       </div>
     </>

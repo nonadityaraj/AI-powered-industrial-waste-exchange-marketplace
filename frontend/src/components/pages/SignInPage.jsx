@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff, Leaf, Recycle } from 'lucide-react';
-import { 
+import {
   BackgroundWaves, SignInLogo, DotGrid, FactoryIllustration, GoogleIcon,
-  LinkedInIcon, WindTurbineIllustration 
+  LinkedInIcon, WindTurbineIllustration
 } from '../common/Icons';
 
 export const SignInPage = ({ setCurrentPage, triggerToast }) => {
@@ -42,7 +42,7 @@ export const SignInPage = ({ setCurrentPage, triggerToast }) => {
         <header className="brand-header">
           <SignInLogo size={42} />
           <div className="brand-text-container">
-            <span className="brand-name">EcoMatch AI</span>
+            <span className="brand-name">EcoMatch</span>
             <span className="brand-tagline">Industrial Symbiosis</span>
           </div>
         </header>
@@ -69,7 +69,7 @@ export const SignInPage = ({ setCurrentPage, triggerToast }) => {
             <div className="brand-header">
               <SignInLogo size={46} color="#15803D" />
               <div className="brand-text-container" style={{ textAlign: 'left' }}>
-                <span className="brand-name">EcoMatch AI</span>
+                <span className="brand-name">EcoMatch</span>
                 <span className="brand-tagline">Industrial Symbiosis</span>
               </div>
             </div>
@@ -136,7 +136,7 @@ export const SignInPage = ({ setCurrentPage, triggerToast }) => {
                 />
                 Remember Me
               </label>
-              <a href="#forgot" className="forgot-password" onClick={(e) => { e.preventDefault(); triggerToast('Password reset link sent to your email.'); }}>
+              <a href="#forgot" className="forgot-password" onClick={(e) => { e.preventDefault(); setCurrentPage('forgotPassword'); }}>
                 Forgot Password?
               </a>
             </div>

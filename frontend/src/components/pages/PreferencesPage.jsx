@@ -1,15 +1,45 @@
 import React, { useState } from 'react';
-import { Globe, ChevronDown, Bell, Check } from 'lucide-react';
-import { 
-  SignInLogo, GeneratorIcon, UpcyclerIcon, CoffeeIcon, TextilesIcon, 
-  WoodIcon, PlasticsIcon, MetalsIcon, GrainIcon 
+import {
+  Globe, ChevronDown, Bell, Check, Building2, MapPin, Ruler,
+  BadgeCheck, UploadCloud, Users, Factory, Boxes, Gauge
+} from 'lucide-react';
+import {
+  SignInLogo, GeneratorIcon, UpcyclerIcon, CoffeeIcon, TextilesIcon,
+  WoodIcon, PlasticsIcon, MetalsIcon, GrainIcon
 } from '../common/Icons';
+import Footer from '../common/Footer';
 import avatarImg from '../../assets/avatar.png';
 
 export const PreferencesPage = ({ setCurrentPage, triggerToast }) => {
+  const [activeStep, setActiveStep] = useState('business'); // 'business' | 'materials'
+
   const [selectedBusinessTypes, setSelectedBusinessTypes] = useState({
     generator: true,
     upcycler: true
+  });
+
+  const [businessDetails, setBusinessDetails] = useState({
+    industry: '',
+    companySize: '',
+    address: '',
+    city: '',
+    serviceRadius: '25km',
+    gstNumber: '',
+    docName: ''
+  });
+
+  const [generatorInfo, setGeneratorInfo] = useState({
+    byproducts: '',
+    volume: '',
+    frequency: 'Weekly'
+  });
+
+  const [upcyclerInfo, setUpcyclerInfo] = useState({
+    feedstock: '',
+    purity: '',
+    minVolume: '',
+    maxVolume: '',
+    maxDistance: '50km'
   });
 
   const [materials, setMaterials] = useState([
@@ -21,18 +51,17 @@ export const PreferencesPage = ({ setCurrentPage, triggerToast }) => {
     { id: 'grain', name: 'Brewery Grain', icon: <GrainIcon />, selection: 'secondary' },
   ]);
 
-  const [transportCapabilities, setTransportCapabilities] = useState({
-    local: false,
-    freight: false,
-    courier: false
-  });
+  const isGenerator = selectedBusinessTypes.generator;
+  const isUpcycler = selectedBusinessTypes.upcycler;
+  const roleLabel = isGenerator && isUpcycler ? 'Both' : isGenerator ? 'Generator' : isUpcycler ? 'Upcycler' : 'None';
 
   const toggleBusinessType = (type) => {
-    setSelectedBusinessTypes(prev => ({
-      ...prev,
-      [type]: !prev[type]
-    }));
+    setSelectedBusinessTypes(prev => ({ ...prev, [type]: !prev[type] }));
   };
+
+  const updateBusiness = (key, value) => setBusinessDetails(prev => ({ ...prev, [key]: value }));
+  const updateGenerator = (key, value) => setGeneratorInfo(prev => ({ ...prev, [key]: value }));
+  const updateUpcycler = (key, value) => setUpcyclerInfo(prev => ({ ...prev, [key]: value }));
 
   const handleMaterialCardClick = (id) => {
     setMaterials(prev => prev.map(m => {
@@ -55,16 +84,43 @@ export const PreferencesPage = ({ setCurrentPage, triggerToast }) => {
     }));
   };
 
-  const toggleTransportCapability = (key) => {
-    setTransportCapabilities(prev => ({
-      ...prev,
-      [key]: !prev[key]
-    }));
+  const handleDocUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      updateBusiness('docName', file.name);
+      triggerToast(`Document "${file.name}" attached.`);
+    }
+  };
+
+  const validateBusinessStep = () => {
+    if (!isGenerator && !isUpcycler) {
+      triggerToast('Please select at least one business type.', 'error');
+      return false;
+    }
+    if (!businessDetails.industry) {
+      triggerToast('Please select your industry / category.', 'error');
+      return false;
+    }
+    if (!businessDetails.city.trim()) {
+      triggerToast('Please enter your operating city.', 'error');
+      return false;
+    }
+    return true;
+  };
+
+  const goToMaterials = () => {
+    if (validateBusinessStep()) {
+      setActiveStep('materials');
+    }
   };
 
   const handleSavePreferences = () => {
+    if (!validateBusinessStep()) {
+      setActiveStep('business');
+      return;
+    }
     const activeMaterials = materials.filter(m => m.selection !== 'none');
-    triggerToast(`Profile settings saved successfully! ${activeMaterials.length} material interests selected.`);
+    triggerToast(`Profile saved as ${roleLabel}! ${activeMaterials.length} material interests selected.`);
     setTimeout(() => {
       setCurrentPage('listingsDetails');
     }, 1500);
@@ -76,7 +132,7 @@ export const PreferencesPage = ({ setCurrentPage, triggerToast }) => {
       <header className="navbar">
         <div className="navbar-brand">
           <SignInLogo size={34} color="#15803D" />
-          <span className="navbar-brand-name">EcoMatch AI</span>
+          <span className="navbar-brand-name">EcoMatch</span>
         </div>
 
         <div className="navbar-actions">
@@ -102,44 +158,54 @@ export const PreferencesPage = ({ setCurrentPage, triggerToast }) => {
         <h1 className="pref-title">Complete Your Business Profile.</h1>
 
         <div className="pref-card">
-          {/* Steps Progress Tracker */}
+          {/* Steps Progress Tracker (clickable tabs) */}
           <div className="steps-container">
             <ul className="steps-list">
-              <li className="step-item completed">
-                <span className="step-icon-check">
-                  <Check size={14} strokeWidth={3} />
-                </span>
-                Business Info
+              <li>
+                <button
+                  type="button"
+                  className={`step-item ${activeStep === 'business' ? 'active' : 'completed'}`}
+                  onClick={() => setActiveStep('business')}
+                >
+                  {activeStep !== 'business' && (
+                    <span className="step-icon-check">
+                      <Check size={14} strokeWidth={3} />
+                    </span>
+                  )}
+                  1. Business Info
+                </button>
               </li>
-              
+
               <li className="step-arrow">→</li>
-              
-              <li className="step-item active">
-                2. Material Preferences
-              </li>
-              
-              <li className="step-arrow">→</li>
-              
-              <li className="step-item">
-                3. Logistics
+
+              <li>
+                <button
+                  type="button"
+                  className={`step-item ${activeStep === 'materials' ? 'active' : ''}`}
+                  onClick={goToMaterials}
+                >
+                  2. Material Preferences
+                </button>
               </li>
             </ul>
 
             {/* Progress bar line */}
             <div className="progress-bar-segmented">
               <div className="progress-segment green"></div>
-              <div className="progress-segment purple"></div>
-              <div className="progress-segment gray"></div>
+              <div className={`progress-segment ${activeStep === 'materials' ? 'purple' : 'gray'}`}></div>
             </div>
           </div>
 
+          {activeStep === 'business' && (
+          <>
           {/* Question 1: What best describes your business? */}
           <section className="pref-section">
             <h2 className="pref-section-title">What best describes your business?</h2>
+            <p className="pref-section-hint">Select one or both — choosing both registers you as a <strong>Both</strong> account.</p>
             <div className="business-type-grid">
-              
+
               {/* Generator Card */}
-              <div 
+              <div
                 className={`business-card ${selectedBusinessTypes.generator ? 'selected' : ''}`}
                 onClick={() => toggleBusinessType('generator')}
               >
@@ -158,7 +224,7 @@ export const PreferencesPage = ({ setCurrentPage, triggerToast }) => {
               </div>
 
               {/* Upcycler Card */}
-              <div 
+              <div
                 className={`business-card ${selectedBusinessTypes.upcycler ? 'selected' : ''}`}
                 onClick={() => toggleBusinessType('upcycler')}
               >
@@ -179,12 +245,130 @@ export const PreferencesPage = ({ setCurrentPage, triggerToast }) => {
             </div>
           </section>
 
-          {/* Question 2: Select Primary Material Interests */}
+          {/* Question 2: Business Details */}
+          <section className="pref-section">
+            <h2 className="pref-section-title">Business Details</h2>
+            <div className="pref-form-grid">
+
+              <div className="pref-field">
+                <label className="pref-field-label"><Factory size={15} /> Industry / Category</label>
+                <select
+                  className="pref-select"
+                  value={businessDetails.industry}
+                  onChange={(e) => updateBusiness('industry', e.target.value)}
+                >
+                  <option value="">Select industry...</option>
+                  <option value="cafe">Cafe / Coffee Shop</option>
+                  <option value="brewery">Brewery / Distillery</option>
+                  <option value="textile">Textile / Apparel</option>
+                  <option value="carpentry">Carpentry / Furniture</option>
+                  <option value="food">Food Processing</option>
+                  <option value="packaging">Packaging / Paper</option>
+                  <option value="manufacturing">General Manufacturing</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div className="pref-field">
+                <label className="pref-field-label"><Users size={15} /> Company Size / Scale</label>
+                <select
+                  className="pref-select"
+                  value={businessDetails.companySize}
+                  onChange={(e) => updateBusiness('companySize', e.target.value)}
+                >
+                  <option value="">Select size...</option>
+                  <option value="micro">Micro (1–10 employees)</option>
+                  <option value="small">Small (11–50)</option>
+                  <option value="medium">Medium (51–250)</option>
+                  <option value="large">Large (250+)</option>
+                </select>
+              </div>
+
+              <div className="pref-field pref-field-full">
+                <label className="pref-field-label"><MapPin size={15} /> Business Address</label>
+                <div className="pref-input-with-action">
+                  <input
+                    type="text"
+                    className="pref-input"
+                    placeholder="Street, area, building..."
+                    value={businessDetails.address}
+                    onChange={(e) => updateBusiness('address', e.target.value)}
+                  />
+                  <button type="button" className="pref-map-btn" onClick={() => triggerToast('Drop a pin on the map to set your exact location.')}>
+                    <MapPin size={15} />
+                    Pin on map
+                  </button>
+                </div>
+                <span className="pref-field-help">Used for distance-based matching with nearby partners.</span>
+              </div>
+
+              <div className="pref-field">
+                <label className="pref-field-label"><Building2 size={15} /> Operating City</label>
+                <input
+                  type="text"
+                  className="pref-input"
+                  placeholder="e.g. Pune"
+                  value={businessDetails.city}
+                  onChange={(e) => updateBusiness('city', e.target.value)}
+                />
+              </div>
+
+              <div className="pref-field">
+                <label className="pref-field-label"><Ruler size={15} /> Service Radius</label>
+                <select
+                  className="pref-select"
+                  value={businessDetails.serviceRadius}
+                  onChange={(e) => updateBusiness('serviceRadius', e.target.value)}
+                >
+                  <option value="10km">Within 10 km</option>
+                  <option value="25km">Within 25 km</option>
+                  <option value="50km">Within 50 km</option>
+                  <option value="100km">Within 100 km</option>
+                  <option value="100km+">100 km+</option>
+                </select>
+              </div>
+
+            </div>
+          </section>
+
+          {/* Question 3: Verification (KYB-lite) */}
+          <section className="pref-section">
+            <h2 className="pref-section-title">Verification <span className="pref-optional-tag">builds trust</span></h2>
+            <div className="pref-form-grid">
+
+              <div className="pref-field">
+                <label className="pref-field-label"><BadgeCheck size={15} /> GST / Business Registration No.</label>
+                <input
+                  type="text"
+                  className="pref-input"
+                  placeholder="e.g. 27ABCDE1234F1Z5"
+                  value={businessDetails.gstNumber}
+                  onChange={(e) => updateBusiness('gstNumber', e.target.value)}
+                />
+              </div>
+
+              <div className="pref-field">
+                <label className="pref-field-label">Supporting Documents <span className="pref-optional-tag">optional</span></label>
+                <label className="pref-upload-box">
+                  <UploadCloud size={18} />
+                  <span>{businessDetails.docName || 'Upload registration / license'}</span>
+                  <input type="file" className="pref-file-input" onChange={handleDocUpload} />
+                </label>
+              </div>
+
+            </div>
+          </section>
+          </>
+          )}
+
+          {activeStep === 'materials' && (
+          <>
+          {/* Question 4: Select Primary Material Interests */}
           <section className="pref-section">
             <h2 className="pref-section-title">Select Primary Material Interests</h2>
             <div className="materials-grid">
               {materials.map((m) => (
-                <div 
+                <div
                   key={m.id}
                   className={`material-card ${m.selection === 'primary' ? 'primary' : ''}`}
                   onClick={() => handleMaterialCardClick(m.id)}
@@ -198,7 +382,7 @@ export const PreferencesPage = ({ setCurrentPage, triggerToast }) => {
                   </div>
 
                   {/* Custom Toggle Switch */}
-                  <div 
+                  <div
                     className={`toggle-switch ${m.selection !== 'none' ? 'on' : 'off'}`}
                     onClick={(e) => handleMaterialToggleClick(e, m.id)}
                     title="Toggle to enable/disable material"
@@ -210,56 +394,141 @@ export const PreferencesPage = ({ setCurrentPage, triggerToast }) => {
             </div>
           </section>
 
-          {/* Question 3: Key transport capabilities? */}
-          <section className="pref-section">
-            <h2 className="pref-section-title">Key transport capabilities?</h2>
-            <div className="transport-grid">
-              
-              {/* Local Pickup */}
-              <div 
-                className={`transport-card ${transportCapabilities.local ? 'selected' : ''}`}
-                onClick={() => toggleTransportCapability('local')}
-              >
-                <div className="checkbox-icon">
-                  {transportCapabilities.local && <Check size={12} strokeWidth={3} />}
+          {/* Generator-only: byproducts generated */}
+          {isGenerator && (
+            <section className="pref-section">
+              <h2 className="pref-section-title">
+                <span className="pref-role-pill generator"><Boxes size={13} /> Generator</span>
+                What byproducts do you generate?
+              </h2>
+              <div className="pref-form-grid">
+                <div className="pref-field pref-field-full">
+                  <label className="pref-field-label">Byproducts / Waste Streams</label>
+                  <input
+                    type="text"
+                    className="pref-input"
+                    placeholder="e.g. Spent coffee grounds, fabric offcuts..."
+                    value={generatorInfo.byproducts}
+                    onChange={(e) => updateGenerator('byproducts', e.target.value)}
+                  />
                 </div>
-                Local Pickup
-              </div>
 
-              {/* Freight Delivery */}
-              <div 
-                className={`transport-card ${transportCapabilities.freight ? 'selected' : ''}`}
-                onClick={() => toggleTransportCapability('freight')}
-              >
-                <div className="checkbox-icon">
-                  {transportCapabilities.freight && <Check size={12} strokeWidth={3} />}
+                <div className="pref-field">
+                  <label className="pref-field-label">Typical Volume</label>
+                  <input
+                    type="text"
+                    className="pref-input"
+                    placeholder="e.g. 120 kg"
+                    value={generatorInfo.volume}
+                    onChange={(e) => updateGenerator('volume', e.target.value)}
+                  />
                 </div>
-                Freight Delivery
-              </div>
 
-              {/* Courier Services */}
-              <div 
-                className={`transport-card ${transportCapabilities.courier ? 'selected' : ''}`}
-                onClick={() => toggleTransportCapability('courier')}
-              >
-                <div className="checkbox-icon">
-                  {transportCapabilities.courier && <Check size={12} strokeWidth={3} />}
+                <div className="pref-field">
+                  <label className="pref-field-label">Frequency</label>
+                  <select
+                    className="pref-select"
+                    value={generatorInfo.frequency}
+                    onChange={(e) => updateGenerator('frequency', e.target.value)}
+                  >
+                    <option value="One-time">One-time</option>
+                    <option value="Daily">Daily</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Monthly">Monthly</option>
+                  </select>
                 </div>
-                Courier Services
               </div>
+            </section>
+          )}
 
-            </div>
-          </section>
+          {/* Upcycler-only: feedstock needed */}
+          {isUpcycler && (
+            <section className="pref-section">
+              <h2 className="pref-section-title">
+                <span className="pref-role-pill upcycler"><Gauge size={13} /> Upcycler</span>
+                What feedstock do you need?
+              </h2>
+              <div className="pref-form-grid">
+                <div className="pref-field pref-field-full">
+                  <label className="pref-field-label">Required Feedstock</label>
+                  <input
+                    type="text"
+                    className="pref-input"
+                    placeholder="e.g. Clean cotton fabric scraps..."
+                    value={upcyclerInfo.feedstock}
+                    onChange={(e) => updateUpcycler('feedstock', e.target.value)}
+                  />
+                </div>
+
+                <div className="pref-field">
+                  <label className="pref-field-label">Required Purity / Grade</label>
+                  <input
+                    type="text"
+                    className="pref-input"
+                    placeholder="e.g. 90%+ / Grade A"
+                    value={upcyclerInfo.purity}
+                    onChange={(e) => updateUpcycler('purity', e.target.value)}
+                  />
+                </div>
+
+                <div className="pref-field">
+                  <label className="pref-field-label">Max Sourcing Distance</label>
+                  <select
+                    className="pref-select"
+                    value={upcyclerInfo.maxDistance}
+                    onChange={(e) => updateUpcycler('maxDistance', e.target.value)}
+                  >
+                    <option value="25km">Within 25 km</option>
+                    <option value="50km">Within 50 km</option>
+                    <option value="100km">Within 100 km</option>
+                    <option value="100km+">100 km+</option>
+                  </select>
+                </div>
+
+                <div className="pref-field">
+                  <label className="pref-field-label">Min Volume</label>
+                  <input
+                    type="text"
+                    className="pref-input"
+                    placeholder="e.g. 50 kg/week"
+                    value={upcyclerInfo.minVolume}
+                    onChange={(e) => updateUpcycler('minVolume', e.target.value)}
+                  />
+                </div>
+
+                <div className="pref-field">
+                  <label className="pref-field-label">Max Volume</label>
+                  <input
+                    type="text"
+                    className="pref-input"
+                    placeholder="e.g. 500 kg/week"
+                    value={upcyclerInfo.maxVolume}
+                    onChange={(e) => updateUpcycler('maxVolume', e.target.value)}
+                  />
+                </div>
+              </div>
+            </section>
+          )}
+          </>
+          )}
 
           {/* Action Button */}
           <div className="action-container">
-            <button className="btn-save" onClick={handleSavePreferences}>
-              Save & Continue
-            </button>
+            {activeStep === 'business' ? (
+              <button className="btn-save" onClick={goToMaterials}>
+                Continue to Materials →
+              </button>
+            ) : (
+              <button className="btn-save" onClick={handleSavePreferences}>
+                Save & Continue
+              </button>
+            )}
           </div>
 
         </div>
       </main>
+
+      <Footer triggerToast={triggerToast} />
     </div>
   );
 };

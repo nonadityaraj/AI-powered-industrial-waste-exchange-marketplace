@@ -1,16 +1,45 @@
-import React from 'react';
-import { Search, Globe, ChevronDown, Bell } from 'lucide-react';
+import React, { useState } from 'react';
+import {
+  Search, Globe, ChevronDown, Bell, User, Settings, Bookmark,
+  LifeBuoy, MessageSquarePlus, LogOut
+} from 'lucide-react';
 import avatarImg from '../../assets/avatar.png';
 
-export const Topnav = ({ triggerToast }) => {
+export const Topnav = ({ triggerToast, setCurrentPage }) => {
+  const [profileOpen, setProfileOpen] = useState(false);
+
+  const closeMenu = () => setProfileOpen(false);
+
+  const handleItem = (label) => {
+    closeMenu();
+    triggerToast(label);
+  };
+
+  const handleSignOut = () => {
+    closeMenu();
+    triggerToast('Signing out...');
+    if (setCurrentPage) {
+      setTimeout(() => setCurrentPage('signin'), 800);
+    }
+  };
+
+  const goTo = (page, fallbackMsg) => {
+    closeMenu();
+    if (setCurrentPage) {
+      setCurrentPage(page);
+    } else {
+      triggerToast(fallbackMsg);
+    }
+  };
+
   return (
     <header className="inbox-topnav">
       <div className="inbox-search-container">
         <Search size={18} className="inbox-search-icon" />
-        <input 
-          type="text" 
-          className="inbox-search-input" 
-          placeholder="Search materials, industries, or locations..." 
+        <input
+          type="text"
+          className="inbox-search-input"
+          placeholder="Search materials, industries, or locations..."
           onClick={() => triggerToast('Search active')}
         />
       </div>
@@ -22,13 +51,71 @@ export const Topnav = ({ triggerToast }) => {
           <ChevronDown size={12} />
         </button>
 
-        <button className="inbox-topnav-btn" aria-label="Notifications" onClick={() => triggerToast('Notifications open')}>
+        <button
+          className="inbox-topnav-btn"
+          aria-label="Notifications"
+          onClick={() => setCurrentPage ? setCurrentPage('notifications') : triggerToast('Notifications open')}
+        >
           <Bell size={18} />
         </button>
 
-        <div className="inbox-user-profile" onClick={() => triggerToast('Switch account menu')}>
-          <img src={avatarImg} alt="User headshot" className="inbox-user-avatar" />
-          <ChevronDown size={12} style={{ color: '#4B5563' }} />
+        <div className="topnav-profile-wrapper">
+          <div
+            className="inbox-user-profile"
+            onClick={() => setProfileOpen((v) => !v)}
+            role="button"
+            aria-haspopup="menu"
+            aria-expanded={profileOpen}
+          >
+            <img src={avatarImg} alt="User headshot" className="inbox-user-avatar" />
+            <ChevronDown
+              size={12}
+              style={{ color: '#4B5563', transform: profileOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}
+            />
+          </div>
+
+          {profileOpen && (
+            <>
+              <div className="profile-dropdown-backdrop" onClick={closeMenu} />
+              <div className="profile-dropdown" role="menu">
+                <div className="profile-dropdown-header">
+                  <img src={avatarImg} alt="User headshot" className="profile-dropdown-avatar" />
+                  <div>
+                    <div className="profile-dropdown-name">GreenBrew Co.</div>
+                    <div className="profile-dropdown-email">Business Account</div>
+                  </div>
+                </div>
+
+                <button className="profile-dropdown-item" role="menuitem" onClick={() => goTo('profile', 'Opening your profile...')}>
+                  <User size={16} />
+                  My Profile
+                </button>
+                <button className="profile-dropdown-item" role="menuitem" onClick={() => goTo('preferences', 'Account settings')}>
+                  <Settings size={16} />
+                  Account Settings
+                </button>
+                <button className="profile-dropdown-item" role="menuitem" onClick={() => goTo('listingsDetails', 'Saved listings')}>
+                  <Bookmark size={16} />
+                  Saved Listings
+                </button>
+                <button className="profile-dropdown-item" role="menuitem" onClick={() => handleItem('Opening Help & Support...')}>
+                  <LifeBuoy size={16} />
+                  Help & Support
+                </button>
+                <button className="profile-dropdown-item" role="menuitem" onClick={() => handleItem('Share your feedback with us!')}>
+                  <MessageSquarePlus size={16} />
+                  Send Feedback
+                </button>
+
+                <div className="profile-dropdown-divider" />
+
+                <button className="profile-dropdown-item danger" role="menuitem" onClick={handleSignOut}>
+                  <LogOut size={16} />
+                  Sign Out
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </header>

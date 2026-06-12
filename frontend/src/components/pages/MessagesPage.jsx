@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { ArrowLeftRight, MoreVertical, Send, Smile, Leaf } from 'lucide-react';
+import { ArrowLeftRight, MoreVertical, Send, Smile, Leaf, Search, X } from 'lucide-react';
 import Sidebar from '../common/Sidebar';
 import Topnav from '../common/Topnav';
+import Footer from '../common/Footer';
 import { PackagingIcon } from '../common/Icons';
 
 import avatarImg from '../../assets/avatar.png';
 
 export const MessagesPage = ({ currentPage, setCurrentPage, triggerToast }) => {
   const [typedMessage, setTypedMessage] = useState('');
+  const [contactSearch, setContactSearch] = useState('');
   const [activeConvId, setActiveConvId] = useState('biopack_1');
   const [chatHistories, setChatHistories] = useState({
     biopack_1: [
@@ -43,6 +45,15 @@ export const MessagesPage = ({ currentPage, setCurrentPage, triggerToast }) => {
     { id: 'greenbrew_4', name: 'GreenBrew Co.', type: 'left-arrow', time: 'Message', snippet: 'Hey BioPack, confirmed to no...', avatarType: 'user' },
     { id: 'greenbrew_5', name: 'GreenBrew Co.', type: 'left-arrow', time: 'Mesconn', snippet: 'Yes, 10am at the side entran...', avatarType: 'user' }
   ];
+
+  const normalizedSearch = contactSearch.trim().toLowerCase();
+  const filteredConversations = normalizedSearch
+    ? conversationItems.filter(
+        (item) =>
+          item.name.toLowerCase().includes(normalizedSearch) ||
+          item.snippet.toLowerCase().includes(normalizedSearch)
+      )
+    : conversationItems;
 
   const handleSendMessage = (e) => {
     e.preventDefault();
@@ -86,7 +97,7 @@ export const MessagesPage = ({ currentPage, setCurrentPage, triggerToast }) => {
     <div className="inbox-page-wrapper">
       <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} triggerToast={triggerToast} />
       <main className="inbox-main-content">
-        <Topnav triggerToast={triggerToast} />
+        <Topnav triggerToast={triggerToast} setCurrentPage={setCurrentPage} />
         <div className="inbox-view-container">
           <h1 className="inbox-view-title">Inbox</h1>
 
@@ -94,8 +105,32 @@ export const MessagesPage = ({ currentPage, setCurrentPage, triggerToast }) => {
             {/* Column 1: Conversations List */}
             <div className="conversations-col">
               <div className="conversations-header">CONVERSATIONS</div>
+
+              <div className="conv-search-wrapper">
+                <Search size={16} className="conv-search-icon" />
+                <input
+                  type="text"
+                  className="conv-search-input"
+                  placeholder="Search contacts..."
+                  value={contactSearch}
+                  onChange={(e) => setContactSearch(e.target.value)}
+                />
+                {contactSearch && (
+                  <button
+                    type="button"
+                    className="conv-search-clear"
+                    aria-label="Clear search"
+                    onClick={() => setContactSearch('')}
+                  >
+                    <X size={14} />
+                  </button>
+                )}
+              </div>
+
               <ul className="conversations-list">
-                {conversationItems.map((item) => (
+                {filteredConversations.length === 0 ? (
+                  <li className="conv-empty">No contacts found for "{contactSearch}"</li>
+                ) : filteredConversations.map((item) => (
                   <li key={item.id}>
                     <button 
                       className={`conversation-item-btn ${activeConvId === item.id ? 'active' : ''}`}
@@ -155,10 +190,6 @@ export const MessagesPage = ({ currentPage, setCurrentPage, triggerToast }) => {
                 </button>
               </div>
 
-              {/* Deal Status Bar */}
-              <div className="chat-status-bar">
-                Deal Status: Matching finalized (95%)
-              </div>
 
               {/* Scrollable Messages Panel */}
               <div className="chat-messages-container">
@@ -206,6 +237,7 @@ export const MessagesPage = ({ currentPage, setCurrentPage, triggerToast }) => {
 
           </div>
         </div>
+        <Footer variant="compact" triggerToast={triggerToast} />
       </main>
     </div>
   );

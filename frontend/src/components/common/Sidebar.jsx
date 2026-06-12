@@ -44,13 +44,17 @@ export const Sidebar = ({ currentPage, setCurrentPage, triggerToast }) => {
           <SignInLogo size={32} color="#4ADE80" />
         </div>
         <div className="inbox-brand-text">
-          <span className="inbox-brand-name">EcoMatch AI</span>
+          <span className="inbox-brand-name">EcoMatch</span>
           <span className="inbox-brand-tagline">Industrial Symbiosis</span>
         </div>
       </div>
 
       <nav ref={navRef} className={`inbox-sidebar-nav ${isScrolling ? 'scrolling' : ''}`}>
-        <a href="#dashboard" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Dashboard...'); }}>
+        <a
+          href="#dashboard"
+          className={`inbox-nav-item ${currentPage === 'dashboard' ? 'active' : ''}`}
+          onClick={(e) => { e.preventDefault(); setCurrentPage('dashboard'); }}
+        >
           <div className="inbox-nav-item-left">
             <LayoutDashboard className="inbox-nav-icon" />
             Dashboard
@@ -136,7 +140,11 @@ export const Sidebar = ({ currentPage, setCurrentPage, triggerToast }) => {
           <ChevronDown size={14} style={{ transform: currentPage === 'messages' ? 'rotate(180deg)' : 'none', color: '#FFFFFF' }} />
         </a>
 
-        <a href="#notifications" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Notifications...'); }}>
+        <a
+          href="#notifications"
+          className={`inbox-nav-item ${currentPage === 'notifications' ? 'active' : ''}`}
+          onClick={(e) => { e.preventDefault(); setCurrentPage('notifications'); }}
+        >
           <div className="inbox-nav-item-left">
             <Bell className="inbox-nav-icon" />
             Notifications
@@ -151,7 +159,12 @@ export const Sidebar = ({ currentPage, setCurrentPage, triggerToast }) => {
         </a>
       </nav>
 
-      <div className="inbox-sidebar-profile">
+      <div
+        className="inbox-sidebar-profile"
+        style={{ cursor: 'pointer' }}
+        onClick={() => setCurrentPage('profile')}
+        title="View company profile"
+      >
         <div className="inbox-profile-left">
           <div className="inbox-profile-pic-container">
             <img src={avatarImg} alt="User Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -161,7 +174,7 @@ export const Sidebar = ({ currentPage, setCurrentPage, triggerToast }) => {
             <span className="inbox-profile-role">Business Account</span>
           </div>
         </div>
-        <ChevronDown size={14} style={{ color: '#86B3A9', cursor: 'pointer' }} onClick={() => triggerToast('Business Profile Options')} />
+        <ChevronDown size={14} style={{ color: '#86B3A9' }} />
       </div>
     </aside>
   );

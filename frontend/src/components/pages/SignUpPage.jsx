@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff, Leaf, Recycle, User } from 'lucide-react';
-import { 
+import {
   BackgroundWaves, SignInLogo, DotGrid, FactoryIllustration, GoogleIcon,
-  LinkedInIcon, WindTurbineIllustration 
+  LinkedInIcon, WindTurbineIllustration
 } from '../common/Icons';
 
 export const SignUpPage = ({ setCurrentPage, triggerToast }) => {
@@ -45,7 +45,7 @@ export const SignUpPage = ({ setCurrentPage, triggerToast }) => {
     setSignUpLoading(true);
     setTimeout(() => {
       setSignUpLoading(false);
-      triggerToast(`Account created successfully! Welcome to EcoMatch AI.`);
+      triggerToast(`Account created successfully! Welcome to EcoMatch.`);
       setTimeout(() => {
         setCurrentPage('preferences');
       }, 1500);
@@ -61,7 +61,7 @@ export const SignUpPage = ({ setCurrentPage, triggerToast }) => {
         <header className="brand-header">
           <SignInLogo size={42} />
           <div className="brand-text-container">
-            <span className="brand-name">EcoMatch AI</span>
+            <span className="brand-name">EcoMatch</span>
             <span className="brand-tagline">Industrial Symbiosis</span>
           </div>
         </header>
@@ -88,14 +88,14 @@ export const SignUpPage = ({ setCurrentPage, triggerToast }) => {
             <div className="brand-header">
               <SignInLogo size={46} color="#15803D" />
               <div className="brand-text-container" style={{ textAlign: 'left' }}>
-                <span className="brand-name">EcoMatch AI</span>
+                <span className="brand-name">EcoMatch</span>
                 <span className="brand-tagline">Industrial Symbiosis</span>
               </div>
             </div>
             <div className="card-header-titles">
               <h1 className="card-title">Create Account</h1>
               <p className="card-subtitle">
-                Join EcoMatch AI to start trading industrial waste.
+                Join EcoMatch to start trading industrial waste.
               </p>
             </div>
           </div>
