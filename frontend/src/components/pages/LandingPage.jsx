@@ -213,7 +213,7 @@ export const LandingPage = ({ setCurrentPage, triggerToast }) => {
           </div>
         </div>
 
-        <Footer triggerToast={triggerToast} />
+        <Footer triggerToast={triggerToast} setCurrentPage={setCurrentPage} />
       </div>
 
       {/* ============================================================================
@@ -384,7 +384,7 @@ export const LandingPage = ({ setCurrentPage, triggerToast }) => {
           </div>
         </div>
 
-        <Footer triggerToast={triggerToast} />
+        <Footer triggerToast={triggerToast} setCurrentPage={setCurrentPage} />
 
         {/* Sticky bottom button */}
         <div className="mobile-sticky-footer">

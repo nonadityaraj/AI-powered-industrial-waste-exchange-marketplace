@@ -196,6 +196,12 @@ export default function App() {
         >
           Forgot Password
         </button>
+        <button
+          className={`btn-switch-page ${currentPage === 'about' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('about')}
+        >
+          About Us
+        </button>
       </div>
     </>
   );

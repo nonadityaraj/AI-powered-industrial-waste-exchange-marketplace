@@ -1,14 +1,18 @@
 import React from 'react';
-import { Globe, ChevronDown, Bell, Leaf, Eye, Workflow, ArrowLeftRight, LineChart, Recycle, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
+import { 
+  Globe, ChevronDown, Bell, Leaf, BookOpen, Target, Brain, 
+  ShieldCheck, Users, Factory, Truck, Building2, Cloud, Handshake, Recycle, Bookmark
+} from 'lucide-react';
 import { SignInLogo } from '../common/Icons';
-import aboutUsHero from '../../assets/about_us_hero.png';
+import Footer from '../common/Footer';
+import circularEconomy3dImg from '../../assets/circular_economy_3d.png';
 
 export const AboutUs = ({ setCurrentPage, triggerToast }) => {
   return (
-    <div className="landing-page-wrapper min-h-screen bg-slate-50 text-slate-800">
+    <div className="landing-page-wrapper min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
       
       {/* ============================================================================
-         NAVBAR (Aligned with landing navbar design)
+         NAVBAR
          ============================================================================ */}
       <header className="landing-navbar">
         <div 
@@ -16,7 +20,7 @@ export const AboutUs = ({ setCurrentPage, triggerToast }) => {
           onClick={() => setCurrentPage('listsource')}
         >
           <SignInLogo size={34} color="#15803D" />
-          <span className="landing-brand-name">EcoMatch AI</span>
+          <span className="landing-brand-name">EcoMatch</span>
         </div>
 
         <div className="landing-navbar-actions">
@@ -39,243 +43,222 @@ export const AboutUs = ({ setCurrentPage, triggerToast }) => {
       {/* ============================================================================
          MAIN CONTENT AREA
          ============================================================================ */}
-      <main className="w-full max-w-[1200px] self-center px-6 py-16 flex-grow flex flex-col gap-20">
+      <main className="w-full max-w-[1200px] self-center px-6 py-12 flex-grow flex flex-col gap-12 animate-[fadeIn_0.5s_ease-out]">
         
-        {/* HERO SECTION */}
-        <section className="flex flex-col-reverse md:flex-row items-center justify-between gap-10">
-          <div className="flex-1 flex flex-col gap-6 text-center md:text-left items-center md:items-start">
-            <h1 className="text-5xl sm:text-6xl font-black text-[#064E3B] tracking-tight leading-tight w-full">
-              About Us
+        {/* Intro/Hero Section */}
+        <section className="flex flex-col lg:flex-row items-center justify-between gap-12 mt-4">
+          <div className="flex-1 flex flex-col items-start gap-4">
+            {/* Tag */}
+            <div className="flex items-center gap-2 text-emerald-600 text-sm font-bold tracking-wider uppercase">
+              <Bookmark size={16} className="fill-emerald-600" />
+              ABOUT US
+            </div>
+            
+            {/* Title */}
+            <h1 className="text-4xl sm:text-5xl font-extrabold text-[#064E3B] tracking-tight leading-tight">
+              About EcoMatch AI
             </h1>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#059669] w-full">
-              Connecting Industries. Creating Impact.
-            </h2>
-            <p className="text-base sm:text-lg text-slate-700 font-medium leading-relaxed max-w-[580px]">
-              EcoMatch AI is an industrial symbiosis platform that connects businesses to exchange waste materials, by-products, and resources—turning waste into value and promoting a circular economy.
+            
+            {/* Paragraph */}
+            <p className="text-slate-600 text-base sm:text-lg leading-relaxed max-w-[620px]">
+              EcoMatch AI is on a mission to build a world where industrial waste becomes opportunity. Our AI-powered platform connects industries to enable circular economy practices that reduce emissions, cut costs, and create shared value.
             </p>
           </div>
           
-          <div className="flex-shrink-0 flex items-center justify-center">
+          {/* 3D Illustration */}
+          <div className="flex-shrink-0 relative w-72 h-72 sm:w-80 sm:h-80 lg:w-[350px] lg:h-[350px] xl:w-[400px] xl:h-[400px] flex items-center justify-center rounded-3xl overflow-hidden shadow-[0_15px_30px_rgba(6,78,59,0.04)] border border-slate-200/80 bg-white">
             <img 
-              src={aboutUsHero} 
-              alt="EcoMatch AI Symbiosis Illustration" 
-              className="w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] md:w-[350px] md:h-[350px] object-cover rounded-[32px] shadow-2xl border-4 border-white transform hover:scale-103 transition-transform duration-500"
+              src={circularEconomy3dImg} 
+              alt="Circular Economy 3D Illustration" 
+              className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" 
             />
           </div>
         </section>
 
-        {/* MISSION & VISION */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full justify-center">
-          {/* Mission Card */}
-          <div className="bg-white rounded-[28px] p-10 border border-slate-200 shadow-sm flex flex-col gap-6 items-center text-center min-h-[280px] max-w-[460px] w-full mx-auto transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
-            <div className="w-16 h-16 rounded-full bg-[#ECFDF5] border border-[#DCFCE7] text-[#059669] flex items-center justify-center flex-shrink-0">
-              <Leaf size={28} />
-            </div>
-            <div className="flex flex-col gap-3 items-center">
-              <h3 className="text-xl font-bold text-[#064E3B]">Our Mission</h3>
-              <p className="text-[15px] text-slate-600 leading-relaxed">
-                To build a sustainable future by enabling industries to collaborate, share resources, and reduce environmental impact through smart matching and data-driven insights.
-              </p>
-            </div>
-          </div>
-
-          {/* Vision Card */}
-          <div className="bg-white rounded-[28px] p-10 border border-slate-200 shadow-sm flex flex-col gap-6 items-center text-center min-h-[280px] max-w-[460px] w-full mx-auto transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
-            <div className="w-16 h-16 rounded-full bg-[#ECFDF5] border border-[#DCFCE7] text-[#059669] flex items-center justify-center flex-shrink-0">
-              <Eye size={28} />
-            </div>
-            <div className="flex flex-col gap-3 items-center">
-              <h3 className="text-xl font-bold text-[#064E3B]">Our Vision</h3>
-              <p className="text-[15px] text-slate-600 leading-relaxed">
-                A world where no resource goes to waste, and every industry plays a part in regenerating our planet.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* WHAT WE DO SECTION */}
-        <section className="flex flex-col gap-10 text-center items-center">
-          <h3 className="text-2xl font-bold text-[#064E3B]">What We Do</h3>
+        {/* Mission & Values Card Container */}
+        <section className="bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] p-8 md:p-10 flex flex-col lg:flex-row gap-8 lg:gap-12 items-stretch">
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full justify-center">
-            {/* Card 1 */}
-            <div className="bg-white rounded-[28px] p-8 border border-slate-200 shadow-sm flex flex-col gap-6 items-center text-center min-h-[300px] max-w-[230px] w-full mx-auto transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
-              <div className="w-14 h-14 rounded-2xl bg-[#ECFDF5] text-[#059669] flex items-center justify-center flex-shrink-0">
-                <Workflow size={26} />
+          {/* Mission Left Section */}
+          <div className="flex-grow lg:w-1/3 flex flex-col justify-center pr-2">
+            <h3 className="text-xl font-extrabold text-slate-900 flex items-center gap-2.5 mb-4">
+              <Target className="text-emerald-600 flex-shrink-0" size={24} />
+              Our Mission
+            </h3>
+            <p className="text-slate-600 text-sm leading-relaxed">
+              To accelerate the transition to a circular economy by intelligently matching industrial by-products with verified demand, unlocking value from waste and building a more sustainable tomorrow.
+            </p>
+          </div>
+          
+          {/* Vertical Separator */}
+          <div className="hidden lg:block w-[1px] bg-slate-200/80 self-stretch my-2"></div>
+          
+          {/* Values Cards Right Grid */}
+          <div className="flex-grow lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {/* Sustainability First */}
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_15px_rgba(0,0,0,0.01)] p-6 flex flex-col items-start gap-4 transition-all duration-300 hover:shadow-md">
+              <div className="w-12 h-12 rounded-full border border-emerald-100 bg-emerald-50/50 text-emerald-600 flex items-center justify-center">
+                <Leaf size={20} />
               </div>
-              <div className="flex flex-col gap-2 items-center">
-                <h4 className="text-lg font-extrabold text-[#064E3B]">Smart Matching</h4>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  AI-powered matching of waste materials with potential upcyclers.
+              <div className="flex flex-col gap-1">
+                <h4 className="text-base font-bold text-slate-950">Sustainability First</h4>
+                <p className="text-slate-500 text-xs leading-relaxed">
+                  Driving measurable environmental impact by reducing waste and carbon emissions.
                 </p>
               </div>
             </div>
 
-            {/* Card 2 */}
-            <div className="bg-white rounded-[28px] p-8 border border-slate-200 shadow-sm flex flex-col gap-6 items-center text-center min-h-[300px] max-w-[230px] w-full mx-auto transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
-              <div className="w-14 h-14 rounded-2xl bg-[#ECFDF5] text-[#059669] flex items-center justify-center flex-shrink-0">
-                <ArrowLeftRight size={26} />
+            {/* AI-Powered Matching */}
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_15px_rgba(0,0,0,0.01)] p-6 flex flex-col items-start gap-4 transition-all duration-300 hover:shadow-md">
+              <div className="w-12 h-12 rounded-full border border-emerald-100 bg-emerald-50/50 text-emerald-600 flex items-center justify-center">
+                <Brain size={20} />
               </div>
-              <div className="flex flex-col gap-2 items-center">
-                <h4 className="text-lg font-extrabold text-[#064E3B]">Resource Exchange</h4>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  Facilitating secure and efficient material exchanges.
+              <div className="flex flex-col gap-1">
+                <h4 className="text-base font-bold text-slate-950">AI-Powered Matching</h4>
+                <p className="text-slate-500 text-xs leading-relaxed">
+                  Using advanced algorithms to find the perfect match between waste and demand.
                 </p>
               </div>
             </div>
 
-            {/* Card 3 */}
-            <div className="bg-white rounded-[28px] p-8 border border-slate-200 shadow-sm flex flex-col gap-6 items-center text-center min-h-[300px] max-w-[230px] w-full mx-auto transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
-              <div className="w-14 h-14 rounded-2xl bg-[#ECFDF5] text-[#059669] flex items-center justify-center flex-shrink-0">
-                <LineChart size={26} />
+            {/* Trust & Transparency */}
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_15px_rgba(0,0,0,0.01)] p-6 flex flex-col items-start gap-4 transition-all duration-300 hover:shadow-md">
+              <div className="w-12 h-12 rounded-full border border-emerald-100 bg-emerald-50/50 text-emerald-600 flex items-center justify-center">
+                <ShieldCheck size={20} />
               </div>
-              <div className="flex flex-col gap-2 items-center">
-                <h4 className="text-lg font-extrabold text-[#064E3B]">Impact Tracking</h4>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  Track environmental impact and ESG contributions.
+              <div className="flex flex-col gap-1">
+                <h4 className="text-base font-bold text-slate-950">Trust & Transparency</h4>
+                <p className="text-slate-500 text-xs leading-relaxed">
+                  Ensuring verified profiles, traceable transactions, and secure partnerships.
                 </p>
               </div>
             </div>
 
-            {/* Card 4 */}
-            <div className="bg-white rounded-[28px] p-8 border border-slate-200 shadow-sm flex flex-col gap-6 items-center text-center min-h-[300px] max-w-[230px] w-full mx-auto transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
-              <div className="w-14 h-14 rounded-2xl bg-[#ECFDF5] text-[#059669] flex items-center justify-center flex-shrink-0">
-                <Recycle size={26} />
+            {/* Collaborative Growth */}
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_15px_rgba(0,0,0,0.01)] p-6 flex flex-col items-start gap-4 transition-all duration-300 hover:shadow-md">
+              <div className="w-12 h-12 rounded-full border border-emerald-100 bg-emerald-50/50 text-emerald-600 flex items-center justify-center">
+                <Users size={20} />
               </div>
-              <div className="flex flex-col gap-2 items-center">
-                <h4 className="text-lg font-extrabold text-[#064E3B]">Circular Economy</h4>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  Promoting collaboration for a cleaner, greener planet.
+              <div className="flex flex-col gap-1">
+                <h4 className="text-base font-bold text-slate-950">Collaborative Growth</h4>
+                <p className="text-slate-500 text-xs leading-relaxed">
+                  Building a network where industries grow together through symbiosis.
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* WHY ECOMATCH AI & JOIN THE MOVEMENT */}
-        <section className="grid grid-cols-1 md:grid-cols-5 gap-10 items-center">
-          {/* Why EcoMatch List */}
-          <div className="md:col-span-3 flex flex-col gap-6 text-center md:text-left items-center md:items-start">
-            <h3 className="text-2xl font-bold text-[#064E3B] text-center md:text-left">Why EcoMatch AI?</h3>
-            <ul className="flex flex-col gap-4 items-start">
-              <li className="flex items-center gap-3 text-slate-700 font-semibold text-[15px]">
-                <CheckCircle2 className="text-[#059669] flex-shrink-0" size={20} />
-                Reduce waste and disposal costs
-              </li>
-              <li className="flex items-center gap-3 text-slate-700 font-semibold text-[15px]">
-                <CheckCircle2 className="text-[#059669] flex-shrink-0" size={20} />
-                Find reliable partners and new revenue streams
-              </li>
-              <li className="flex items-center gap-3 text-slate-700 font-semibold text-[15px]">
-                <CheckCircle2 className="text-[#059669] flex-shrink-0" size={20} />
-                Track ESG impact and stay compliant
-              </li>
-              <li className="flex items-center gap-3 text-slate-700 font-semibold text-[15px]">
-                <CheckCircle2 className="text-[#059669] flex-shrink-0" size={20} />
-                Build a stronger, greener supply chain
-              </li>
-            </ul>
+        {/* Story & Impact Section */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-start">
+          
+          {/* Our Story Column */}
+          <div className="flex flex-col gap-4 py-2">
+            <h3 className="text-xl font-extrabold text-slate-900 flex items-center gap-2.5">
+              <BookOpen className="text-emerald-600" size={24} />
+              Our Story
+            </h3>
+            <p className="text-slate-600 text-sm leading-relaxed">
+              EcoMatch AI was founded by a team of sustainability experts, data scientists, and industry veterans who saw the massive potential hidden in industrial by-products. What started as a pilot project in Pune has now grown into a platform connecting industries across India.
+            </p>
+            <p className="text-slate-600 text-sm leading-relaxed">
+              We believe that the future of industry is circular, collaborative, and intelligent. Through technology and partnerships, we are making industrial symbiosis simple, scalable, and impactful.
+            </p>
           </div>
 
-          {/* Join Movement Card */}
-          <div className="md:col-span-2 bg-gradient-to-br from-[#ECFDF5] to-[#E6F4EA] border border-[#D1FAE5] rounded-3xl p-10 flex flex-col gap-6 text-center items-center justify-between min-h-[380px] max-w-[340px] w-full mx-auto md:ml-auto shadow-[0_12px_30px_-5px_rgba(5,150,105,0.1)] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-            <h3 className="text-2xl font-black text-[#064E3B] flex items-center justify-center gap-2.5 w-full">
-              <Sparkles className="text-[#059669] animate-pulse" size={24} />
-              Join the movement
+          {/* Our Impact Column */}
+          <div className="bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] p-6 sm:p-8 flex flex-col gap-6 w-full">
+            <h3 className="text-xl font-extrabold text-emerald-800">
+              Our Impact So Far
             </h3>
             
-            <div className="flex flex-col gap-4 text-slate-700 text-sm font-medium leading-relaxed w-full">
-              <p>
-                Be part of the change. Connect, collaborate, and create a sustainable future with EcoMatch AI.
-              </p>
-              <div className="flex flex-col gap-2.5 items-start text-left bg-white/60 rounded-2xl p-4 border border-[#DCFCE7] w-full">
-                <div className="flex items-center gap-2 text-xs font-extrabold text-[#064E3B]">
-                  <span className="text-[#059669]">✓</span> List materials in seconds
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {/* Stat 1 */}
+              <div className="bg-emerald-50/10 rounded-2xl border border-emerald-500/5 p-6 flex flex-col items-center justify-center text-center">
+                <Leaf size={24} className="text-emerald-600 mb-2" />
+                <span className="text-2xl font-black text-slate-900">500+</span>
+                <span className="text-slate-500 text-[11px] font-semibold mt-1 leading-snug">
+                  Tons of Waste Diverted
+                </span>
+              </div>
+
+              {/* Stat 2 */}
+              <div className="bg-emerald-50/10 rounded-2xl border border-emerald-500/5 p-6 flex flex-col items-center justify-center text-center">
+                <Factory size={24} className="text-emerald-600 mb-2" />
+                <span className="text-2xl font-black text-slate-900">120+</span>
+                <span className="text-slate-500 text-[11px] font-semibold mt-1 leading-snug">
+                  Industries Connected
+                </span>
+              </div>
+
+              {/* Stat 3 */}
+              <div className="bg-emerald-50/10 rounded-2xl border border-emerald-500/5 p-6 flex flex-col items-center justify-center text-center">
+                <div className="relative flex items-center justify-center text-emerald-600 mb-2">
+                  <Cloud size={24} />
+                  <span className="absolute text-[8px] font-black mt-1">CO₂</span>
                 </div>
-                <div className="flex items-center gap-2 text-xs font-extrabold text-[#064E3B]">
-                  <span className="text-[#059669]">✓</span> Connect with local partners
-                </div>
-                <div className="flex items-center gap-2 text-xs font-extrabold text-[#064E3B]">
-                  <span className="text-[#059669]">✓</span> Track your carbon offset
-                </div>
+                <span className="text-2xl font-black text-slate-900">1,200+</span>
+                <span className="text-slate-500 text-[11px] font-semibold mt-1 leading-snug">
+                  Tons of CO₂ Avoided
+                </span>
+              </div>
+
+              {/* Stat 4 */}
+              <div className="bg-emerald-50/10 rounded-2xl border border-emerald-500/5 p-6 flex flex-col items-center justify-center text-center">
+                <Handshake size={24} className="text-emerald-600 mb-2" />
+                <span className="text-2xl font-black text-slate-900">85+</span>
+                <span className="text-slate-500 text-[11px] font-semibold mt-1 leading-snug">
+                  Successful Matches
+                </span>
               </div>
             </div>
+          </div>
+        </section>
 
+        {/* CTA Banner Section */}
+        <section className="bg-[#064E3B] rounded-3xl px-8 py-32 md:px-10 md:py-40 text-white flex flex-col lg:flex-row items-center justify-between gap-8 mt-4 shadow-lg">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
+            <div className="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center text-white flex-shrink-0 bg-white/5">
+              <Users size={24} />
+            </div>
+            <div className="flex flex-col gap-2 max-w-xl">
+              <h3 className="text-2xl font-bold">Be Part of the Change</h3>
+              <p className="text-emerald-100/70 text-sm leading-relaxed">
+                Join our growing network of industries, recyclers, and innovators working together for a cleaner, smarter, and more sustainable future.
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-4 flex-shrink-0 w-full sm:w-auto justify-center sm:justify-end">
             <button 
-              className="group bg-[#064E3B] hover:bg-[#047857] text-white font-extrabold py-8 px-8 text-base rounded-full transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2.5 cursor-pointer transform active:scale-98 w-full"
-              onClick={() => setCurrentPage('signup')}
+              className="border border-white/30 hover:bg-white/10 text-white text-sm font-bold rounded-xl px-6 py-3 transition-all duration-300 cursor-pointer"
+              onClick={() => setCurrentPage('marketplace')}
             >
-              Get Started
-              <ArrowRight className="group-hover:translate-x-1.5 transition-transform duration-200" size={18} />
+              Explore Platform
+            </button>
+            <button 
+              className="bg-[#059669] hover:bg-[#047857] text-white text-sm font-bold rounded-xl px-6 py-3 transition-all duration-300 shadow-md cursor-pointer"
+              onClick={() => triggerToast('Contact Info: info@ecomatch.ai')}
+            >
+              Contact Us
             </button>
           </div>
         </section>
 
       </main>
 
-      {/* ============================================================================
-         FOOTER (Standard landing page footer styling)
-         ============================================================================ */}
-      <footer className="landing-footer">
-        <div className="landing-footer-container">
-          <div className="landing-footer-grid">
-            
-            {/* Branding Column */}
-            <div className="landing-footer-col brand-col">
-              <div className="landing-footer-brand">
-                <SignInLogo size={32} color="#15803D" />
-                <span className="landing-brand-name font-bold">EcoMatch AI</span>
-              </div>
-              <p className="landing-brand-desc text-left">
-                Connecting companies to build a circular economy through industrial symbiosis.
-              </p>
-            </div>
+      {/* Footer */}
+      <Footer triggerToast={triggerToast} setCurrentPage={setCurrentPage} />
 
-            {/* Quick Links Column */}
-            <div className="landing-footer-col text-left">
-              <span className="footer-title-text font-bold">Company</span>
-              <ul className="footer-links-list">
-                <li>
-                  <a href="#about" onClick={(e) => { e.preventDefault(); setCurrentPage('about'); }}>
-                    About Us
-                  </a>
-                </li>
-                <li>
-                  <a href="#contact" onClick={(e) => { e.preventDefault(); triggerToast('Contact Info: info@ecomatch.ai'); }}>
-                    Contact Us
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Legal Links Column */}
-            <div className="landing-footer-col text-left">
-              <span className="footer-title-text font-bold">Legal</span>
-              <ul className="footer-links-list">
-                <li>
-                  <a href="#privacy" onClick={(e) => { e.preventDefault(); setCurrentPage('privacy'); }}>
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="#terms" onClick={(e) => { e.preventDefault(); setCurrentPage('terms'); }}>
-                    Terms & Conditions
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-          </div>
-
-          <div className="landing-footer-bottom">
-            <span className="copyright-text">
-              © {new Date().getFullYear()} EcoMatch AI. All rights reserved.
-            </span>
-          </div>
-        </div>
-      </footer>
+      {/* Global CSS Inject for animations */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}} />
 
     </div>
   );
 };
+
 export default AboutUs;

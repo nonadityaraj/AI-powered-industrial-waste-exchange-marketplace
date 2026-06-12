@@ -9,7 +9,7 @@ import { SignInLogo } from './Icons';
  *
  * Both variants expose a Feedback option that opens a lightweight feedback modal.
  */
-export const Footer = ({ triggerToast, variant = 'full' }) => {
+export const Footer = ({ triggerToast, setCurrentPage, variant = 'full' }) => {
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [feedbackType, setFeedbackType] = useState('suggestion');
   const [feedbackText, setFeedbackText] = useState('');
@@ -115,9 +115,9 @@ export const Footer = ({ triggerToast, variant = 'full' }) => {
             © {new Date().getFullYear()} EcoMatch. All rights reserved.
           </span>
           <div className="app-footer-bar-links">
-            <a href="#about" onClick={(e) => { e.preventDefault(); triggerToast?.('About EcoMatch'); }}>About</a>
-            <a href="#privacy" onClick={(e) => { e.preventDefault(); triggerToast?.('Privacy Policy'); }}>Privacy</a>
-            <a href="#terms" onClick={(e) => { e.preventDefault(); triggerToast?.('Terms & Conditions'); }}>Terms</a>
+            <a href="#about" onClick={(e) => { e.preventDefault(); if (setCurrentPage) { setCurrentPage('about'); } else { triggerToast?.('About EcoMatch'); } }}>About</a>
+            <a href="#privacy" onClick={(e) => { e.preventDefault(); if (setCurrentPage) { setCurrentPage('privacy'); } else { triggerToast?.('Privacy Policy'); } }}>Privacy</a>
+            <a href="#terms" onClick={(e) => { e.preventDefault(); if (setCurrentPage) { setCurrentPage('terms'); } else { triggerToast?.('Terms & Conditions'); } }}>Terms</a>
             <button type="button" className="footer-feedback-btn" onClick={openFeedback}>
               <MessageSquarePlus size={15} />
               Feedback
@@ -150,7 +150,7 @@ export const Footer = ({ triggerToast, variant = 'full' }) => {
             <div className="landing-footer-col">
               <span className="footer-title-text">Company</span>
               <ul className="footer-links-list">
-                <li><a href="#about" onClick={(e) => { e.preventDefault(); triggerToast?.('About EcoMatch'); }}>About Us</a></li>
+                <li><a href="#about" onClick={(e) => { e.preventDefault(); if (setCurrentPage) { setCurrentPage('about'); } else { triggerToast?.('About EcoMatch'); } }}>About Us</a></li>
                 <li><a href="#contact" onClick={(e) => { e.preventDefault(); triggerToast?.('Contact Us'); }}>Contact Us</a></li>
                 <li>
                   <a href="#feedback" className="footer-feedback-link" onClick={openFeedback}>
@@ -165,8 +165,8 @@ export const Footer = ({ triggerToast, variant = 'full' }) => {
             <div className="landing-footer-col">
               <span className="footer-title-text">Legal</span>
               <ul className="footer-links-list">
-                <li><a href="#privacy" onClick={(e) => { e.preventDefault(); triggerToast?.('Privacy Policy'); }}>Privacy Policy</a></li>
-                <li><a href="#terms" onClick={(e) => { e.preventDefault(); triggerToast?.('Terms & Conditions'); }}>Terms & Conditions</a></li>
+                <li><a href="#privacy" onClick={(e) => { e.preventDefault(); if (setCurrentPage) { setCurrentPage('privacy'); } else { triggerToast?.('Privacy Policy'); } }}>Privacy Policy</a></li>
+                <li><a href="#terms" onClick={(e) => { e.preventDefault(); if (setCurrentPage) { setCurrentPage('terms'); } else { triggerToast?.('Terms & Conditions'); } }}>Terms & Conditions</a></li>
               </ul>
             </div>
 
