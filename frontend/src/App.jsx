@@ -19,6 +19,8 @@ import NotificationsPage from './components/pages/NotificationsPage';
 import AboutUs from './components/pages/AboutUs';
 import PrivacyPolicy from './components/pages/PrivacyPolicy';
 import TermsConditions from './components/pages/TermsConditions';
+import ContactUs from './components/pages/ContactUs';
+import FeedbackPage from './components/pages/FeedbackPage';
 
 /* ============================================================================
    ROUTING
@@ -39,6 +41,8 @@ const PAGE_TO_PATH = {
   about: '/about',
   privacy: '/privacy-policy',
   terms: '/terms-conditions',
+  contact: '/contact',
+  feedback: '/feedback',
 };
 
 const PATH_TO_PAGE = Object.fromEntries(
@@ -116,6 +120,8 @@ export default function App() {
         <Route path="/about" element={<AboutUs {...nav} />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy {...nav} />} />
         <Route path="/terms-conditions" element={<TermsConditions {...nav} />} />
+        <Route path="/contact" element={<ContactUs {...nav} />} />
+        <Route path="/feedback" element={<FeedbackPage {...nav} />} />
         {/* Unknown paths fall back to the landing page */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
@@ -201,6 +207,18 @@ export default function App() {
           onClick={() => setCurrentPage('about')}
         >
           About Us
+        </button>
+        <button
+          className={`btn-switch-page ${currentPage === 'contact' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('contact')}
+        >
+          Contact Us
+        </button>
+        <button
+          className={`btn-switch-page ${currentPage === 'feedback' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('feedback')}
+        >
+          Feedback
         </button>
       </div>
     </>

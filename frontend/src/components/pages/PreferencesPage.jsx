@@ -528,7 +528,7 @@ export const PreferencesPage = ({ setCurrentPage, triggerToast }) => {
         </div>
       </main>
 
-      <Footer triggerToast={triggerToast} />
+      <Footer triggerToast={triggerToast} setCurrentPage={setCurrentPage} />
     </div>
   );
 };
