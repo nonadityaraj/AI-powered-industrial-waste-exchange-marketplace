@@ -1,0 +1,551 @@
+@reference "tailwindcss";
+@reference "./index.css";
+
+/* ============================================================================
+   STYLES FOR DASHBOARD / CREATE-LISTING / PROFILE / NOTIFICATIONS / FORGOT-PW
+   (imported after App.css — uses the same Tailwind v4 @apply pipeline)
+   ============================================================================ */
+
+/* ---------- Forgot Password success state ---------- */
+.fp-success {
+  @apply flex flex-col items-center gap-4 text-center py-2;
+}
+
+.fp-success-icon {
+  @apply flex items-center justify-center w-16 h-16 rounded-full bg-[#ECFDF5] text-[#059669];
+}
+
+.fp-success-text {
+  @apply text-sm text-[#64748B] font-medium max-w-[320px];
+}
+
+/* ============================================================================
+   SHARED DASHBOARD-STYLE PRIMITIVES (Dashboard / Profile / Notifications)
+   ============================================================================ */
+.dash-subtitle {
+  @apply text-sm font-medium text-[#64748B];
+}
+
+.dash-header {
+  @apply flex items-start justify-between gap-4 flex-wrap mb-6;
+}
+
+.dash-primary-btn {
+  @apply inline-flex items-center gap-2 bg-[#059669] text-white text-sm font-bold px-4 py-2.5 rounded-xl cursor-pointer border-none transition-colors duration-200 whitespace-nowrap;
+}
+
+.dash-primary-btn:hover {
+  @apply bg-[#047857];
+}
+
+/* Stat cards */
+.dash-stats-grid {
+  @apply grid grid-cols-4 gap-4 mb-5;
+}
+
+.dash-stat-card {
+  @apply flex flex-col gap-3 bg-white rounded-2xl border border-[#E5E7EB] p-5 shadow-[0_2px_10px_rgba(15,23,42,0.03)];
+}
+
+.dash-stat-icon {
+  @apply flex items-center justify-center w-11 h-11 rounded-xl;
+}
+
+.dash-stat-icon.green { @apply bg-[#ECFDF5] text-[#059669]; }
+.dash-stat-icon.purple { @apply bg-[#F5F3FF] text-[#7C3AED]; }
+.dash-stat-icon.amber { @apply bg-[#FEF3C7] text-[#B45309]; }
+.dash-stat-icon.blue { @apply bg-[#EFF6FF] text-[#2563EB]; }
+
+.dash-stat-info {
+  @apply flex flex-col;
+}
+
+.dash-stat-value {
+  @apply text-2xl font-extrabold text-[#0F172A] leading-tight;
+}
+
+.dash-stat-label {
+  @apply text-[13px] font-semibold text-[#64748B];
+}
+
+.dash-stat-delta {
+  @apply text-xs font-bold text-[#059669];
+}
+
+/* Quick actions */
+.dash-quick-actions {
+  @apply flex gap-3 flex-wrap mb-6;
+}
+
+.dash-quick-btn {
+  @apply inline-flex items-center gap-2 bg-white border border-[#E5E7EB] text-[#374151] text-[13px] font-bold px-4 py-2.5 rounded-xl cursor-pointer transition-all duration-200;
+}
+
+.dash-quick-btn:hover {
+  @apply border-[#A7F3D0] text-[#059669] bg-[#F0FDF4];
+}
+
+/* Two-column grid */
+.dash-grid {
+  @apply grid grid-cols-[1.6fr_1fr] gap-5 items-start;
+}
+
+.dash-side {
+  @apply flex flex-col gap-5;
+}
+
+/* Panels */
+.dash-panel {
+  @apply bg-white rounded-2xl border border-[#E5E7EB] p-5 shadow-[0_2px_10px_rgba(15,23,42,0.03)];
+}
+
+.dash-panel-head {
+  @apply flex items-center justify-between mb-4;
+}
+
+.dash-panel-title {
+  @apply text-base font-extrabold text-[#111827];
+}
+
+.dash-link {
+  @apply inline-flex items-center gap-1 text-[13px] font-bold text-[#059669] bg-transparent border-none cursor-pointer transition-colors duration-200;
+}
+
+.dash-link:hover {
+  @apply text-[#047857];
+}
+
+.dash-list {
+  @apply flex flex-col gap-2;
+}
+
+/* Listing rows */
+.dash-listing-row {
+  @apply flex items-center gap-3 p-2.5 rounded-xl border border-[#F1F5F9] transition-colors duration-200;
+}
+
+.dash-listing-row:hover {
+  @apply bg-[#F9FAFB];
+}
+
+.dash-listing-thumb {
+  @apply w-11 h-11 rounded-lg object-cover flex-shrink-0;
+}
+
+.dash-listing-info {
+  @apply flex flex-col flex-grow min-w-0;
+}
+
+.dash-listing-title {
+  @apply text-[13.5px] font-bold text-[#1E293B] truncate;
+}
+
+.dash-listing-qty {
+  @apply text-xs font-semibold text-[#94A3B8];
+}
+
+.dash-listing-metrics {
+  @apply flex items-center gap-3 flex-shrink-0;
+}
+
+.dash-metric {
+  @apply inline-flex items-center gap-1 text-xs font-bold text-[#64748B];
+}
+
+.dash-row-edit {
+  @apply text-xs font-bold text-[#059669] bg-[#ECFDF5] border border-[#A7F3D0] rounded-lg px-3 py-1.5 cursor-pointer flex-shrink-0 transition-colors duration-200;
+}
+
+.dash-row-edit:hover {
+  @apply bg-[#D1FAE5];
+}
+
+/* Impact list */
+.dash-impact-list {
+  @apply flex flex-col gap-2.5;
+}
+
+.dash-impact-row {
+  @apply flex items-center gap-3;
+}
+
+.dash-impact-icon {
+  @apply flex items-center justify-center w-9 h-9 rounded-lg bg-[#ECFDF5] text-[#059669] flex-shrink-0;
+}
+
+.dash-impact-label {
+  @apply flex-grow text-[13.5px] font-semibold text-[#475569];
+}
+
+.dash-impact-value {
+  @apply text-sm font-extrabold text-[#0F172A];
+}
+
+/* Match rows */
+.dash-match-row {
+  @apply flex items-center gap-3 p-2.5 rounded-xl border border-[#F1F5F9] cursor-pointer transition-colors duration-200;
+}
+
+.dash-match-row:hover {
+  @apply bg-[#F9FAFB] border-[#D1FAE5];
+}
+
+.dash-match-thumb {
+  @apply w-10 h-10 rounded-lg object-cover flex-shrink-0;
+}
+
+.dash-match-info {
+  @apply flex flex-col flex-grow min-w-0;
+}
+
+.dash-match-partner {
+  @apply text-[13px] font-bold text-[#1E293B] truncate;
+}
+
+.dash-match-meta {
+  @apply inline-flex items-center gap-1 text-xs font-semibold text-[#94A3B8];
+}
+
+.dash-match-score {
+  @apply inline-flex items-center gap-0.5 text-[13px] font-extrabold text-[#059669] flex-shrink-0;
+}
+
+@media (max-width: 1024px) {
+  .dash-stats-grid { @apply grid-cols-2; }
+  .dash-grid { @apply grid-cols-1; }
+}
+
+@media (max-width: 560px) {
+  .dash-stats-grid { @apply grid-cols-1; }
+}
+
+/* ============================================================================
+   CREATE / EDIT LISTING
+   ============================================================================ */
+.cl-head {
+  @apply mb-5;
+}
+
+.cl-form {
+  @apply flex flex-col gap-5 max-w-[900px];
+}
+
+.cl-card {
+  @apply bg-white rounded-2xl border border-[#E5E7EB] p-6 shadow-[0_2px_10px_rgba(15,23,42,0.03)];
+}
+
+.cl-section-title {
+  @apply flex items-center gap-2 text-base font-extrabold text-[#111827] mb-4;
+}
+
+.cl-section-title svg {
+  @apply text-[#059669];
+}
+
+.cl-req {
+  @apply text-[#DC2626] font-bold;
+}
+
+.cl-textarea {
+  @apply w-full rounded-xl border-[1.5px] border-[#E2E8F0] p-3.5 text-[15px] text-[#092C25] bg-white outline-none resize-y font-plus-jakarta transition-all duration-200;
+}
+
+.cl-textarea:focus {
+  @apply border-[#059669] bg-[#F0FDF4];
+  box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
+}
+
+.cl-input-combo {
+  @apply flex gap-2;
+}
+
+.cl-input-combo .pref-input {
+  @apply flex-1;
+}
+
+.cl-unit-select {
+  @apply w-[120px] flex-shrink-0;
+}
+
+.cl-actions {
+  @apply flex items-center justify-end gap-3 pb-4;
+}
+
+.cl-cancel-btn {
+  @apply px-5 py-3 rounded-xl border border-[#E2E8F0] bg-white text-[#475569] text-sm font-bold cursor-pointer transition-colors duration-200;
+}
+
+.cl-cancel-btn:hover {
+  @apply bg-[#F8FAFC] text-[#0F172A];
+}
+
+.cl-submit-btn {
+  @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#059669] text-white text-sm font-bold cursor-pointer border-none transition-colors duration-200;
+}
+
+.cl-submit-btn:hover {
+  @apply bg-[#047857];
+}
+
+/* ============================================================================
+   PROFILE / COMPANY PAGE
+   ============================================================================ */
+.profile-cover-card {
+  @apply bg-white rounded-2xl border border-[#E5E7EB] overflow-hidden shadow-[0_2px_10px_rgba(15,23,42,0.03)] mb-5;
+}
+
+.profile-cover {
+  @apply h-28 w-full;
+  background: linear-gradient(120deg, #064E3B 0%, #059669 55%, #34D399 100%);
+}
+
+.profile-header-row {
+  @apply flex items-end gap-5 px-6 pb-5 flex-wrap;
+  margin-top: -48px;
+}
+
+.profile-avatar-lg {
+  @apply w-24 h-24 rounded-2xl border-4 border-white overflow-hidden bg-[#E2E8F0] flex-shrink-0 shadow-md;
+}
+
+.profile-avatar-lg img {
+  @apply w-full h-full object-cover;
+}
+
+.profile-identity {
+  @apply flex flex-col gap-2 flex-grow pb-1;
+}
+
+.profile-name-row {
+  @apply flex items-center gap-2.5 flex-wrap;
+}
+
+.profile-company-name {
+  @apply text-2xl font-extrabold text-[#0F172A];
+}
+
+.profile-verified {
+  @apply inline-flex items-center gap-1 text-xs font-bold text-[#059669] bg-[#ECFDF5] border border-[#A7F3D0] px-2.5 py-1 rounded-full;
+}
+
+.profile-meta-row {
+  @apply flex items-center gap-3 flex-wrap;
+}
+
+.profile-role-tag {
+  @apply text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wide;
+}
+
+.profile-role-tag.generator {
+  @apply bg-[#ECFDF5] text-[#059669] border border-[#A7F3D0];
+}
+
+.profile-role-tag.upcycler {
+  @apply bg-[#F5F3FF] text-[#7C3AED] border border-[#DDD6FE];
+}
+
+.profile-meta-item {
+  @apply inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#64748B];
+}
+
+.profile-rating {
+  @apply text-[#F59E0B];
+}
+
+.profile-edit-btn {
+  @apply inline-flex items-center gap-1.5 self-center bg-white border border-[#E2E8F0] text-[#374151] text-sm font-bold px-4 py-2.5 rounded-xl cursor-pointer transition-all duration-200 whitespace-nowrap;
+}
+
+.profile-edit-btn:hover {
+  @apply border-[#A7F3D0] text-[#059669] bg-[#F0FDF4];
+}
+
+/* Stats strip */
+.profile-stats-strip {
+  @apply grid grid-cols-4 gap-4 mb-5;
+}
+
+.profile-stat {
+  @apply flex items-center gap-3 bg-white rounded-2xl border border-[#E5E7EB] p-4 shadow-[0_2px_10px_rgba(15,23,42,0.03)];
+}
+
+.profile-stat-icon {
+  @apply flex items-center justify-center w-10 h-10 rounded-xl bg-[#F0FDF4] text-[#059669] flex-shrink-0;
+}
+
+.profile-stat-text {
+  @apply flex flex-col;
+}
+
+.profile-stat-value {
+  @apply text-lg font-extrabold text-[#0F172A] leading-tight;
+}
+
+.profile-stat-label {
+  @apply text-xs font-semibold text-[#94A3B8];
+}
+
+/* Body grid */
+.profile-body-grid {
+  @apply grid grid-cols-[1.6fr_1fr] gap-5 items-start;
+}
+
+.profile-col {
+  @apply flex flex-col gap-5;
+}
+
+.profile-about-text {
+  @apply text-[14px] text-[#475569] font-medium leading-relaxed;
+}
+
+/* Materials chips */
+.profile-materials {
+  @apply flex flex-wrap gap-2.5;
+}
+
+.profile-material-chip {
+  @apply inline-flex items-center gap-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-3 py-2 text-[13px] font-bold text-[#334155];
+}
+
+.profile-material-icon {
+  @apply flex items-center justify-center w-6 h-6;
+}
+
+/* Reviews */
+.profile-reviews {
+  @apply flex flex-col gap-4;
+}
+
+.profile-review {
+  @apply flex gap-3;
+}
+
+.profile-review-avatar {
+  @apply flex items-center justify-center w-10 h-10 rounded-full bg-[#ECFDF5] text-[#059669] text-xs font-bold border border-[#A7F3D0] flex-shrink-0;
+}
+
+.profile-review-body {
+  @apply flex flex-col gap-1 flex-grow;
+}
+
+.profile-review-top {
+  @apply flex items-center justify-between gap-2;
+}
+
+.profile-review-name {
+  @apply text-[13.5px] font-bold text-[#1E293B];
+}
+
+.profile-review-stars {
+  @apply inline-flex items-center gap-0.5 text-[#F59E0B];
+}
+
+.profile-review-text {
+  @apply text-[13px] text-[#64748B] font-medium leading-relaxed;
+}
+
+.profile-contact-btn {
+  @apply inline-flex items-center justify-center gap-2 w-full bg-[#059669] text-white text-sm font-bold py-3 rounded-xl cursor-pointer border-none transition-colors duration-200;
+}
+
+.profile-contact-btn:hover {
+  @apply bg-[#047857];
+}
+
+@media (max-width: 1024px) {
+  .profile-stats-strip { @apply grid-cols-2; }
+  .profile-body-grid { @apply grid-cols-1; }
+}
+
+/* ============================================================================
+   NOTIFICATIONS PAGE
+   ============================================================================ */
+.notif-markall-btn {
+  @apply inline-flex items-center gap-2 bg-white border border-[#E5E7EB] text-[#374151] text-[13px] font-bold px-4 py-2.5 rounded-xl cursor-pointer transition-all duration-200 whitespace-nowrap;
+}
+
+.notif-markall-btn:hover:not(:disabled) {
+  @apply border-[#A7F3D0] text-[#059669] bg-[#F0FDF4];
+}
+
+.notif-markall-btn:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+.notif-filters {
+  @apply flex gap-2 flex-wrap mb-5;
+}
+
+.notif-filter-chip {
+  @apply text-[13px] font-bold px-4 py-2 rounded-full border border-[#E2E8F0] text-[#64748B] bg-white cursor-pointer transition-all duration-200;
+}
+
+.notif-filter-chip:hover {
+  @apply border-[#CBD5E1];
+}
+
+.notif-filter-chip.active {
+  @apply bg-[#059669] border-[#059669] text-white;
+}
+
+.notif-card {
+  @apply bg-white rounded-2xl border border-[#E5E7EB] overflow-hidden shadow-[0_2px_10px_rgba(15,23,42,0.03)];
+}
+
+.notif-empty {
+  @apply flex flex-col items-center justify-center gap-2 py-16 text-[#94A3B8] font-semibold text-sm;
+}
+
+.notif-group-label {
+  @apply text-xs font-extrabold uppercase tracking-wider text-[#94A3B8] px-5 pt-4 pb-2;
+}
+
+.notif-item {
+  @apply flex items-start gap-3.5 w-full text-left px-5 py-3.5 border-t border-[#F3F4F6] bg-transparent cursor-pointer transition-colors duration-200;
+}
+
+.notif-item:hover {
+  @apply bg-[#F9FAFB];
+}
+
+.notif-item.unread {
+  @apply bg-[#F0FDF4];
+}
+
+.notif-item.unread:hover {
+  @apply bg-[#DCFCE7];
+}
+
+.notif-icon {
+  @apply flex items-center justify-center w-10 h-10 rounded-xl flex-shrink-0;
+}
+
+.notif-icon.green { @apply bg-[#ECFDF5] text-[#059669]; }
+.notif-icon.purple { @apply bg-[#F5F3FF] text-[#7C3AED]; }
+.notif-icon.amber { @apply bg-[#FEF3C7] text-[#B45309]; }
+.notif-icon.blue { @apply bg-[#EFF6FF] text-[#2563EB]; }
+.notif-icon.gray { @apply bg-[#F1F5F9] text-[#64748B]; }
+
+.notif-content {
+  @apply flex flex-col gap-0.5 flex-grow min-w-0;
+}
+
+.notif-title-row {
+  @apply flex items-center justify-between gap-3;
+}
+
+.notif-title {
+  @apply text-[14px] font-bold text-[#1E293B];
+}
+
+.notif-time {
+  @apply text-xs font-semibold text-[#94A3B8] flex-shrink-0;
+}
+
+.notif-body {
+  @apply text-[13px] text-[#64748B] font-medium leading-snug;
+}
+
+.notif-unread-dot {
+  @apply w-2.5 h-2.5 rounded-full bg-[#059669] flex-shrink-0 mt-1.5;
+}

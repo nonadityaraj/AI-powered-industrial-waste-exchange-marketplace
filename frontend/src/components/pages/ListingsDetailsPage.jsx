@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Plus } from 'lucide-react';
 import Sidebar from '../common/Sidebar';
 import Topnav from '../common/Topnav';
+import Footer from '../common/Footer';
 
 import coffeeImg from '../../assets/coffee_grounds.png';
 import fabricImg from '../../assets/fabric_waste.png';
@@ -75,8 +76,18 @@ const LISTINGS_DATA = [
   }
 ];
 
-export const ListingsDetailsPage = ({ currentPage, setCurrentPage, triggerToast }) => {
+export const ListingsDetailsPage = ({ currentPage, setCurrentPage, triggerToast, setListingDraft }) => {
   const [selectedListingId, setSelectedListingId] = useState(null);
+
+  const startCreate = () => {
+    setListingDraft?.(null);
+    setCurrentPage('createListing');
+  };
+
+  const startEdit = (item) => {
+    setListingDraft?.({ title: item.title, city: item.source, logistics: item.logistics });
+    setCurrentPage('createListing');
+  };
 
   const activeListing = LISTINGS_DATA.find(item => item.id === selectedListingId);
 
@@ -84,7 +95,7 @@ export const ListingsDetailsPage = ({ currentPage, setCurrentPage, triggerToast 
     <div className="inbox-page-wrapper">
       <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} triggerToast={triggerToast} />
       <main className="inbox-main-content">
-        <Topnav triggerToast={triggerToast} />
+        <Topnav triggerToast={triggerToast} setCurrentPage={setCurrentPage} />
 
         <div className="inbox-view-container" style={{ overflowY: 'auto' }}>
           
@@ -96,13 +107,19 @@ export const ListingsDetailsPage = ({ currentPage, setCurrentPage, triggerToast 
                 <span>Back to Home</span>
               </div>
               
-              <h1 className="inbox-view-title" style={{ marginBottom: '24px' }}>My Active Symbiosis Listings</h1>
-              
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', gap: '12px', flexWrap: 'wrap' }}>
+                <h1 className="inbox-view-title" style={{ margin: 0 }}>My Active Symbiosis Listings</h1>
+                <button className="dash-primary-btn" onClick={startCreate}>
+                  <Plus size={18} />
+                  Create Listing
+                </button>
+              </div>
+
               <div className="listings-grid">
                 {LISTINGS_DATA.map(item => (
-                  <div 
-                    key={item.id} 
-                    className="listing-item-card cursor-pointer" 
+                  <div
+                    key={item.id}
+                    className="listing-item-card cursor-pointer"
                     onClick={() => setSelectedListingId(item.id)}
                   >
                     <div className="card-top-header">
@@ -112,7 +129,7 @@ export const ListingsDetailsPage = ({ currentPage, setCurrentPage, triggerToast 
                         <span style={{ fontSize: '12.5px', color: '#6B7280', fontWeight: '600' }}>{item.source}</span>
                       </div>
                     </div>
-                    
+
                     <div className="card-meta-row">
                       <div className="card-meta-item">
                         <span>Quantity:</span>
@@ -126,12 +143,14 @@ export const ListingsDetailsPage = ({ currentPage, setCurrentPage, triggerToast 
                       </div>
                     </div>
 
-                    <button 
-                      className="btn-card-details" 
-                      style={{ marginTop: '8px', width: '100%', pointerEvents: 'none' }}
-                    >
-                      View Details & AI Match
-                    </button>
+                    <div className="card-btn-group" style={{ marginTop: '8px' }}>
+                      <button className="btn-card-details" onClick={(e) => { e.stopPropagation(); setSelectedListingId(item.id); }}>
+                        View Details
+                      </button>
+                      <button className="btn-card-source" onClick={(e) => { e.stopPropagation(); startEdit(item); }}>
+                        Edit
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -285,6 +304,7 @@ export const ListingsDetailsPage = ({ currentPage, setCurrentPage, triggerToast 
           )}
 
         </div>
+        <Footer variant="compact" triggerToast={triggerToast} />
       </main>
     </div>
   );
