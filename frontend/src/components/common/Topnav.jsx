@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Globe, ChevronDown, Bell, User } from 'lucide-react';
+import { Search, Globe, ChevronDown, Bell } from 'lucide-react';
 import avatarImg from '../../assets/avatar.png';
 
 export const Topnav = ({ triggerToast }) => {
@@ -24,10 +24,6 @@ export const Topnav = ({ triggerToast }) => {
 
         <button className="inbox-topnav-btn" aria-label="Notifications" onClick={() => triggerToast('Notifications open')}>
           <Bell size={18} />
-        </button>
-
-        <button className="inbox-topnav-btn" aria-label="Profile Outline" onClick={() => triggerToast('User profile settings')}>
-          <User size={18} />
         </button>
 
         <div className="inbox-user-profile" onClick={() => triggerToast('Switch account menu')}>

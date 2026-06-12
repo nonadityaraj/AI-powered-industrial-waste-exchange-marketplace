@@ -8,17 +8,11 @@ import SignInPage from './components/pages/SignInPage';
 import SignUpPage from './components/pages/SignUpPage';
 import PreferencesPage from './components/pages/PreferencesPage';
 import MessagesPage from './components/pages/MessagesPage';
-import ActiveInventoryPage from './components/pages/ActiveInventoryPage';
 import ListingsDetailsPage from './components/pages/ListingsDetailsPage';
 import MarketplacePage from './components/pages/MarketplacePage';
 
 /* ============================================================================
    ROUTING
-   The pages were originally built to navigate via a `setCurrentPage('key')`
-   prop. To switch to real URL routes without rewriting every page, we map each
-   logical page key to a URL path and expose a `setCurrentPage` adapter that
-   simply navigates. `currentPage` is derived from the current URL so the
-   sidebar active states keep working.
    ============================================================================ */
 const PAGE_TO_PATH = {
   listsource: '/',
@@ -26,7 +20,6 @@ const PAGE_TO_PATH = {
   signup: '/signup',
   preferences: '/preferences',
   marketplace: '/marketplace',
-  activeInventory: '/inventory',
   listingsDetails: '/listing-details',
   messages: '/messages',
 };
@@ -95,7 +88,6 @@ export default function App() {
         <Route path="/signup" element={<SignUpPage {...nav} />} />
         <Route path="/preferences" element={<PreferencesPage {...nav} />} />
         <Route path="/marketplace" element={<MarketplacePage {...nav} />} />
-        <Route path="/inventory" element={<ActiveInventoryPage {...nav} />} />
         <Route path="/listing-details" element={<ListingsDetailsPage {...nav} />} />
         <Route path="/messages" element={<MessagesPage {...nav} />} />
         {/* Unknown paths fall back to the landing page */}
@@ -104,7 +96,6 @@ export default function App() {
 
       {/* ============================================================================
          GLOBAL DEVELOPER ROUTE SWITCHER (Fixed bottom-left)
-         Updates the URL via the same router as the rest of the app.
          ============================================================================ */}
       <div className="page-switch-menu" style={{ flexWrap: 'wrap', maxWidth: '450px' }}>
         <button
@@ -136,12 +127,6 @@ export default function App() {
           onClick={() => setCurrentPage('preferences')}
         >
           Preferences
-        </button>
-        <button
-          className={`btn-switch-page ${currentPage === 'activeInventory' ? 'active' : ''}`}
-          onClick={() => setCurrentPage('activeInventory')}
-        >
-          Active Waste Inventory
         </button>
         <button
           className={`btn-switch-page ${currentPage === 'listingsDetails' ? 'active' : ''}`}
