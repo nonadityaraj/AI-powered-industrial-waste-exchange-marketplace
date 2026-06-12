@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { ArrowLeftRight, MoreVertical, Send, Smile, Calendar, Truck, Sparkles, Leaf } from 'lucide-react';
+import { ArrowLeftRight, MoreVertical, Send, Smile, Leaf } from 'lucide-react';
 import Sidebar from '../common/Sidebar';
 import Topnav from '../common/Topnav';
 import { PackagingIcon } from '../common/Icons';
 
-import coffeeImg from '../../assets/coffee_grounds.png';
-import fabricImg from '../../assets/fabric_waste.png';
 import avatarImg from '../../assets/avatar.png';
 
 export const MessagesPage = ({ currentPage, setCurrentPage, triggerToast }) => {
@@ -83,28 +81,6 @@ export const MessagesPage = ({ currentPage, setCurrentPage, triggerToast }) => {
       triggerToast('New message received from ' + (activeConvId.startsWith('biopack') ? 'BioPack Solutions' : 'GreenBrew Co.'));
     }, 2000);
   };
-
-  const getActiveDetails = () => {
-    if (activeConvId.startsWith('biopack')) {
-      return {
-        title: 'USED COFFEE GROUNDS',
-        qty: '120kg/wk',
-        img: coffeeImg,
-        pickup: '10:00am - 10am',
-        transport: 'Courier pickup coordinated via EcoMatch Fleet.'
-      };
-    } else {
-      return {
-        title: 'RECYCLED TEXTILE FABRIC',
-        qty: '350kg/month',
-        img: fabricImg,
-        pickup: '02:00pm - 4:00pm',
-        transport: 'Freight Delivery arranged by Supplier.'
-      };
-    }
-  };
-
-  const activeDetails = getActiveDetails();
 
   return (
     <div className="inbox-page-wrapper">
@@ -226,59 +202,6 @@ export const MessagesPage = ({ currentPage, setCurrentPage, triggerToast }) => {
                   <Send size={16} />
                 </button>
               </form>
-            </div>
-
-            {/* Column 3: Deal Confirmation Information */}
-            <div className="deal-col">
-              <div>
-                <div className="deal-header">DEAL CONFIRMATION</div>
-                <div className="deal-content">
-                  
-                  {/* Product Detail Card */}
-                  <div className="deal-product-card">
-                    <img src={activeDetails.img} alt="Product Thumbnail" className="deal-product-img" />
-                    <div className="deal-product-info">
-                      <span className="deal-product-title">{activeDetails.title}</span>
-                      <span className="deal-product-qty">{activeDetails.qty}</span>
-                    </div>
-                  </div>
-
-                  {/* Scheduled Pickup */}
-                  <div className="deal-detail-row">
-                    <div className="deal-detail-icon-circle green">
-                      <Calendar size={16} />
-                    </div>
-                    <div className="deal-detail-info">
-                      <span className="deal-detail-title">Scheduled pickup</span>
-                      <span className="deal-detail-subtitle">{activeDetails.pickup}</span>
-                    </div>
-                  </div>
-
-                  {/* Transport */}
-                  <div className="deal-detail-row">
-                    <div className="deal-detail-icon-circle">
-                      <Truck size={16} />
-                    </div>
-                    <div className="deal-detail-info">
-                      <span className="deal-detail-title">Transport</span>
-                      <span className="deal-detail-subtitle">{activeDetails.transport}</span>
-                    </div>
-                  </div>
-
-                  <button className="deal-btn-action" onClick={() => triggerToast('Logistics process initialized. Creating contracts...')}>
-                    Finalize Logistics & Create Contract
-                  </button>
-
-                </div>
-              </div>
-
-              {/* Sticky bottom sparking action button */}
-              <div className="deal-sticky-footer">
-                <button className="deal-btn-spark" onClick={() => triggerToast('Executing full smart symbiosis contract setup...')}>
-                  <Sparkles size={14} className="sparkle-icon" />
-                  Finalize Logistics & Create Contract
-                </button>
-              </div>
             </div>
 
           </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Recycle, MapPin } from 'lucide-react';
+import { Box, Recycle, MapPin, Menu, X, SlidersHorizontal } from 'lucide-react';
 import Sidebar from '../common/Sidebar';
 import Topnav from '../common/Topnav';
 
@@ -16,19 +16,51 @@ export const MarketplacePage = ({ currentPage, setCurrentPage, triggerToast }) =
   const [filterPlastics, setFilterPlastics] = useState(false);
   const [filterMetals, setFilterMetals] = useState(false);
   const [filterPurity, setFilterPurity] = useState(true);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   return (
     <div className="inbox-page-wrapper">
       <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} triggerToast={triggerToast} />
+      
+      {/* Backdrop overlay */}
+      {isFiltersOpen && (
+        <div className="filters-backdrop" onClick={() => setIsFiltersOpen(false)} />
+      )}
+
       <main className="inbox-main-content">
         <Topnav triggerToast={triggerToast} />
 
         <div className="inbox-view-container" style={{ display: 'flex', flexDirection: 'column' }}>
-          <h1 className="inbox-view-title">Waste Marketplace</h1>
+          
+          <div className="marketplace-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+            <h1 className="inbox-view-title" style={{ margin: 0 }}>Waste Marketplace</h1>
+            <button 
+              className="top-filter-button"
+              onClick={() => setIsFiltersOpen(!isFiltersOpen)}
+              title="Toggle Filters"
+            >
+              <Menu size={18} />
+              <span>Filters</span>
+            </button>
+          </div>
 
           <div className="marketplace-layout">
             {/* Left filters panel */}
-            <aside className="filters-sidebar">
+            <aside className={`filters-sidebar ${isFiltersOpen ? 'open' : ''}`}>
+              {/* Drawer Header */}
+              <div className="drawer-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', paddingBottom: '12px', borderBottom: '1px solid #F3F4F6' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <SlidersHorizontal size={18} style={{ color: '#10B981' }} />
+                  <span style={{ fontSize: '16px', fontWeight: '800', color: '#111827' }}>Filter Materials</span>
+                </div>
+                <button 
+                  onClick={() => setIsFiltersOpen(false)}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9CA3AF', padding: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
               {/* Category Filter */}
               <div className="filter-group">
                 <span className="filter-title">Category</span>

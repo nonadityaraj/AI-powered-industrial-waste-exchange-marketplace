@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Globe, ChevronDown, Bell, User, Check } from 'lucide-react';
+import { Globe, ChevronDown, Bell, Check } from 'lucide-react';
 import { 
   SignInLogo, GeneratorIcon, UpcyclerIcon, CoffeeIcon, TextilesIcon, 
   WoodIcon, PlasticsIcon, MetalsIcon, GrainIcon 
@@ -66,7 +66,7 @@ export const PreferencesPage = ({ setCurrentPage, triggerToast }) => {
     const activeMaterials = materials.filter(m => m.selection !== 'none');
     triggerToast(`Profile settings saved successfully! ${activeMaterials.length} material interests selected.`);
     setTimeout(() => {
-      setCurrentPage('messages');
+      setCurrentPage('listingsDetails');
     }, 1500);
   };
 
@@ -79,15 +79,6 @@ export const PreferencesPage = ({ setCurrentPage, triggerToast }) => {
           <span className="navbar-brand-name">EcoMatch AI</span>
         </div>
 
-        <nav>
-          <ul className="navbar-nav">
-            <li><a href="#industries" className="navbar-nav-link" onClick={(e) => e.preventDefault()}>Industries</a></li>
-            <li><a href="#how" className="navbar-nav-link" onClick={(e) => e.preventDefault()}>How it Works</a></li>
-            <li><a href="#marketplace" className="navbar-nav-link" onClick={(e) => e.preventDefault()}>Marketplace</a></li>
-            <li><a href="#pricing" className="navbar-nav-link" onClick={(e) => e.preventDefault()}>Pricing</a></li>
-          </ul>
-        </nav>
-
         <div className="navbar-actions">
           <button className="navbar-action-item" onClick={() => triggerToast('Location: Pune, India')}>
             <Globe size={18} />
@@ -97,10 +88,6 @@ export const PreferencesPage = ({ setCurrentPage, triggerToast }) => {
 
           <button className="navbar-icon-btn" aria-label="Notifications" onClick={() => triggerToast('No new notifications')}>
             <Bell size={20} />
-          </button>
-
-          <button className="navbar-icon-btn" aria-label="Profile outline" onClick={() => triggerToast('Opening profile setup...')}>
-            <User size={20} />
           </button>
 
           <div className="navbar-profile" onClick={() => triggerToast('Opening user profile menu...')}>

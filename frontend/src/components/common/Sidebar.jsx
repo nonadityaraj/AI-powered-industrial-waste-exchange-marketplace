@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   LayoutDashboard, ShoppingBag, ChevronDown, FileText, Recycle, Sparkles,
   Network, BarChart2, MessageSquare, Bell, Settings 
@@ -7,6 +7,36 @@ import { SignInLogo } from './Icons';
 import avatarImg from '../../assets/avatar.png';
 
 export const Sidebar = ({ currentPage, setCurrentPage, triggerToast }) => {
+  const [isScrolling, setIsScrolling] = useState(false);
+  const navRef = useRef(null);
+  const scrollTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolling(true);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = setTimeout(() => {
+        setIsScrolling(false);
+      }, 300);
+    };
+
+    const navElement = navRef.current;
+    if (navElement) {
+      navElement.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (navElement) {
+        navElement.removeEventListener('scroll', handleScroll);
+      }
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
     <aside className="inbox-sidebar-left">
       <div className="inbox-brand-area">
@@ -19,7 +49,7 @@ export const Sidebar = ({ currentPage, setCurrentPage, triggerToast }) => {
         </div>
       </div>
 
-      <nav className="inbox-sidebar-nav">
+      <nav ref={navRef} className={`inbox-sidebar-nav ${isScrolling ? 'scrolling' : ''}`}>
         <a href="#dashboard" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Dashboard...'); }}>
           <div className="inbox-nav-item-left">
             <LayoutDashboard className="inbox-nav-icon" />
@@ -49,14 +79,14 @@ export const Sidebar = ({ currentPage, setCurrentPage, triggerToast }) => {
 
         <a 
           href="#listings" 
-          className={`inbox-nav-item ${currentPage === 'activeInventory' || currentPage === 'listingsDetails' ? 'active' : ''}`}
-          onClick={(e) => { e.preventDefault(); setCurrentPage('activeInventory'); }}
+          className={`inbox-nav-item ${currentPage === 'listingsDetails' ? 'active' : ''}`}
+          onClick={(e) => { e.preventDefault(); setCurrentPage('listingsDetails'); }}
         >
           <div className="inbox-nav-item-left">
             <FileText className="inbox-nav-icon" />
             My Listings
           </div>
-          <ChevronDown size={14} style={{ transform: (currentPage === 'activeInventory' || currentPage === 'listingsDetails') ? 'rotate(180deg)' : 'none', color: '#FFFFFF' }} />
+          <ChevronDown size={14} style={{ transform: currentPage === 'listingsDetails' ? 'rotate(180deg)' : 'none', color: '#FFFFFF' }} />
         </a>
 
         <a href="#matches" className="inbox-nav-item" onClick={(e) => { e.preventDefault(); triggerToast('Opening Matches...'); }}>
