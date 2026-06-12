@@ -16,6 +16,9 @@ import DashboardPage from './components/pages/DashboardPage';
 import CreateListingPage from './components/pages/CreateListingPage';
 import ProfilePage from './components/pages/ProfilePage';
 import NotificationsPage from './components/pages/NotificationsPage';
+import AboutUs from './components/pages/AboutUs';
+import PrivacyPolicy from './components/pages/PrivacyPolicy';
+import TermsConditions from './components/pages/TermsConditions';
 
 /* ============================================================================
    ROUTING
@@ -33,6 +36,9 @@ const PAGE_TO_PATH = {
   profile: '/profile',
   notifications: '/notifications',
   messages: '/messages',
+  about: '/about',
+  privacy: '/privacy-policy',
+  terms: '/terms-conditions',
 };
 
 const PATH_TO_PAGE = Object.fromEntries(
@@ -107,6 +113,9 @@ export default function App() {
         <Route path="/profile" element={<ProfilePage {...nav} />} />
         <Route path="/notifications" element={<NotificationsPage {...nav} />} />
         <Route path="/messages" element={<MessagesPage {...nav} />} />
+        <Route path="/about" element={<AboutUs {...nav} />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy {...nav} />} />
+        <Route path="/terms-conditions" element={<TermsConditions {...nav} />} />
         {/* Unknown paths fall back to the landing page */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
