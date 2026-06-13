@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BadgeCheck, MapPin, Star, Pencil, Clock, CheckCircle2, CalendarDays,
   Package, MessageSquare, User, Mail, Phone, Briefcase, Building2, Save, X
@@ -6,19 +6,52 @@ import {
 import Sidebar from '../common/Sidebar';
 import Topnav from '../common/Topnav';
 import Footer from '../common/Footer';
-import { CoffeeIcon, TextilesIcon, WoodIcon, GrainIcon } from '../common/Icons';
+import {
+  CoffeeIcon, TextilesIcon, WoodIcon, GrainIcon, PlasticsIcon, MetalsIcon
+} from '../common/Icons';
 import avatarImg from '../../assets/avatar.png';
+import { apiGetProfile, apiUpdateProfile, isLoggedIn } from '../../lib/api';
+
+// Map a material id (stored on the backend) back to its display icon.
+const MATERIAL_ICONS = {
+  coffee: <CoffeeIcon />,
+  textiles: <TextilesIcon />,
+  wood: <WoodIcon />,
+  plastics: <PlasticsIcon />,
+  metals: <MetalsIcon />,
+  grain: <GrainIcon />,
+};
+
+// Human-readable label for the businessDetails.industry enum value.
+const INDUSTRY_LABELS = {
+  cafe: 'Cafe / Coffee Shop',
+  brewery: 'Brewery / Distillery',
+  textile: 'Textile / Apparel',
+  carpentry: 'Carpentry / Furniture',
+  food: 'Food Processing',
+  packaging: 'Packaging / Paper',
+  manufacturing: 'General Manufacturing',
+  other: 'Other',
+};
 
 import coffeeImg from '../../assets/coffee_grounds.png';
 import fabricImg from '../../assets/fabric_waste.png';
 import woodImg from '../../assets/wood_offcuts.png';
 
-const STATS = [
-  { label: 'Completed Deals', value: '48', icon: <CheckCircle2 size={18} /> },
-  { label: 'Avg. Response', value: '~2 hrs', icon: <Clock size={18} /> },
-  { label: 'Member Since', value: 'Mar 2024', icon: <CalendarDays size={18} /> },
-  { label: 'Active Listings', value: '6', icon: <Package size={18} /> },
-];
+// Member Since is real (from user.createdAt); the rest are app metrics with
+// no backend yet, so they stay as illustrative placeholders.
+const buildStats = (user) => {
+  let memberSince = '—';
+  if (user?.createdAt) {
+    memberSince = new Date(user.createdAt).toLocaleDateString(undefined, { month: 'short', year: 'numeric' });
+  }
+  return [
+    { label: 'Completed Deals', value: '0', icon: <CheckCircle2 size={18} /> },
+    { label: 'Avg. Response', value: '—', icon: <Clock size={18} /> },
+    { label: 'Member Since', value: memberSince, icon: <CalendarDays size={18} /> },
+    { label: 'Active Listings', value: '0', icon: <Package size={18} /> },
+  ];
+};
 
 const DETAIL_FIELDS = [
   { key: 'fullName', label: 'Full Name', icon: <User size={15} /> },
@@ -27,13 +60,6 @@ const DETAIL_FIELDS = [
   { key: 'phone', label: 'Phone', icon: <Phone size={15} />, type: 'tel' },
   { key: 'location', label: 'Location', icon: <MapPin size={15} /> },
   { key: 'company', label: 'Company', icon: <Building2 size={15} /> },
-];
-
-const MATERIALS = [
-  { name: 'Coffee', icon: <CoffeeIcon /> },
-  { name: 'Textiles', icon: <TextilesIcon /> },
-  { name: 'Wood', icon: <WoodIcon /> },
-  { name: 'Brewery Grain', icon: <GrainIcon /> },
 ];
 
 const LISTINGS = [
@@ -47,33 +73,118 @@ const REVIEWS = [
   { id: 2, name: 'EcoInsulate Ltd.', rating: 4, text: 'Great communication and fair pricing. Would source from them again.', initials: 'EI' },
 ];
 
-export const ProfilePage = ({ currentPage, setCurrentPage, triggerToast }) => {
-  const [details, setDetails] = useState({
-    fullName: 'Rahul Sharma',
-    designation: 'Operations Manager',
-    email: 'rahul@greenbrew.co',
-    phone: '+91 98765 43210',
-    location: 'Pune, India',
-    company: 'GreenBrew Co.',
-  });
-  const [editing, setEditing] = useState(false);
-  const [draft, setDraft] = useState(details);
+const EMPTY_DETAILS = {
+  fullName: '', designation: '', email: '', phone: '', location: '', company: '',
+};
 
-  const completion = 85;
+// Build the flat `details` object the UI renders from the API user document.
+const detailsFromUser = (user) => {
+  const pd = user.personalDetails || {};
+  const bd = user.businessDetails || {};
+  return {
+    fullName: pd.fullName || user.name || '',
+    designation: pd.designation || '',
+    email: user.email || '',
+    phone: pd.phone || '',
+    location: pd.location || bd.city || '',
+    company: pd.company || '',
+  };
+};
+
+// Rough profile-completion percentage from the fields we actually collect.
+const computeCompletion = (user) => {
+  const pd = user.personalDetails || {};
+  const bd = user.businessDetails || {};
+  const fields = [
+    pd.fullName || user.name, pd.designation, user.email, pd.phone,
+    pd.location || bd.city, pd.company, bd.industry, bd.companySize,
+  ];
+  const filled = fields.filter((v) => v && String(v).trim()).length;
+  return Math.round((filled / fields.length) * 100);
+};
+
+export const ProfilePage = ({ currentPage, setCurrentPage, triggerToast }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [details, setDetails] = useState(EMPTY_DETAILS);
+  const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [draft, setDraft] = useState(EMPTY_DETAILS);
+
+  useEffect(() => {
+    if (!isLoggedIn()) {
+      triggerToast('Please sign in to view your profile.', 'error');
+      setCurrentPage('signin');
+      return;
+    }
+    let cancelled = false;
+    apiGetProfile()
+      .then(({ user }) => {
+        if (cancelled) return;
+        setUser(user);
+        setDetails(detailsFromUser(user));
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        if (err.status === 401) {
+          triggerToast('Session expired. Please sign in again.', 'error');
+          setCurrentPage('signin');
+        } else {
+          triggerToast(err.message || 'Could not load your profile.', 'error');
+        }
+      })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const completion = user ? computeCompletion(user) : 0;
+
+  // Real role tags / materials derived from the loaded user.
+  const roleTags = [];
+  if (user?.businessTypes?.generator) roleTags.push({ key: 'generator', label: 'Generator', cls: 'generator' });
+  if (user?.businessTypes?.upcycler) roleTags.push({ key: 'upcycler', label: 'Upcycler', cls: 'upcycler' });
+
+  const activeMaterials = (user?.materials || [])
+    .filter((m) => m.selection !== 'none')
+    .map((m) => ({ name: m.name, icon: MATERIAL_ICONS[m.id] || <Package size={16} /> }));
 
   const startEdit = () => {
     setDraft(details);
     setEditing(true);
   };
   const cancelEdit = () => setEditing(false);
-  const saveEdit = () => {
+  const saveEdit = async () => {
     if (!draft.fullName.trim()) {
       triggerToast('Full name cannot be empty.', 'error');
       return;
     }
-    setDetails(draft);
-    setEditing(false);
-    triggerToast('Profile details updated successfully!');
+    setSaving(true);
+    try {
+      // email is the login identity and isn't editable here — send the rest.
+      const res = await apiUpdateProfile({
+        personalDetails: {
+          fullName: draft.fullName,
+          designation: draft.designation,
+          phone: draft.phone,
+          location: draft.location,
+          company: draft.company,
+        },
+      });
+      setUser(res.user);
+      setDetails(detailsFromUser(res.user));
+      setEditing(false);
+      triggerToast(res.message || 'Profile details updated successfully!');
+    } catch (err) {
+      if (err.status === 401) {
+        triggerToast('Session expired. Please sign in again.', 'error');
+        setCurrentPage('signin');
+      } else {
+        triggerToast(err.message || 'Could not update your profile.', 'error');
+      }
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -83,6 +194,11 @@ export const ProfilePage = ({ currentPage, setCurrentPage, triggerToast }) => {
       <main className="inbox-main-content">
         <Topnav triggerToast={triggerToast} setCurrentPage={setCurrentPage} />
 
+        {loading ? (
+          <div className="inbox-view-container" style={{ display: 'grid', placeItems: 'center', minHeight: '60vh' }}>
+            <p style={{ color: '#64748b', fontWeight: 600 }}>Loading your profile…</p>
+          </div>
+        ) : (
         <div className="inbox-view-container" style={{ overflowY: 'auto' }}>
           {/* ===== Header card ===== */}
           <div className="profile-hero">
@@ -106,8 +222,9 @@ export const ProfilePage = ({ currentPage, setCurrentPage, triggerToast }) => {
                   <span><MapPin size={14} /> {details.location}</span>
                 </div>
                 <div className="profile-hero-tags">
-                  <span className="profile-role-tag generator">Generator</span>
-                  <span className="profile-role-tag upcycler">Upcycler</span>
+                  {roleTags.map((t) => (
+                    <span key={t.key} className={`profile-role-tag ${t.cls}`}>{t.label}</span>
+                  ))}
                   <span className="profile-hero-rating"><Star size={13} fill="currentColor" /> 4.8 · 52 reviews</span>
                 </div>
               </div>
@@ -131,7 +248,7 @@ export const ProfilePage = ({ currentPage, setCurrentPage, triggerToast }) => {
 
           {/* ===== Stats ===== */}
           <div className="profile-stats-strip">
-            {STATS.map((s) => (
+            {buildStats(user).map((s) => (
               <div key={s.label} className="profile-stat">
                 <div className="profile-stat-icon">{s.icon}</div>
                 <div className="profile-stat-text">
@@ -157,7 +274,7 @@ export const ProfilePage = ({ currentPage, setCurrentPage, triggerToast }) => {
                   ) : (
                     <div className="profile-edit-actions">
                       <button className="profile-cancel-btn" onClick={cancelEdit}><X size={14} /> Cancel</button>
-                      <button className="profile-save-btn" onClick={saveEdit}><Save size={14} /> Save</button>
+                      <button className="profile-save-btn" onClick={saveEdit} disabled={saving}><Save size={14} /> {saving ? 'Saving…' : 'Save'}</button>
                     </div>
                   )}
                 </div>
@@ -173,7 +290,7 @@ export const ProfilePage = ({ currentPage, setCurrentPage, triggerToast }) => {
                           onChange={(e) => setDraft({ ...draft, [f.key]: e.target.value })}
                         />
                       ) : (
-                        <span className="profile-detail-value">{details[f.key]}</span>
+                        <span className="profile-detail-value">{details[f.key] || '—'}</span>
                       )}
                     </div>
                   ))}
@@ -184,9 +301,12 @@ export const ProfilePage = ({ currentPage, setCurrentPage, triggerToast }) => {
               <section className="dash-panel">
                 <div className="dash-panel-head"><h2 className="dash-panel-title">About</h2></div>
                 <p className="profile-about-text">
-                  {details.fullName} is the {details.designation} at {details.company}, a craft beverage producer
-                  in {details.location} turning brewing and cafe byproducts into valuable secondary materials —
-                  supplying spent coffee grounds, brewery grain, and textile offcuts to local upcyclers.
+                  {details.fullName || 'This member'}
+                  {details.designation ? ` is the ${details.designation}` : ''}
+                  {details.company ? ` at ${details.company}` : ''}
+                  {details.location ? `, based in ${details.location}` : ''}
+                  {user?.businessDetails?.industry ? ` — operating in ${INDUSTRY_LABELS[user.businessDetails.industry] || user.businessDetails.industry}` : ''}
+                  {roleTags.length ? ` as a ${roleTags.map((t) => t.label).join(' & ')} on EcoMatch.` : ' on EcoMatch.'}
                 </p>
               </section>
 
@@ -239,12 +359,16 @@ export const ProfilePage = ({ currentPage, setCurrentPage, triggerToast }) => {
               <section className="dash-panel">
                 <div className="dash-panel-head"><h2 className="dash-panel-title">Materials We Handle</h2></div>
                 <div className="profile-materials">
-                  {MATERIALS.map((m) => (
-                    <div key={m.name} className="profile-material-chip">
-                      <span className="profile-material-icon">{m.icon}</span>
-                      {m.name}
-                    </div>
-                  ))}
+                  {activeMaterials.length ? (
+                    activeMaterials.map((m) => (
+                      <div key={m.name} className="profile-material-chip">
+                        <span className="profile-material-icon">{m.icon}</span>
+                        {m.name}
+                      </div>
+                    ))
+                  ) : (
+                    <span className="profile-detail-value">No materials selected yet.</span>
+                  )}
                 </div>
               </section>
 
@@ -286,6 +410,7 @@ export const ProfilePage = ({ currentPage, setCurrentPage, triggerToast }) => {
             </div>
           </div>
         </div>
+        )}
 
         <Footer variant="compact" triggerToast={triggerToast} setCurrentPage={setCurrentPage} />
       </main>

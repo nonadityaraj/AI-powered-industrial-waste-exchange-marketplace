@@ -4,6 +4,7 @@ import {
   BackgroundWaves, SignInLogo, DotGrid, FactoryIllustration, GoogleIcon,
   LinkedInIcon, WindTurbineIllustration
 } from '../common/Icons';
+import { apiLogin, setToken } from '../../lib/api';
 
 export const SignInPage = ({ setCurrentPage, triggerToast }) => {
   const [email, setEmail] = useState('');
@@ -12,7 +13,7 @@ export const SignInPage = ({ setCurrentPage, triggerToast }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [signInLoading, setSignInLoading] = useState(false);
 
-  const handleSignInSubmit = (e) => {
+  const handleSignInSubmit = async (e) => {
     e.preventDefault();
     if (!email.trim()) {
       triggerToast('Please enter your email address.', 'error');
@@ -22,15 +23,26 @@ export const SignInPage = ({ setCurrentPage, triggerToast }) => {
       triggerToast('Please enter your password.', 'error');
       return;
     }
-    
+
     setSignInLoading(true);
-    setTimeout(() => {
-      setSignInLoading(false);
-      triggerToast(`Welcome back! Successfully logged in. Redirecting to Business Profile...`);
+    try {
+      const data = await apiLogin({ email: email.trim(), password });
+      setToken(data.token);
+      const done = data.user?.profileCompleted;
+      triggerToast(
+        done
+          ? 'Welcome back! Redirecting to your dashboard...'
+          : 'Welcome back! Let’s finish setting up your profile...'
+      );
       setTimeout(() => {
-        setCurrentPage('preferences');
-      }, 1500);
-    }, 1500);
+        // Already onboarded -> dashboard; otherwise finish the profile first.
+        setCurrentPage(done ? 'dashboard' : 'preferences');
+      }, 1200);
+    } catch (err) {
+      triggerToast(err.message || 'Sign in failed. Please try again.', 'error');
+    } finally {
+      setSignInLoading(false);
+    }
   };
 
   return (
