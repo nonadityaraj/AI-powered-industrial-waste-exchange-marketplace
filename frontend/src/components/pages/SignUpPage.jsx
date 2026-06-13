@@ -4,6 +4,7 @@ import {
   BackgroundWaves, SignInLogo, DotGrid, FactoryIllustration, GoogleIcon,
   LinkedInIcon, WindTurbineIllustration
 } from '../common/Icons';
+import { apiSignup, setToken } from '../../lib/api';
 
 export const SignUpPage = ({ setCurrentPage, triggerToast }) => {
   const [signupName, setSignupName] = useState('');
@@ -15,7 +16,7 @@ export const SignUpPage = ({ setCurrentPage, triggerToast }) => {
   const [showSignupConfirmPassword, setShowSignupConfirmPassword] = useState(false);
   const [signUpLoading, setSignUpLoading] = useState(false);
 
-  const handleSignUpSubmit = (e) => {
+  const handleSignUpSubmit = async (e) => {
     e.preventDefault();
     if (!signupName.trim()) {
       triggerToast('Please enter your company or full name.', 'error');
@@ -43,13 +44,24 @@ export const SignUpPage = ({ setCurrentPage, triggerToast }) => {
     }
 
     setSignUpLoading(true);
-    setTimeout(() => {
-      setSignUpLoading(false);
-      triggerToast(`Account created successfully! Welcome to EcoMatch.`);
+    try {
+      const data = await apiSignup({
+        name: signupName.trim(),
+        email: signupEmail.trim(),
+        password: signupPassword,
+        confirmPassword: signupConfirmPassword,
+      });
+      setToken(data.token);
+      triggerToast(data.message || 'Account created successfully! Welcome to EcoMatch.');
       setTimeout(() => {
+        // New users always go to the Complete Profile step next.
         setCurrentPage('preferences');
-      }, 1500);
-    }, 1500);
+      }, 1200);
+    } catch (err) {
+      triggerToast(err.message || 'Sign up failed. Please try again.', 'error');
+    } finally {
+      setSignUpLoading(false);
+    }
   };
 
   return (
