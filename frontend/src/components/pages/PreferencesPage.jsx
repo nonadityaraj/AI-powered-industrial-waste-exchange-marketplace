@@ -26,7 +26,14 @@ export const PreferencesPage = ({ setCurrentPage, triggerToast }) => {
     let cancelled = false;
     apiGetMe()
       .then(({ user }) => {
-        if (!cancelled && user?.profileCompleted) {
+        if (cancelled) return;
+        // Email must be verified before completing the profile.
+        if (!user?.isEmailVerified) {
+          triggerToast('Please verify your email first.', 'error');
+          setCurrentPage('checkEmail');
+          return;
+        }
+        if (user?.profileCompleted) {
           triggerToast('Your profile is already complete.');
           setCurrentPage('dashboard');
         }

@@ -62,6 +62,19 @@ export const apiLogin = (payload) =>
 
 export const apiGetMe = () => request('/auth/me');
 
+/* ---- Email verification ---- */
+export const apiVerifyEmail = (token) =>
+  request(`/auth/verify-email?token=${encodeURIComponent(token)}`, { auth: false });
+
+export const apiResendVerification = (email) =>
+  request('/auth/resend-verification', { method: 'POST', body: { email }, auth: false });
+
+export const apiRequestEmailChange = (newEmail) =>
+  request('/auth/request-email-change', { method: 'POST', body: { newEmail } });
+
+export const apiVerifyEmailChange = (token) =>
+  request(`/auth/verify-email-change?token=${encodeURIComponent(token)}`, { auth: false });
+
 /* ---- Profile ---- */
 export const apiGetProfile = () => request('/profile');
 

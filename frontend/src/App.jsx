@@ -21,6 +21,9 @@ import PrivacyPolicy from './components/pages/PrivacyPolicy';
 import TermsConditions from './components/pages/TermsConditions';
 import ContactUs from './components/pages/ContactUs';
 import FeedbackPage from './components/pages/FeedbackPage';
+import VerifyEmailPage from './components/pages/VerifyEmailPage';
+import VerifyEmailChangePage from './components/pages/VerifyEmailChangePage';
+import CheckEmailPage from './components/pages/CheckEmailPage';
 
 /* ============================================================================
    ROUTING
@@ -30,7 +33,10 @@ const PAGE_TO_PATH = {
   signin: '/signin',
   signup: '/signup',
   forgotPassword: '/forgot-password',
+  checkEmail: '/check-email',
   preferences: '/preferences',
+  verifyEmail: '/verify-email',
+  verifyEmailChange: '/verify-email-change',
   dashboard: '/dashboard',
   marketplace: '/marketplace',
   listingsDetails: '/listing-details',
@@ -109,7 +115,10 @@ export default function App() {
         <Route path="/signin" element={<SignInPage {...nav} />} />
         <Route path="/signup" element={<SignUpPage {...nav} />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage {...nav} />} />
+        <Route path="/check-email" element={<CheckEmailPage {...nav} />} />
         <Route path="/preferences" element={<PreferencesPage {...nav} />} />
+        <Route path="/verify-email" element={<VerifyEmailPage {...nav} />} />
+        <Route path="/verify-email-change" element={<VerifyEmailChangePage {...nav} />} />
         <Route path="/dashboard" element={<DashboardPage {...nav} />} />
         <Route path="/marketplace" element={<MarketplacePage {...nav} />} />
         <Route path="/listing-details" element={<ListingsDetailsPage {...nav} />} />

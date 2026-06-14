@@ -28,15 +28,19 @@ export const SignInPage = ({ setCurrentPage, triggerToast }) => {
     try {
       const data = await apiLogin({ email: email.trim(), password });
       setToken(data.token);
+      const verified = data.user?.isEmailVerified;
       const done = data.user?.profileCompleted;
       triggerToast(
-        done
+        !verified
+          ? 'Please verify your email to continue.'
+          : done
           ? 'Welcome back! Redirecting to your dashboard...'
           : 'Welcome back! Let’s finish setting up your profile...'
       );
       setTimeout(() => {
-        // Already onboarded -> dashboard; otherwise finish the profile first.
-        setCurrentPage(done ? 'dashboard' : 'preferences');
+        // Email not verified -> gate page; else onboarded -> dashboard, otherwise profile.
+        if (!verified) setCurrentPage('checkEmail');
+        else setCurrentPage(done ? 'dashboard' : 'preferences');
       }, 1200);
     } catch (err) {
       triggerToast(err.message || 'Sign in failed. Please try again.', 'error');

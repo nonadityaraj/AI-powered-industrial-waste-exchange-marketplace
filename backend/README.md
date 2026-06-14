@@ -52,6 +52,22 @@ Successful signup/login returns `{ token, user }` where
 `user.profileCompleted` tells the frontend whether to route to the dashboard
 or the complete-profile step.
 
+### Email verification
+
+| Method | Path                            | Auth | Body / Notes                                  |
+| ------ | ------------------------------- | ---- | --------------------------------------------- |
+| GET    | `/api/auth/verify-email`        | —    | `?token=RAW` — verifies + auto-logs-in        |
+| POST   | `/api/auth/resend-verification` | —    | `{ email }` — new token, has resend cooldown  |
+| POST   | `/api/auth/request-email-change`| ✓    | `{ newEmail }` — emails confirm link to it    |
+| GET    | `/api/auth/verify-email-change` | —    | `?token=RAW` — swaps email ⟶ pendingEmail     |
+
+Flow: signup creates the user with `isEmailVerified: false`, stores a **hashed**
+random token (raw token only ever leaves in the email link), expiring in 30 min,
+and emails `${FRONTEND_URL}/verify-email?token=RAW`. Email-change links point to
+`${FRONTEND_URL}/verify-email-change?token=RAW`. Configure SMTP in `.env`; if
+`SMTP_HOST` is blank, a dev console transport prints the link to the server logs
+instead of sending mail. `RESEND_COOLDOWN_SECONDS` throttles resends.
+
 ### Profile
 
 | Method | Path                    | Auth                | Body                                  |

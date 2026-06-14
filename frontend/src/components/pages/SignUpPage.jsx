@@ -52,10 +52,10 @@ export const SignUpPage = ({ setCurrentPage, triggerToast }) => {
         confirmPassword: signupConfirmPassword,
       });
       setToken(data.token);
-      triggerToast(data.message || 'Account created successfully! Welcome to EcoMatch.');
+      triggerToast(data.message || 'Account created! Please verify your email.');
       setTimeout(() => {
-        // New users always go to the Complete Profile step next.
-        setCurrentPage('preferences');
+        // Email must be verified before anything else — go to the gate page.
+        setCurrentPage('checkEmail');
       }, 1200);
     } catch (err) {
       triggerToast(err.message || 'Sign up failed. Please try again.', 'error');
