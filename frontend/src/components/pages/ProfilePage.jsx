@@ -10,7 +10,7 @@ import {
   CoffeeIcon, TextilesIcon, WoodIcon, GrainIcon, PlasticsIcon, MetalsIcon
 } from '../common/Icons';
 import avatarImg from '../../assets/avatar.png';
-import { apiGetProfile, apiUpdateProfile, isLoggedIn } from '../../lib/api';
+import { apiGetProfile, apiUpdateProfile, apiRequestEmailChange, isLoggedIn } from '../../lib/api';
 
 // Map a material id (stored on the backend) back to its display icon.
 const MATERIAL_ICONS = {
@@ -161,7 +161,14 @@ export const ProfilePage = ({ currentPage, setCurrentPage, triggerToast }) => {
     }
     setSaving(true);
     try {
-      // email is the login identity and isn't editable here — send the rest.
+      // Email changes go through a verification flow, not a direct save.
+      const emailChanged = draft.email.trim() && draft.email.trim().toLowerCase() !== details.email.toLowerCase();
+      if (emailChanged) {
+        const r = await apiRequestEmailChange(draft.email.trim());
+        triggerToast(r.message || `Confirmation link sent to ${draft.email.trim()}.`);
+      }
+
+      // Save the remaining personal details directly.
       const res = await apiUpdateProfile({
         personalDetails: {
           fullName: draft.fullName,
@@ -172,9 +179,10 @@ export const ProfilePage = ({ currentPage, setCurrentPage, triggerToast }) => {
         },
       });
       setUser(res.user);
-      setDetails(detailsFromUser(res.user));
+      // Keep showing the current (verified) email until the change is confirmed.
+      setDetails({ ...detailsFromUser(res.user) });
       setEditing(false);
-      triggerToast(res.message || 'Profile details updated successfully!');
+      if (!emailChanged) triggerToast(res.message || 'Profile details updated successfully!');
     } catch (err) {
       if (err.status === 401) {
         triggerToast('Session expired. Please sign in again.', 'error');

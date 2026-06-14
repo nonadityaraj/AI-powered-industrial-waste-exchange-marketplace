@@ -1,5 +1,9 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import { generateRawToken, hashToken } from '../utils/cryptoToken.js';
+
+// How long an email verification / change link stays valid (minutes).
+const VERIFICATION_TTL_MIN = 30;
 
 /* ============================================================================
    Sub-schemas — mirror the frontend "Complete Your Business Profile" form
@@ -132,6 +136,18 @@ const userSchema = new mongoose.Schema(
     generatorInfo: { type: generatorInfoSchema, default: () => ({}) },
     upcyclerInfo: { type: upcyclerInfoSchema, default: () => ({}) },
     materials: { type: [materialSchema], default: [] },
+
+    // --- Email verification (signup) ---
+    isEmailVerified: { type: Boolean, default: false },
+    emailVerificationToken: { type: String, select: false }, // sha256 hash of the raw token
+    emailVerificationExpires: { type: Date, select: false },
+    emailVerificationSentAt: { type: Date, select: false }, // used for resend cooldown
+
+    // --- Email change (authenticated) ---
+    pendingEmail: { type: String, lowercase: true, trim: true, default: null },
+    emailChangeToken: { type: String, select: false }, // sha256 hash of the raw token
+    emailChangeExpires: { type: Date, select: false },
+    emailChangeSentAt: { type: Date, select: false }, // used for resend cooldown
   },
   { timestamps: true }
 );
@@ -151,6 +167,50 @@ userSchema.pre('save', async function (next) {
 // Compare a plaintext password against the stored hash
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return bcrypt.compare(enteredPassword, this.password);
+};
+
+/**
+ * Create a fresh email-verification token. Stores the HASH on the document and
+ * returns the RAW token (which goes into the emailed link). Calling this again
+ * overwrites any previous token, invalidating the old link.
+ * @returns {string} raw (unhashed) token
+ */
+userSchema.methods.createEmailVerificationToken = function () {
+  const rawToken = generateRawToken();
+  this.emailVerificationToken = hashToken(rawToken);
+  this.emailVerificationExpires = new Date(Date.now() + VERIFICATION_TTL_MIN * 60 * 1000);
+  this.emailVerificationSentAt = new Date();
+  return rawToken;
+};
+
+/**
+ * Create a fresh email-change token for a new address. Stores the HASH + the
+ * pending email, returns the RAW token for the link sent to the NEW address.
+ * @param {string} newEmail
+ * @returns {string} raw (unhashed) token
+ */
+userSchema.methods.createEmailChangeToken = function (newEmail) {
+  const rawToken = generateRawToken();
+  this.emailChangeToken = hashToken(rawToken);
+  this.emailChangeExpires = new Date(Date.now() + VERIFICATION_TTL_MIN * 60 * 1000);
+  this.emailChangeSentAt = new Date();
+  this.pendingEmail = newEmail.toLowerCase().trim();
+  return rawToken;
+};
+
+// Clear all email-verification fields (after a successful verify).
+userSchema.methods.clearEmailVerification = function () {
+  this.emailVerificationToken = undefined;
+  this.emailVerificationExpires = undefined;
+  this.emailVerificationSentAt = undefined;
+};
+
+// Clear all email-change fields (after a successful change or cancellation).
+userSchema.methods.clearEmailChange = function () {
+  this.emailChangeToken = undefined;
+  this.emailChangeExpires = undefined;
+  this.emailChangeSentAt = undefined;
+  this.pendingEmail = null;
 };
 
 // Derived role label ('Both' | 'Generator' | 'Upcycler' | 'None')
