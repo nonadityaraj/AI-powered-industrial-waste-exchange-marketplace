@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import PublicNav from '../common/PublicNav';
 import Footer from '../common/Footer';
-import aboutHeroImg from '../../assets/about_us_hero.png';
+import aboutHeroImg from '../../assets/newimage.png';
 
 const STATS = [
   { icon: <Building2 size={22} />, value: '120+', label: 'Industries Connected' },
