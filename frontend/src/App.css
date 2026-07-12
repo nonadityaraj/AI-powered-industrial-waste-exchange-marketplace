@@ -937,26 +937,6 @@
 }
 
 /* ============================================================================
-   DEVELOPER PAGE SWITCHER MENU
-   ============================================================================ */
-
-.page-switch-menu {
-  @apply fixed bottom-6 left-6 z-[9999] bg-[#0F172A]/95 backdrop-blur-[8px] border border-white/10 p-2 rounded-xl flex gap-1.5 shadow-[0_10px_25px_rgba(0,0,0,0.3)];
-}
-
-.btn-switch-page {
-  @apply bg-transparent border-none px-3.5 py-2 text-xs font-bold text-[#94A3B8] cursor-pointer rounded-lg transition-all duration-200;
-}
-
-.btn-switch-page:hover {
-  @apply text-white bg-white/5;
-}
-
-.btn-switch-page.active {
-  @apply text-white bg-[#059669];
-}
-
-/* ============================================================================
    ACTIVE WASTE INVENTORY (active waste inventory.jpeg) STYLES
    ============================================================================ */
 
